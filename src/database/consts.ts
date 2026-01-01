@@ -1,0 +1,44 @@
+// Tables name
+export const ACCOUNTS = 'accounts';
+export const BUDGET_GROUPS = 'budget_groups';
+export const CATEGORIES = 'categories';
+export const MONTHLY_BUDGET = 'monthly_budgets';
+export const SCHEDULES_TRANSACTIONS = 'scheduled_transactions';
+export const TRANSACTIONS = 'transactions';
+
+// Column name
+
+// common
+export const ID = 'id';
+export const NAME = 'name';
+export const TYPE = 'type';
+export const GROUP_ID = 'group_id';
+export const MONTH_YEAR = 'month_year';
+export const ACCOUNT_ID = 'account_id';
+export const CATEGORY_ID = 'category_id';
+export const AMOUNT = 'amount';
+export const DATE = 'date';
+export const DESCRIPTION = 'description';
+export const DAY_OF_MONTH = 'day_of_month';
+export const ACTIVE = 'active';
+
+// accounts
+export const CURRENT_BALANCE = 'current_balance';
+export const CURRENCY = 'currency';
+
+// budget_groups
+export const TARGET_PERCENTAGE = 'target_percentage';
+
+// categories
+export const COLOR = 'color';
+export const IS_SYSTEM_CATEGORY = 'is_system_category';
+
+// monthly_budgets
+export const ASSIGNED_AMOUNT = 'assigned_amount';
+export const ACTIVITY_AMOUNT = 'activity_amount';
+export const AVAILABLE_AMOUNT = 'available_amount';
+
+// transactions
+export const TRANSFER_ACCOUNT_ID = 'transfer_account_id';
+
+// scheduled_transactions
