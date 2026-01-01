@@ -10,21 +10,23 @@ import {
   CATEGORY_ID,
   CREATED_AT,
   DATE,
+  TRANSACTIONS,
   TRANSFER_ACCOUNT_ID,
   TYPE,
   UPDATED_AT,
 } from '../consts';
+import type {TransactionType} from '../types';
 
 export default class TransactionModel extends Model {
-  static table = 'transactions';
+  static table = TRANSACTIONS;
 
   static associations = {
-    accounts: {type: 'belongs_to', key: 'account_id'},
-    categories: {type: 'belongs_to', key: 'category_id'},
+    [ACCOUNTS]: {type: 'belongs_to', key: 'account_id'},
+    [CATEGORIES]: {type: 'belongs_to', key: 'category_id'},
   } as const;
 
   @field(AMOUNT) amount!: number;
-  @field(TYPE) type!: 'INCOME' | 'EXPENSE' | 'TRANSFER';
+  @field(TYPE) type!: TransactionType;
   @date(DATE) date!: Date;
 
   @readonly @date(CREATED_AT) createdAt!: Date;

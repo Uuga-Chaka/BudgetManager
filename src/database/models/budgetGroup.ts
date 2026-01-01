@@ -12,6 +12,8 @@ import {
 import {date, field, readonly} from '@nozbe/watermelondb/decorators';
 
 export default class BudgetGroupModel extends Model {
+  static table: string = BUDGET_GROUPS;
+
   static associations: Associations = {
     [BUDGET_GROUPS]: {type: 'has_many', foreignKey: GROUP_ID},
   };

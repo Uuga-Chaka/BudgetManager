@@ -9,12 +9,15 @@ import {
   CATEGORY_ID,
   DAY_OF_MONTH,
   DESCRIPTION,
+  SCHEDULES_TRANSACTIONS,
 } from '../consts';
 import {field, relation, text} from '@nozbe/watermelondb/decorators';
 import AccountModel from './accounts';
 import CategoriesModel from './categories';
 
 export default class ScheduledTransactionsModel extends Model {
+  static table: string = SCHEDULES_TRANSACTIONS;
+
   static associations: Associations = {
     [ACCOUNTS]: {type: 'belongs_to', key: ACCOUNT_ID},
     [CATEGORIES]: {type: 'belongs_to', key: CATEGORY_ID},

@@ -13,6 +13,7 @@ import {
 import {children, date, field, readonly} from '@nozbe/watermelondb/decorators';
 import Transaction from './transaction';
 import {Associations} from '@nozbe/watermelondb/Model';
+import type {AccountType} from '../types';
 
 export default class AccountModel extends Model {
   static table = ACCOUNTS;
@@ -22,7 +23,7 @@ export default class AccountModel extends Model {
   } as const;
 
   @field(NAME) name!: string;
-  @field(TYPE) type!: 'CHECKING' | 'SAVINGS' | 'CREDIT' | 'CASH';
+  @field(TYPE) type!: AccountType;
   @field(CURRENCY) currency!: string;
   @field(CURRENT_BALANCE) currentBalance!: number;
 
