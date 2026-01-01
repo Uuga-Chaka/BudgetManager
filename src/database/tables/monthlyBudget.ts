@@ -4,21 +4,18 @@ import {
   ASSIGNED_AMOUNT,
   AVAILABLE_AMOUNT,
   CATEGORY_ID,
-  ID,
+  CREATED_AT,
   MONTH_YEAR,
   MONTHLY_BUDGET,
+  UPDATED_AT,
 } from '../consts';
 
 export const monthlyBudgetTable = tableSchema({
   name: MONTHLY_BUDGET,
   columns: [
     {
-      name: ID,
-      type: 'number',
-    },
-    {
       name: CATEGORY_ID,
-      type: 'number',
+      type: 'string',
     },
     {
       name: MONTH_YEAR,
@@ -35,6 +32,14 @@ export const monthlyBudgetTable = tableSchema({
     {
       name: AVAILABLE_AMOUNT,
       type: 'number',
+    },
+    {
+      name: CREATED_AT,
+      type: 'string',
+    },
+    {
+      name: UPDATED_AT,
+      type: 'string',
     },
   ],
 });

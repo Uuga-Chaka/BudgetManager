@@ -1,13 +1,9 @@
 import {tableSchema} from '@nozbe/watermelondb';
-import {ACCOUNTS, CURRENCY, CURRENT_BALANCE, ID, NAME, TYPE} from '../consts';
+import {ACCOUNTS, CREATED_AT, CURRENCY, CURRENT_BALANCE, NAME, TYPE, UPDATED_AT} from '../consts';
 
 export const accountsTable = tableSchema({
   name: ACCOUNTS,
   columns: [
-    {
-      name: ID,
-      type: 'number',
-    },
     {
       name: NAME,
       type: 'string',
@@ -22,6 +18,14 @@ export const accountsTable = tableSchema({
     },
     {
       name: CURRENCY,
+      type: 'string',
+    },
+    {
+      name: CREATED_AT,
+      type: 'string',
+    },
+    {
+      name: UPDATED_AT,
       type: 'string',
     },
   ],

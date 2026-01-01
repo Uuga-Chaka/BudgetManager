@@ -21,6 +21,8 @@ export const DATE = 'date';
 export const DESCRIPTION = 'description';
 export const DAY_OF_MONTH = 'day_of_month';
 export const ACTIVE = 'active';
+export const CREATED_AT = 'created_at';
+export const UPDATED_AT = 'updated_at';
 
 // accounts
 export const CURRENT_BALANCE = 'current_balance';

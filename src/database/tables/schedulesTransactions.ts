@@ -4,19 +4,16 @@ import {
   ACTIVE,
   AMOUNT,
   CATEGORY_ID,
+  CREATED_AT,
   DAY_OF_MONTH,
   DESCRIPTION,
-  ID,
   SCHEDULES_TRANSACTIONS,
+  UPDATED_AT,
 } from '../consts';
 
 export const schedulesTransactionsTable = tableSchema({
   name: SCHEDULES_TRANSACTIONS,
   columns: [
-    {
-      name: ID,
-      type: 'number',
-    },
     {
       name: DESCRIPTION,
       type: 'string',
@@ -27,11 +24,11 @@ export const schedulesTransactionsTable = tableSchema({
     },
     {
       name: CATEGORY_ID,
-      type: 'number',
+      type: 'string',
     },
     {
       name: ACCOUNT_ID,
-      type: 'number',
+      type: 'string',
     },
     {
       name: DAY_OF_MONTH,
@@ -40,6 +37,14 @@ export const schedulesTransactionsTable = tableSchema({
     {
       name: ACTIVE,
       type: 'boolean',
+    },
+    {
+      name: CREATED_AT,
+      type: 'string',
+    },
+    {
+      name: UPDATED_AT,
+      type: 'string',
     },
   ],
 });

@@ -1,13 +1,17 @@
 import {tableSchema} from '@nozbe/watermelondb';
-import {CATEGORIES, COLOR, GROUP_ID, ID, IS_SYSTEM_CATEGORY, NAME} from '../consts';
+import {
+  CATEGORIES,
+  COLOR,
+  CREATED_AT,
+  GROUP_ID,
+  IS_SYSTEM_CATEGORY,
+  NAME,
+  UPDATED_AT,
+} from '../consts';
 
 export const categoriesTable = tableSchema({
   name: CATEGORIES,
   columns: [
-    {
-      name: ID,
-      type: 'string',
-    },
     {
       name: NAME,
       type: 'string',
@@ -18,11 +22,19 @@ export const categoriesTable = tableSchema({
     },
     {
       name: GROUP_ID,
-      type: 'number',
+      type: 'string',
     },
     {
       name: IS_SYSTEM_CATEGORY, // True for "Transfer" or "Income" categories
       type: 'boolean',
+    },
+    {
+      name: CREATED_AT,
+      type: 'string',
+    },
+    {
+      name: UPDATED_AT,
+      type: 'string',
     },
   ],
 });

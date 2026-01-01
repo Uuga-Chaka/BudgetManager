@@ -3,27 +3,24 @@ import {
   ACCOUNT_ID,
   AMOUNT,
   CATEGORY_ID,
+  CREATED_AT,
   DATE,
-  ID,
   TRANSACTIONS,
   TRANSFER_ACCOUNT_ID,
   TYPE,
+  UPDATED_AT,
 } from '../consts';
 
 export const transactionsTable = tableSchema({
   name: TRANSACTIONS,
   columns: [
     {
-      name: ID,
-      type: 'number',
-    },
-    {
       name: ACCOUNT_ID,
-      type: 'number',
+      type: 'string',
     },
     {
       name: CATEGORY_ID,
-      type: 'number',
+      type: 'string',
     },
     {
       name: AMOUNT,
@@ -39,6 +36,14 @@ export const transactionsTable = tableSchema({
     },
     {
       name: TRANSFER_ACCOUNT_ID, // Only populated if type is 'TRANSFER' (Destination Account)
+      type: 'string',
+    },
+    {
+      name: CREATED_AT,
+      type: 'string',
+    },
+    {
+      name: UPDATED_AT,
       type: 'string',
     },
   ],
