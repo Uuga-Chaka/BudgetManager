@@ -1,4 +1,5 @@
 import {tableSchema} from '@nozbe/watermelondb';
+
 import {
   ACCOUNT_ID,
   AMOUNT,

@@ -1,5 +1,7 @@
 import {Model, Query, Relation} from '@nozbe/watermelondb';
 import {children, date, field, readonly, relation} from '@nozbe/watermelondb/decorators';
+import {Associations} from '@nozbe/watermelondb/Model';
+
 import {
   BUDGET_GROUPS,
   CATEGORIES,
@@ -13,10 +15,9 @@ import {
   TRANSACTIONS,
   UPDATED_AT,
 } from '../consts';
-import {Associations} from '@nozbe/watermelondb/Model';
 import BudgetGroupModel from './budgetGroup';
-import TransactionModel from './transaction';
 import MonthlyBudgetModel from './monthlyBudget';
+import TransactionModel from './transaction';
 
 export default class CategoriesModel extends Model {
   static table: string = CATEGORIES;

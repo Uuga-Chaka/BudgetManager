@@ -1,5 +1,7 @@
 import {Model} from '@nozbe/watermelondb';
+import {date, field, readonly} from '@nozbe/watermelondb/decorators';
 import {Associations} from '@nozbe/watermelondb/Model';
+
 import {
   BUDGET_GROUPS,
   COLOR,
@@ -9,7 +11,6 @@ import {
   TARGET_PERCENTAGE,
   UPDATED_AT,
 } from '../consts';
-import {date, field, readonly} from '@nozbe/watermelondb/decorators';
 
 export default class BudgetGroupModel extends Model {
   static table: string = BUDGET_GROUPS;

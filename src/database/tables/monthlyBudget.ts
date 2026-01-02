@@ -1,4 +1,5 @@
 import {tableSchema} from '@nozbe/watermelondb';
+
 import {
   ACTIVITY_AMOUNT,
   ASSIGNED_AMOUNT,

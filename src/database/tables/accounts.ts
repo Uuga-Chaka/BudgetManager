@@ -1,4 +1,5 @@
 import {tableSchema} from '@nozbe/watermelondb';
+
 import {ACCOUNTS, CREATED_AT, CURRENCY, CURRENT_BALANCE, NAME, TYPE, UPDATED_AT} from '../consts';
 
 export const accountsTable = tableSchema({
@@ -9,7 +10,7 @@ export const accountsTable = tableSchema({
       type: 'string',
     },
     {
-      name: TYPE, //Cash, Debit, Savings, Credit
+      name: TYPE, // Cash, Debit, Savings, Credit
       type: 'string',
     },
     {

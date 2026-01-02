@@ -1,5 +1,6 @@
 import {Model, Relation} from '@nozbe/watermelondb';
 import {field, date, relation, readonly} from '@nozbe/watermelondb/decorators';
+
 import AccountModel from './accounts';
 import CategoriesModel from './categories';
 import {

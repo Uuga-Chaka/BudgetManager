@@ -1,4 +1,7 @@
 import {Model, Query} from '@nozbe/watermelondb';
+import {children, date, field, readonly} from '@nozbe/watermelondb/decorators';
+import {Associations} from '@nozbe/watermelondb/Model';
+
 import {
   ACCOUNT_ID,
   ACCOUNTS,
@@ -10,9 +13,7 @@ import {
   TYPE,
   UPDATED_AT,
 } from '../consts';
-import {children, date, field, readonly} from '@nozbe/watermelondb/decorators';
 import Transaction from './transaction';
-import {Associations} from '@nozbe/watermelondb/Model';
 import type {AccountType} from '../types';
 
 export default class AccountModel extends Model {

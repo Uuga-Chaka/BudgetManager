@@ -1,5 +1,7 @@
 import {Model, Relation} from '@nozbe/watermelondb';
+import {date, field, readonly, relation, text} from '@nozbe/watermelondb/decorators';
 import {Associations} from '@nozbe/watermelondb/Model';
+
 import {
   ACTIVITY_AMOUNT,
   ASSIGNED_AMOUNT,
@@ -10,7 +12,6 @@ import {
   MONTHLY_BUDGET,
   UPDATED_AT,
 } from '../consts';
-import {date, field, readonly, relation, text} from '@nozbe/watermelondb/decorators';
 import CategoriesModel from './categories';
 
 export default class MonthlyBudgetModel extends Model {

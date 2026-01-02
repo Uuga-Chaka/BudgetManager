@@ -1,7 +1,6 @@
 import {Database} from '@nozbe/watermelondb';
 import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite';
 
-import schema from './schema';
 import migrations from './migrations';
 import AccountModel from './models/accounts';
 import BudgetGroupModel from './models/budgetGroup';
@@ -9,6 +8,7 @@ import CategoriesModel from './models/categories';
 import MonthlyBudgetModel from './models/monthlyBudget';
 import ScheduledTransactionsModel from './models/scheduledTransactions';
 import TransactionModel from './models/transaction';
+import schema from './schema';
 // import Post from './model/Post' // ⬅️ You'll import your Models here
 
 // First, create the adapter to the underlying database:
@@ -24,6 +24,7 @@ const adapter = new SQLiteAdapter({
   // (optional, but you should implement this method)
   onSetUpError: error => {
     // Database failed to load -- offer the user to reload the app or log out
+    console.error(error);
   },
 });
 

@@ -1,4 +1,5 @@
 import {tableSchema} from '@nozbe/watermelondb';
+
 import {BUDGET_GROUPS, CREATED_AT, GROUP_ID, NAME, TARGET_PERCENTAGE, UPDATED_AT} from '../consts';
 
 export const budgetGroupsTable = tableSchema({

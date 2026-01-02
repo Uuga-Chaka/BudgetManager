@@ -1,5 +1,6 @@
-import {accountsTable} from './tables/accounts';
 import {appSchema} from '@nozbe/watermelondb';
+
+import {accountsTable} from './tables/accounts';
 import {budgetGroupsTable} from './tables/budgetGroups';
 import {categoriesTable} from './tables/categories';
 import {monthlyBudgetTable} from './tables/monthlyBudget';

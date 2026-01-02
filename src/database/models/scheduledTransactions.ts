@@ -1,5 +1,7 @@
 import {Model, Relation} from '@nozbe/watermelondb';
+import {field, relation, text} from '@nozbe/watermelondb/decorators';
 import {Associations} from '@nozbe/watermelondb/Model';
+
 import {
   ACCOUNT_ID,
   ACCOUNTS,
@@ -11,7 +13,6 @@ import {
   DESCRIPTION,
   SCHEDULES_TRANSACTIONS,
 } from '../consts';
-import {field, relation, text} from '@nozbe/watermelondb/decorators';
 import AccountModel from './accounts';
 import CategoriesModel from './categories';
 
