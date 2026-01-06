@@ -5,6 +5,7 @@ export const CATEGORIES = 'categories';
 export const MONTHLY_BUDGET = 'monthly_budgets';
 export const SCHEDULES_TRANSACTIONS = 'scheduled_transactions';
 export const TRANSACTIONS = 'transactions';
+export const BUDGET_HISTORY = 'budget_history';
 
 // Column name
 

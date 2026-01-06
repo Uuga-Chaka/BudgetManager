@@ -4,6 +4,7 @@ import {Associations} from '@nozbe/watermelondb/Model';
 
 import {
   BUDGET_GROUPS,
+  CATEGORIES,
   COLOR,
   CREATED_AT,
   GROUP_ID,
@@ -16,7 +17,7 @@ export default class BudgetGroupModel extends Model {
   static table: string = BUDGET_GROUPS;
 
   static associations: Associations = {
-    [BUDGET_GROUPS]: {type: 'has_many', foreignKey: GROUP_ID},
+    [CATEGORIES]: {type: 'has_many', foreignKey: GROUP_ID},
   };
 
   @field(NAME) name!: string;
