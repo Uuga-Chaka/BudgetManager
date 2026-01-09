@@ -1,15 +1,19 @@
 import * as eva from '@eva-design/eva';
 import {ApplicationProvider} from '@ui-kitten/components';
+import {KeyboardProvider} from 'react-native-keyboard-controller';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
+import {useAppTheme} from './src/hooks/useAppTheme';
 import Router from './src/navigation/MainStack';
 
 export default function App() {
+  const {theme} = useAppTheme();
   return (
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    <ApplicationProvider {...eva} theme={eva.light}>
+    <ApplicationProvider {...eva} theme={theme}>
       <SafeAreaProvider>
-        <Router />
+        <KeyboardProvider>
+          <Router />
+        </KeyboardProvider>
       </SafeAreaProvider>
     </ApplicationProvider>
   );

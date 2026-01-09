@@ -2,11 +2,14 @@ import {Layout} from '@ui-kitten/components';
 import {type PropsWithChildren} from 'react';
 import {StyleSheet} from 'react-native';
 
+import {size} from '../../consts/styles';
+
 const styles = StyleSheet.create({
   layout: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: size.xl,
   },
 });
 
