@@ -118,7 +118,7 @@ export default defineConfig([
       'react-native/no-raw-text': [
         'error',
         {
-          skip: ['ButtonText'],
+          skip: ['ButtonText', 'Button'],
         },
       ],
     },
