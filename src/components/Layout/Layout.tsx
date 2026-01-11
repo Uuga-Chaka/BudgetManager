@@ -6,13 +6,15 @@ import {size} from '../../consts/styles';
 
 const styles = StyleSheet.create({
   layout: {
-    flex: 1,
-    justifyContent: 'center',
+    alignContent: 'center',
     alignItems: 'center',
+    flexDirection: 'column',
+    flexGrow: 1,
+    justifyContent: 'center',
     paddingHorizontal: size.xl,
   },
 });
 
-export default function CustomLayout({children}: PropsWithChildren) {
+export default function AppLayout({children}: PropsWithChildren) {
   return <Layout style={styles.layout}>{children}</Layout>;
 }
