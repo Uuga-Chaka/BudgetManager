@@ -16,8 +16,8 @@ export default function OnboardingRouter() {
   return (
     <Navigator
       screenOptions={{
-        headerTransparent: true,
         title: '',
+        headerShadowVisible: false,
         headerStyle: {
           backgroundColor: theme['background-basic-color-1'],
         },
