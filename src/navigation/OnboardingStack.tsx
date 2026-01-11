@@ -1,11 +1,13 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {useTheme} from '@ui-kitten/components';
 import React from 'react';
 
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useTheme} from '@ui-kitten/components';
+
+import BudgetSetup from '@app/screens/Onboarding/BudgetSetup/BudgetSetup';
+import IncomeSetup from '@app/screens/Onboarding/IncomeSetup/IncomeSetup';
+import Introduction from '@app/screens/Onboarding/Introduction/Introduction';
+
 import {type OnboardingParamList, Routes} from './navigation.types';
-import BudgetSetup from '../screens/Onboarding/BudgetSetup/BudgetSetup';
-import IncomeSetup from '../screens/Onboarding/IncomeSetup/IncomeSetup';
-import Introduction from '../screens/Onboarding/Introduction/Introduction';
 
 const {Screen, Navigator} = createNativeStackNavigator<OnboardingParamList>();
 

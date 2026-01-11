@@ -1,10 +1,11 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import {BottomTabBar} from '../components/HomeTabs/HomeTabs';
-import {Routes, type TabStackParamList} from '../navigation/navigation.types';
-import Dashboard from '../screens/Dashboard/Dashboard';
-import Planning from '../screens/Planning/Planning';
-import Transactions from '../screens/Transactions/Transactions';
+import {BottomTabBar} from '@app/components/HomeTabs/HomeTabs';
+import Dashboard from '@app/screens/Dashboard/Dashboard';
+import Planning from '@app/screens/Planning/Planning';
+import Transactions from '@app/screens/Transactions/Transactions';
+
+import {Routes, type TabStackParamList} from './navigation.types';
 
 const Tab = createBottomTabNavigator<TabStackParamList>();
 export default function HomeTabs() {

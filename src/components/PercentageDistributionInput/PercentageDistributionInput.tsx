@@ -1,5 +1,6 @@
-import {Button, Icon, Input} from '@ui-kitten/components';
 import {View} from 'react-native';
+
+import {Button, Icon, Input} from '@ui-kitten/components';
 
 import {styles} from './PercentageDistributionInput.styles';
 import {type PercentageDistributionInputProps} from './PercentageDistributionInput.types';

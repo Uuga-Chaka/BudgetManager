@@ -1,13 +1,15 @@
+import {View} from 'react-native';
+
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StyleService, useTheme} from '@ui-kitten/components';
-import {View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
+import {useAppTheme} from '@app/hooks/useAppTheme';
 
 import HomeTabs from './HomeTabs';
 import {type RootStackParamList, Routes} from './navigation.types';
 import OnboardingRouter from './OnboardingStack';
-import {useAppTheme} from '../hooks/useAppTheme';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

@@ -1,6 +1,8 @@
-import * as eva from '@eva-design/eva';
-import type {ThemeType} from '@ui-kitten/components';
 import {useColorScheme} from 'react-native';
+
+import * as eva from '@eva-design/eva';
+
+import type {ThemeType} from '@ui-kitten/components';
 
 type ThemeMode = 'light' | 'dark';
 

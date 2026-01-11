@@ -1,11 +1,12 @@
-import {Button, Input, Text} from '@ui-kitten/components';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 
-import AppKeyBoardAwareScrollView from '../../../components/AppKeyBoardAwareScrollView/AppKeyBoardAwareScrollView';
-import Layout from '../../../components/Layout/Layout';
-import {size} from '../../../consts/styles';
-import {type RootOnboardingScreenProps, Routes} from '../../../navigation/navigation.types';
+import {Button, Input, Text} from '@ui-kitten/components';
+
+import AppKeyBoardAwareScrollView from '@app/components/AppKeyBoardAwareScrollView/AppKeyBoardAwareScrollView';
+import AppLayout from '@app/components/Layout/Layout';
+import {size} from '@app/consts/styles';
+import {Routes, type RootOnboardingScreenProps} from '@app/navigation/navigation.types';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,7 +23,7 @@ export default function IncomeSetup({
   const navigate = () => navigation.push(Routes.BudgetSetup);
 
   return (
-    <Layout>
+    <AppLayout>
       <AppKeyBoardAwareScrollView>
         <View style={styles.container}>
           <Text style={styles.description}>
@@ -36,6 +37,6 @@ export default function IncomeSetup({
           <Button onPress={navigate}>Siguiente</Button>
         </View>
       </AppKeyBoardAwareScrollView>
-    </Layout>
+    </AppLayout>
   );
 }

@@ -61,6 +61,7 @@ export default defineConfig([
       'import/ignore': ['react-native'],
       'import/resolver': {
         typescript: {
+          alwaysTryTypes: true,
           project: './tsconfig.json',
         },
         node: {
@@ -81,9 +82,24 @@ export default defineConfig([
       'import/order': [
         'warn',
         {
-          groups: [['builtin', 'external'], 'internal', ['parent', 'sibling'], 'index'],
+          groups: [['builtin', 'external'], 'internal', ['parent', 'sibling'], 'type', 'index'],
+          pathGroups: [
+            {
+              pattern: 'react+(|-native)',
+              group: 'external',
+              position: 'before',
+            },
+            {
+              pattern: '@app/**',
+              group: 'internal',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['react', 'react-native', 'type'],
           'newlines-between': 'always',
-          alphabetize: {order: 'asc', caseInsensitive: true},
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true,
+          },
         },
       ],
       'import/no-unresolved': 'error',

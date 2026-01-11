@@ -1,6 +1,7 @@
-import {Layout} from '@ui-kitten/components';
 import {type PropsWithChildren} from 'react';
 import {StyleSheet} from 'react-native';
+
+import {Layout} from '@ui-kitten/components';
 
 import {size} from '../../consts/styles';
 

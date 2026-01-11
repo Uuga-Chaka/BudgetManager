@@ -1,13 +1,15 @@
-import {Button, Input, Text} from '@ui-kitten/components';
 import React, {useCallback, useState} from 'react';
 import {View} from 'react-native';
 
+import {Button, Input, Text} from '@ui-kitten/components';
+
+import AppKeyBoardAwareScrollView from '@app/components/AppKeyBoardAwareScrollView/AppKeyBoardAwareScrollView';
+import AppLayout from '@app/components/Layout/Layout';
+import PercentageDistributionInput from '@app/components/PercentageDistributionInput/PercentageDistributionInput';
+import {size} from '@app/consts/styles';
+
 import {DEFAULT_PERCENTAGE} from './BudgetSetup.const';
 import {type PercentageBudgetGroup} from './BudgetSetup.types';
-import AppKeyBoardAwareScrollView from '../../../components/AppKeyBoardAwareScrollView/AppKeyBoardAwareScrollView';
-import AppLayout from '../../../components/Layout/Layout';
-import PercentageDistributionInput from '../../../components/PercentageDistributionInput/PercentageDistributionInput';
-import {size} from '../../../consts/styles';
 
 export default function BudgetSetup() {
   const [budgetGroup, setBudgetGroup] = useState<PercentageBudgetGroup>(DEFAULT_PERCENTAGE);

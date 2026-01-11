@@ -14,6 +14,7 @@ import {
   UPDATED_AT,
 } from '../consts';
 import Transaction from './transaction';
+
 import type {AccountType} from '../types';
 
 export default class AccountModel extends Model {

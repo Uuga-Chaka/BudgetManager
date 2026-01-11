@@ -1,6 +1,12 @@
 {
   "extends": "@react-native/typescript-config",
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["src/*"],
+      "@app/components/*": ["src/components/*"],
+      "@app/consts/*": ["src/consts/*"]
+    },
     "types": ["jest"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

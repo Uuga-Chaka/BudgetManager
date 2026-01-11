@@ -16,6 +16,7 @@ import {
   TYPE,
   UPDATED_AT,
 } from '../consts';
+
 import type {TransactionType} from '../types';
 
 export default class TransactionModel extends Model {

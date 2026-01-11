@@ -1,10 +1,11 @@
-import {Button, Text} from '@ui-kitten/components';
 import React from 'react';
 import {View} from 'react-native';
 
-import Layout from '../../../components/Layout/Layout';
-import {size} from '../../../consts/styles';
-import {Routes, type RootOnboardingScreenProps} from '../../../navigation/navigation.types';
+import {Button, Text} from '@ui-kitten/components';
+
+import AppLayout from '@app/components/Layout/Layout';
+import {size} from '@app/consts/styles';
+import {type RootOnboardingScreenProps, Routes} from '@app/navigation/navigation.types';
 
 export default function Introduction({
   navigation,
@@ -12,7 +13,7 @@ export default function Introduction({
   const navigate = () => navigation.push(Routes.IncomeSetup);
 
   return (
-    <Layout>
+    <AppLayout>
       <View>
         <View style={{gap: size.l}}>
           <Text category="h1">Welcome</Text>
@@ -26,6 +27,6 @@ export default function Introduction({
           Siguiente
         </Button>
       </View>
-    </Layout>
+    </AppLayout>
   );
 }
