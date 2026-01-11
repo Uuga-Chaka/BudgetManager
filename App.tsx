@@ -13,16 +13,14 @@ export default function App() {
   const {theme} = useAppTheme();
 
   return (
-    <>
+    <SafeAreaProvider>
+      <StatusBar barStyle="default" translucent backgroundColor="transparent" />
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider {...eva} theme={theme}>
-        <SafeAreaProvider>
-          <KeyboardProvider>
-            <StatusBar barStyle="default" translucent />
-            <Router />
-          </KeyboardProvider>
-        </SafeAreaProvider>
+        <KeyboardProvider>
+          <Router />
+        </KeyboardProvider>
       </ApplicationProvider>
-    </>
+    </SafeAreaProvider>
   );
 }

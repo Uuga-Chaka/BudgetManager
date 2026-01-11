@@ -1,7 +1,14 @@
 import {type PropsWithChildren} from 'react';
 import {StyleSheet} from 'react-native';
 
-import {Layout} from '@ui-kitten/components';
+import {
+  Icon,
+  type IconElement,
+  type IconProps,
+  Layout,
+  TopNavigation,
+  TopNavigationAction,
+} from '@ui-kitten/components';
 
 import {size} from '../../consts/styles';
 
@@ -10,12 +17,21 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    flexGrow: 1,
+    flex: 1,
     justifyContent: 'center',
     paddingHorizontal: size.xl,
   },
 });
 
+const BackIcon = (props: IconProps): IconElement => <Icon {...props} name="arrow-back" />;
+
+const BackAction = (): React.ReactElement => <TopNavigationAction icon={BackIcon} />;
+
 export default function AppLayout({children}: PropsWithChildren) {
-  return <Layout style={styles.layout}>{children}</Layout>;
+  return (
+    <>
+      <TopNavigation title={''} accessoryLeft={BackAction} />
+      <Layout style={styles.layout}>{children}</Layout>
+    </>
+  );
 }

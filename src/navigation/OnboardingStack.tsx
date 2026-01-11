@@ -1,32 +1,27 @@
 import React from 'react';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {useTheme} from '@ui-kitten/components';
 
+import AppLayout from '@app/components/Layout/Layout';
 import BudgetSetup from '@app/screens/Onboarding/BudgetSetup/BudgetSetup';
 import IncomeSetup from '@app/screens/Onboarding/IncomeSetup/IncomeSetup';
 import Introduction from '@app/screens/Onboarding/Introduction/Introduction';
 
 import {type OnboardingParamList, Routes} from './navigation.types';
 
-const {Screen, Navigator} = createNativeStackNavigator<OnboardingParamList>();
+const {Screen, Navigator, Group} = createNativeStackNavigator<OnboardingParamList>();
 
 export default function OnboardingRouter() {
-  const theme = useTheme();
   return (
     <Navigator
       screenOptions={{
-        title: '',
-        headerShadowVisible: false,
-        headerStyle: {
-          backgroundColor: theme['background-basic-color-1'],
-        },
-        headerTintColor: theme['background-alternative-color-2'],
-        headerTitleAlign: 'center',
+        headerShown: false,
       }}>
-      <Screen name={Routes.Introduction} component={Introduction} />
-      <Screen name={Routes.IncomeSetup} component={IncomeSetup} />
-      <Screen name={Routes.BudgetSetup} component={BudgetSetup} />
+      <Group screenLayout={AppLayout}>
+        <Screen name={Routes.Introduction} component={Introduction} />
+        <Screen name={Routes.IncomeSetup} component={IncomeSetup} />
+        <Screen name={Routes.BudgetSetup} component={BudgetSetup} />
+      </Group>
     </Navigator>
   );
 }

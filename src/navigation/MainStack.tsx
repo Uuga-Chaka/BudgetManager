@@ -35,22 +35,18 @@ export default function Router() {
   const {top} = useSafeAreaInsets();
 
   return (
-    <View style={styles.container}>
+    <View style={{...styles.safeAreaContainer, marginTop: top}}>
       <NavigationContainer>
-        <View style={{...styles.safeAreaContainer, marginTop: top}}>
-          <Stack.Navigator
-            initialRouteName={Routes.Onboarding}
-            screenOptions={{
-              headerShown: false,
-              statusBarStyle: statusBarStyle,
-              contentStyle: styles.navigatorStyle,
-            }}>
-            <Stack.Screen name={Routes.Home} component={HomeTabs} />
-            <Stack.Group>
-              <Stack.Screen name={Routes.Onboarding} component={OnboardingRouter} />
-            </Stack.Group>
-          </Stack.Navigator>
-        </View>
+        <Stack.Navigator
+          initialRouteName={Routes.Onboarding}
+          screenOptions={{
+            headerShown: false,
+            statusBarStyle: statusBarStyle,
+            contentStyle: styles.navigatorStyle,
+          }}>
+          <Stack.Screen name={Routes.Home} component={HomeTabs} />
+          <Stack.Screen name={Routes.Onboarding} component={OnboardingRouter} />
+        </Stack.Navigator>
       </NavigationContainer>
     </View>
   );

@@ -4,7 +4,6 @@ import {View} from 'react-native';
 import {Button, Input, Text} from '@ui-kitten/components';
 
 import AppKeyBoardAwareScrollView from '@app/components/AppKeyBoardAwareScrollView/AppKeyBoardAwareScrollView';
-import AppLayout from '@app/components/Layout/Layout';
 import PercentageDistributionInput from '@app/components/PercentageDistributionInput/PercentageDistributionInput';
 import {size} from '@app/consts/styles';
 
@@ -37,29 +36,27 @@ export default function BudgetSetup() {
   }, []);
 
   return (
-    <AppLayout>
-      <AppKeyBoardAwareScrollView>
-        <View style={{gap: size.l}}>
-          <Text>
-            Crea tu grupo de porcentajes y como quieres distrubir tu presupuesto. Te recomendamos
-            estos porcentajes
-          </Text>
-          <Input value={groupName} label={'Nombre del grupo'} onChangeText={setGroupName} />
-          {budgetGroup.map(e => (
-            <PercentageDistributionInput
-              key={e.id}
-              onDeleteButtonPress={removeBudget}
-              onNameChange={onNameChange}
-              onPercentageChange={onPercentageChange}
-              {...e}
-            />
-          ))}
-          <Button status="control" onPress={addPercentage}>
-            Añadir porcentaje
-          </Button>
-          <Button>Siguiente</Button>
-        </View>
-      </AppKeyBoardAwareScrollView>
-    </AppLayout>
+    <AppKeyBoardAwareScrollView>
+      <View style={{gap: size.l}}>
+        <Text>
+          Crea tu grupo de porcentajes y como quieres distrubir tu presupuesto. Te recomendamos
+          estos porcentajes
+        </Text>
+        <Input value={groupName} label={'Nombre del grupo'} onChangeText={setGroupName} />
+        {budgetGroup.map(e => (
+          <PercentageDistributionInput
+            key={e.id}
+            onDeleteButtonPress={removeBudget}
+            onNameChange={onNameChange}
+            onPercentageChange={onPercentageChange}
+            {...e}
+          />
+        ))}
+        <Button status="control" onPress={addPercentage}>
+          Añadir porcentaje
+        </Button>
+        <Button>Siguiente</Button>
+      </View>
+    </AppKeyBoardAwareScrollView>
   );
 }
