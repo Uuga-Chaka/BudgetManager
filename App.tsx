@@ -1,5 +1,6 @@
 import * as eva from '@eva-design/eva';
-import {ApplicationProvider} from '@ui-kitten/components';
+import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import {StatusBar} from 'react-native';
 import {KeyboardProvider} from 'react-native-keyboard-controller';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -11,13 +12,16 @@ export default function App() {
   const {theme} = useAppTheme();
 
   return (
-    <ApplicationProvider {...eva} theme={theme}>
-      <SafeAreaProvider>
-        <KeyboardProvider>
-          <StatusBar barStyle="default" translucent />
-          <Router />
-        </KeyboardProvider>
-      </SafeAreaProvider>
-    </ApplicationProvider>
+    <>
+      <IconRegistry icons={EvaIconsPack} />
+      <ApplicationProvider {...eva} theme={theme}>
+        <SafeAreaProvider>
+          <KeyboardProvider>
+            <StatusBar barStyle="default" translucent />
+            <Router />
+          </KeyboardProvider>
+        </SafeAreaProvider>
+      </ApplicationProvider>
+    </>
   );
 }
