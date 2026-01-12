@@ -1,14 +1,14 @@
 import {type PropsWithChildren} from 'react';
 import {StyleSheet} from 'react-native';
 
+import {type RouteProp} from '@react-navigation/native';
 import {
-  Icon,
-  type IconElement,
-  type IconProps,
-  Layout,
-  TopNavigation,
-  TopNavigationAction,
-} from '@ui-kitten/components';
+  type NativeStackNavigationOptions,
+  type NativeStackNavigationProp,
+} from '@react-navigation/native-stack';
+import {Icon, Layout, TopNavigation, TopNavigationAction} from '@ui-kitten/components';
+
+import {type OnboardingParamList} from '@app/navigation/navigation.types';
 
 import {size} from '../../consts/styles';
 
@@ -23,14 +23,29 @@ const styles = StyleSheet.create({
   },
 });
 
-const BackIcon = (props: IconProps): IconElement => <Icon {...props} name="arrow-back" />;
+type AppLayoutProps = {
+  route: RouteProp<OnboardingParamList, keyof OnboardingParamList>;
+  navigation: NativeStackNavigationProp<OnboardingParamList>;
+  options: NativeStackNavigationOptions;
+} & PropsWithChildren;
 
-const BackAction = (): React.ReactElement => <TopNavigationAction icon={BackIcon} />;
+export default function AppLayout({children, navigation}: AppLayoutProps) {
+  const canGoBack = navigation.canGoBack();
 
-export default function AppLayout({children}: PropsWithChildren) {
+  const renderBackAction = () => {
+    if (!canGoBack) return <></>;
+
+    return (
+      <TopNavigationAction
+        icon={props => <Icon {...props} name="arrow-back" />}
+        onPress={() => navigation.goBack()}
+      />
+    );
+  };
+
   return (
     <>
-      <TopNavigation title={''} accessoryLeft={BackAction} />
+      <TopNavigation title={''} accessoryLeft={renderBackAction} />
       <Layout style={styles.layout}>{children}</Layout>
     </>
   );
