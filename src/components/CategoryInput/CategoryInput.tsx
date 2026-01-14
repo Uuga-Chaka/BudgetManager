@@ -1,121 +1,70 @@
-import React, {useState} from 'react';
-import {type LayoutChangeEvent, View, type ViewProps} from 'react-native';
+import {useState} from 'react';
+import {View} from 'react-native';
 
-import {
-  Button,
-  Input,
-  Select,
-  SelectItem,
-  StyleService,
-  Text,
-  type ThemeType,
-  useTheme,
-} from '@ui-kitten/components';
-import Animated, {
-  Easing,
-  ReduceMotion,
-  useAnimatedStyle,
-  useDerivedValue,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import {IndexPath, Input, Select, SelectItem, useTheme} from '@ui-kitten/components';
+import Animated from 'react-native-reanimated';
 
-import {ArrowDownIcon, ArrowUpIcon, TrashIcon} from '@app/assets/Icons';
-import {size} from '@app/consts/styles';
+import useAccordionAnimation from '@app/hooks/useAccordionAnimation';
 
-const styleProps = (theme?: ThemeType) =>
-  StyleService.create({
-    bodyContainer: {
-      gap: size.l,
-    },
-    headerContainer: {
-      alignItems: 'center',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-    container: {
-      borderColor: theme?.['border-basic-color-3'],
-      borderWidth: 1,
-      borderRadius: 4,
-      backgroundColor: theme?.['background-basic-color-1'],
-    },
-    body: {
-      paddingHorizontal: 24,
-      paddingVertical: 16,
-    },
-    animatedView: {
-      overflow: 'hidden',
-    },
-  });
+import {styleProps} from './CategoryInput.styles';
+import {type CategoryInputProps} from './CategoryInput.types';
+import {CategoryInputFooter} from '../CategoryInputFooter/CategoryInputFooter';
+import {CategoryInputHeader} from '../CategoryInputHeader/CategoryInputHeader';
 
-const Footer = () => (
-  <View>
-    <Button status="danger" accessoryRight={TrashIcon}>
-      Borrar
-    </Button>
-  </View>
-);
-
-const Header = ({
-  handleCardOpen,
-  isCardOpen,
-  ...props
-}: {handleCardOpen: () => void; isCardOpen: boolean} & ViewProps) => (
-  <View {...props}>
-    <View style={styleProps().headerContainer}>
-      <Text category="h6">Maldives</Text>
-      <Button
-        appearance="ghost"
-        status="control"
-        size="small"
-        onPress={handleCardOpen}
-        accessoryLeft={isCardOpen ? ArrowDownIcon : ArrowUpIcon}
-      />
-    </View>
-  </View>
-);
-
-export default function CategoryInput() {
+export default function CategoryInput({
+  onGroupNameChange,
+  onSelectCategory,
+  defaultGroupName = 'Nombre del grupo',
+  onDelete,
+}: CategoryInputProps) {
   const theme = useTheme();
+
+  const [groupName, setGroupName] = useState('');
+
   const styles = styleProps(theme);
-  const [isCardOpen, setIsCardOpen] = useState(true);
-  const heightRef = useSharedValue(0);
+  const {bodyStyle, handleCardOpen, isCardOpen, onHandlingLayout} = useAccordionAnimation();
 
-  const handleCardOpen = () => {
-    setIsCardOpen(s => !s);
-  };
-
-  const derivedHeight = useDerivedValue(() =>
-    withTiming(heightRef.value * Number(isCardOpen), {
-      duration: 250,
-      easing: Easing.ease,
-      reduceMotion: ReduceMotion.System,
-    }),
+  const [selectedIndex, setSelectedIndex] = useState<IndexPath | IndexPath[]>(
+    () => new IndexPath(0),
   );
 
-  const bodyStyle = useAnimatedStyle(() => ({
-    height: derivedHeight.value,
-  }));
+  const handleSelect = (index: IndexPath | IndexPath[]) => {
+    onSelectCategory?.(index);
+    setSelectedIndex(index);
+  };
 
-  const onHandlingLayout = (e: LayoutChangeEvent) => {
-    return (heightRef.value = e.nativeEvent.layout.height);
+  const handleGroupNameChange = (value: string) => {
+    setGroupName(value);
+    onGroupNameChange?.(value);
+  };
+
+  // TODO: Handle delete
+  const handleDelete = () => {
+    onDelete?.(selectedIndex);
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.body}>
-        <Header handleCardOpen={handleCardOpen} isCardOpen={isCardOpen} />
-        {isCardOpen ? <Text>Working</Text> : <Text>Not working</Text>}
+        <CategoryInputHeader
+          title={groupName || defaultGroupName}
+          handleCardOpen={handleCardOpen}
+          isCardOpen={isCardOpen}
+        />
       </View>
       <Animated.View style={[styles.animatedView, bodyStyle]}>
         <View onLayout={onHandlingLayout} style={[styles.bodyContainer, styles.body]}>
-          <Input value={''} label={'Nombre del grupo'} />
-          <Select label={'Categoria'}>
+          <Input
+            value={groupName}
+            label={'Nombre del grupo'}
+            onChangeText={handleGroupNameChange}
+          />
+          <Select selectedIndex={selectedIndex} onSelect={handleSelect} label={'Categoria'}>
             <SelectItem title={'Option 1'} />
             <SelectItem title={'Option 2'} />
             <SelectItem title={'Option 3'} />
           </Select>
-          <Footer />
+          <CategoryInputFooter onDelete={handleDelete} />
         </View>
       </Animated.View>
     </View>
