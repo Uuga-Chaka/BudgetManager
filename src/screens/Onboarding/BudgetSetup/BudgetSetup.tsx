@@ -6,11 +6,14 @@ import {Button, Input, Text} from '@ui-kitten/components';
 import AppKeyBoardAwareScrollView from '@app/components/AppKeyBoardAwareScrollView/AppKeyBoardAwareScrollView';
 import PercentageDistributionInput from '@app/components/PercentageDistributionInput/PercentageDistributionInput';
 import {size} from '@app/consts/styles';
+import {Routes, type RootOnboardingScreenProps} from '@app/navigation/navigation.types';
 
 import {DEFAULT_PERCENTAGE} from './BudgetSetup.const';
 import {type PercentageBudgetGroup} from './BudgetSetup.types';
 
-export default function BudgetSetup() {
+export default function BudgetSetup({
+  navigation,
+}: RootOnboardingScreenProps<typeof Routes.BudgetSetup>) {
   const [budgetGroup, setBudgetGroup] = useState<PercentageBudgetGroup>(DEFAULT_PERCENTAGE);
   const [groupName, setGroupName] = useState('Mi presupuesto');
 
@@ -35,6 +38,8 @@ export default function BudgetSetup() {
     });
   }, []);
 
+  const goNext = () => navigation.navigate(Routes.CategoriesSetup);
+
   return (
     <AppKeyBoardAwareScrollView>
       <View style={{gap: size.l}}>
@@ -55,7 +60,7 @@ export default function BudgetSetup() {
         <Button status="control" onPress={addPercentage}>
           Añadir porcentaje
         </Button>
-        <Button>Siguiente</Button>
+        <Button onPress={goNext}>Siguiente</Button>
       </View>
     </AppKeyBoardAwareScrollView>
   );
