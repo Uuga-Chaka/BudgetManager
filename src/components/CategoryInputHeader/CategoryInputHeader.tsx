@@ -14,7 +14,9 @@ export const CategoryInputHeader = ({
 }: {handleCardOpen: () => void; isCardOpen: boolean; title?: string} & ViewProps) => (
   <View {...props}>
     <View style={styleProps().headerContainer}>
-      <Text category="h6">{title ? title : 'Group name'}</Text>
+      <Text category="h6" appearance={!title ? 'hint' : 'default'}>
+        {title ? title : 'Group name'}
+      </Text>
       <Button
         appearance="ghost"
         status="control"

@@ -12,24 +12,25 @@ import {CategoryInputFooter} from '../CategoryInputFooter/CategoryInputFooter';
 import {CategoryInputHeader} from '../CategoryInputHeader/CategoryInputHeader';
 
 export default function CategoryInput({
+  data = [],
+  defaultGroupName = 'Nombre del grupo',
+  defaultValue = 0,
+  onDelete,
   onGroupNameChange,
   onSelectCategory,
-  defaultGroupName = 'Nombre del grupo',
-  onDelete,
 }: CategoryInputProps) {
   const theme = useTheme();
 
-  const [groupName, setGroupName] = useState('');
+  const [groupName, setGroupName] = useState(defaultGroupName);
 
   const styles = styleProps(theme);
   const {bodyStyle, handleCardOpen, isCardOpen, onHandlingLayout} = useAccordionAnimation();
 
   const [selectedIndex, setSelectedIndex] = useState<IndexPath | IndexPath[]>(
-    () => new IndexPath(0),
+    () => new IndexPath(defaultValue),
   );
 
   const handleSelect = (index: IndexPath | IndexPath[]) => {
-    console.log(index);
     onSelectCategory?.(index);
     setSelectedIndex(index);
   };
@@ -39,16 +40,15 @@ export default function CategoryInput({
     onGroupNameChange?.(value);
   };
 
-  // TODO: Handle delete
   const handleDelete = () => {
-    onDelete?.(selectedIndex);
+    onDelete?.();
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.body}>
         <CategoryInputHeader
-          title={groupName || defaultGroupName}
+          title={groupName}
           handleCardOpen={handleCardOpen}
           isCardOpen={isCardOpen}
         />
@@ -60,10 +60,14 @@ export default function CategoryInput({
             label={'Nombre del grupo'}
             onChangeText={handleGroupNameChange}
           />
-          <Select selectedIndex={selectedIndex} onSelect={handleSelect} label={'Categoria'}>
-            <SelectItem title={'Option 1'} />
-            <SelectItem title={'Option 2'} />
-            <SelectItem title={'Option 3'} />
+          <Select
+            multiSelect={false}
+            selectedIndex={selectedIndex}
+            onSelect={handleSelect}
+            label={'Categoria'}>
+            {data.map((value, i) => (
+              <SelectItem title={value} key={String(i) + value} />
+            ))}
           </Select>
           <CategoryInputFooter onDelete={handleDelete} />
         </View>

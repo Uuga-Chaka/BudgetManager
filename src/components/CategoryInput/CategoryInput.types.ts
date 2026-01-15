@@ -4,5 +4,7 @@ export type CategoryInputProps = {
   onGroupNameChange?: (value: string) => void;
   onSelectCategory?: (value: IndexPath | IndexPath[]) => void;
   defaultGroupName?: string;
-  onDelete?: (value: IndexPath | IndexPath[]) => void;
+  onDelete?: () => void;
+  data?: (string | number)[];
+  defaultValue?: number;
 };
