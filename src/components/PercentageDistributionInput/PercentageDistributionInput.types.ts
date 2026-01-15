@@ -1,8 +1,4 @@
-export type PercentageBudget = {
-  id: number;
-  name: string;
-  percentage: string;
-};
+import {type PercentageBudget} from '@app/types/budgetGroup';
 
 export type PercentageDistributionInputProps = Partial<PercentageBudget> & {
   onDeleteButtonPress?: (id: number) => void;

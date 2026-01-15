@@ -1,4 +1,4 @@
-import {type PercentageBudgetGroup} from './BudgetSetup.types';
+import {type PercentageBudgetGroup} from '@app/types/budgetGroup';
 
 export const DEFAULT_PERCENTAGE: PercentageBudgetGroup = [
   {

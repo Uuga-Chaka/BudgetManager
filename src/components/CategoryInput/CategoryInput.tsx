@@ -29,6 +29,7 @@ export default function CategoryInput({
   );
 
   const handleSelect = (index: IndexPath | IndexPath[]) => {
+    console.log(index);
     onSelectCategory?.(index);
     setSelectedIndex(index);
   };

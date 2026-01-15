@@ -7,9 +7,9 @@ import AppKeyBoardAwareScrollView from '@app/components/AppKeyBoardAwareScrollVi
 import PercentageDistributionInput from '@app/components/PercentageDistributionInput/PercentageDistributionInput';
 import {size} from '@app/consts/styles';
 import {Routes, type RootOnboardingScreenProps} from '@app/navigation/navigation.types';
+import {type PercentageBudgetGroup} from '@app/types/budgetGroup';
 
 import {DEFAULT_PERCENTAGE} from './BudgetSetup.const';
-import {type PercentageBudgetGroup} from './BudgetSetup.types';
 
 export default function BudgetSetup({
   navigation,
