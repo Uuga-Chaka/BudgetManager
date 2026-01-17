@@ -11,7 +11,7 @@ type SetupStoreState = {
 
   // ##---PERCENTAGE GROUP---##
   percentageGroupName: string;
-  percentageGroups: PercentageBudgetGroup; // TODO: Change for proper object
+  percentageGroups: PercentageBudgetGroup;
 
   // ##---CATEGORIES---##
   categories: string[];
