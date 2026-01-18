@@ -1,12 +1,13 @@
 import {useColorScheme} from 'react-native';
 
 import {theme} from './theme';
-import {ThemeMode, type ThemeModeType} from './theme.types';
+import {ThemeVariant, type ThemeMode} from './theme.types';
 
 export function useAppTheme() {
   const colorScheme = useColorScheme();
 
-  const mode: ThemeModeType = colorScheme === ThemeMode.light ? ThemeMode.light : ThemeMode.dark;
+  const mode: ThemeMode =
+    colorScheme === ThemeVariant.light ? ThemeVariant.light : ThemeVariant.dark;
 
   return {
     colorScheme,

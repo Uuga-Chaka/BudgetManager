@@ -1,11 +1,11 @@
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {StyleService, useTheme} from '@ui-kitten/components';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import {useAppTheme} from '@app/hooks/useAppTheme';
+import {type ThemeProps} from '@app/theme/theme';
+import {useAppTheme} from '@app/theme/useAppTheme';
 
 import HomeTabs from './HomeTabs';
 import {type RootStackParamList, Routes} from './navigation.types';
@@ -13,26 +13,27 @@ import OnboardingRouter from './OnboardingStack';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-const styleProps = (bg: string) =>
-  StyleService.create({
-    safeAreaContainer: {
-      flex: 1,
-    },
-    container: {
-      backgroundColor: bg,
-      flex: 1,
-    },
+const styleProps = (colors: ThemeProps['colors']) => {
+  const styles = StyleSheet.create({
     navigatorStyle: {
-      backgroundColor: bg,
+      backgroundColor: colors.background,
+    },
+    safeAreaContainer: {
+      backgroundColor: colors.background,
+      flex: 1,
     },
   });
+  return styles;
+};
 
 export default function Router() {
-  const theme = useTheme();
-  const {statusBarStyle} = useAppTheme();
+  const {colors, statusBarStyle} = useAppTheme();
 
-  const styles = styleProps(theme['background-basic-color-1']);
+  const styles = styleProps(colors);
+
   const {top} = useSafeAreaInsets();
+
+  console.log(colors);
 
   return (
     <View style={{...styles.safeAreaContainer, marginTop: top}}>
@@ -44,7 +45,7 @@ export default function Router() {
             statusBarStyle: statusBarStyle,
             contentStyle: styles.navigatorStyle,
           }}>
-          <Stack.Screen name={Routes.Home} component={HomeTabs} />
+          {/* <Stack.Screen name={Routes.Home} component={HomeTabs} /> */}
           <Stack.Screen name={Routes.Onboarding} component={OnboardingRouter} />
         </Stack.Navigator>
       </NavigationContainer>

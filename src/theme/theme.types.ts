@@ -1,18 +1,14 @@
 import {type ColorValue} from 'react-native';
 
-export const ThemeMode = {
+export const ThemeVariant = {
   light: 'light',
   dark: 'dark',
 } as const;
 
-export type ThemeModeType = keyof typeof ThemeMode;
+export type ThemeMode = keyof typeof ThemeVariant;
 
-export type ThemeType = {
-  [mode in keyof typeof ThemeMode]: ThemeProps;
-};
+export type Theme = Record<ThemeMode, ThemeProps>;
 
 export type ThemeProps = {
-  colors: {
-    [property: string]: ColorValue;
-  };
+  colors: Record<string, ColorValue>;
 };

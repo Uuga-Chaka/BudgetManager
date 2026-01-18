@@ -1,20 +1,22 @@
 import {themeColors} from './colors';
-import {type ThemeType} from './theme.types';
+import {ThemeVariant, type Theme} from './theme.types';
 
 export const theme = {
-  dark: {
+  [ThemeVariant.dark]: {
     colors: {
       background: themeColors.black,
       backgroundReverse: themeColors.white,
+      primary: themeColors.primary_500,
     },
   },
-  light: {
+  [ThemeVariant.light]: {
     colors: {
       background: themeColors.white,
       backgroundReverse: themeColors.black,
+      primary: themeColors.primary_500,
     },
   },
-} as const satisfies ThemeType;
+} as const satisfies Theme;
 
 type ThemeModes = keyof typeof theme;
 export type ThemeProps = (typeof theme)[ThemeModes];
