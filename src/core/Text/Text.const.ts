@@ -1,12 +1,13 @@
 import {type TextStyle} from 'react-native';
 
 const typographyTokens = {
+  black: '900',
   bold: '700',
   medium: '500',
   regular: '400',
 } as const;
 
-const bold: TextStyle = {fontWeight: typographyTokens.bold};
+const bold: TextStyle = {fontWeight: typographyTokens.black};
 export const fontVariant = {
   h1: {fontSize: 36, ...bold},
   h2: {fontSize: 32, ...bold},

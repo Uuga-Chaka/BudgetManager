@@ -21,7 +21,7 @@ export default function Introduction({
           you can leave it as it&apos;s
         </Text>
       </View>
-      <Button containerStyle={{marginTop: size.l}} onPress={navigate}>
+      <Button style={{marginTop: size.l}} onPress={navigate}>
         Siguiente
       </Button>
     </View>

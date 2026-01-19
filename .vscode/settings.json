@@ -20,6 +20,6 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.words": ["Anonima", "CUIL", "Infobip", "nozbe", "watermelondb"],
+  "cSpell.words": ["nozbe", "Pressable", "watermelondb"],
   "conventionalCommits.scopes": ["coupon", "home", "auth"]
 }
