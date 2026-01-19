@@ -20,8 +20,8 @@ export default function OnboardingRouter() {
       }}>
       <Group screenLayout={AppLayout}>
         <Screen name={Routes.Introduction} component={Introduction} />
-        {/* <Screen name={Routes.IncomeSetup} component={IncomeSetup} />
-        <Screen name={Routes.BudgetSetup} component={BudgetSetup} />
+        <Screen name={Routes.IncomeSetup} component={IncomeSetup} />
+        {/* <Screen name={Routes.BudgetSetup} component={BudgetSetup} />
         <Screen name={Routes.CategoriesSetup} component={CategoriesSetup} /> */}
       </Group>
     </Navigator>

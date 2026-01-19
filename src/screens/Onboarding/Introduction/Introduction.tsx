@@ -1,9 +1,9 @@
 import React from 'react';
 import {View} from 'react-native';
 
+import Button from '@app/components/core/Button/Button';
+import Text from '@app/components/core/Text/Text';
 import {size} from '@app/consts/styles';
-import Button from '@app/core/Button/Button';
-import Text from '@app/core/Text/Text';
 import {type RootOnboardingScreenProps, Routes} from '@app/navigation/navigation.types';
 
 export default function Introduction({

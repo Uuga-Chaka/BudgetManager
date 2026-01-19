@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 
-import {Button, Input, Text} from '@ui-kitten/components';
-
 import AppKeyBoardAwareScrollView from '@app/components/AppKeyBoardAwareScrollView/AppKeyBoardAwareScrollView';
+import Button from '@app/components/core/Button/Button';
+import Text from '@app/components/core/Text/Text';
 import {size} from '@app/consts/styles';
 import {Routes, type RootOnboardingScreenProps} from '@app/navigation/navigation.types';
 import {useLocaleStore} from '@app/store/localeStore';
