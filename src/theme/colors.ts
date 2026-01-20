@@ -55,4 +55,14 @@ export const themeColors = {
   danger_700: '#A41526',
   danger_800: '#840D25',
   danger_900: '#6D0825',
+
+  // BASIC
+
+  basic_100: '#fff',
+  basic_800: '#1e1b1d',
+
+  // BASIC TRANSPARENT
+
+  transparent: '#34343400',
+  basicTrans_100: '#a4a4a440',
 };

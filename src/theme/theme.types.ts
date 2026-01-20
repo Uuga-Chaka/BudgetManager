@@ -16,4 +16,7 @@ export type ThemeCore = Record<ThemeMode, ThemePropsCore>;
 
 export type ThemePropsCore = {
   colors: Record<string, ColorValue>;
+  sizes: Record<string, number>;
+  spacing: Record<string, number>;
+  radius: Record<string, number>;
 };

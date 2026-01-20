@@ -1,4 +1,5 @@
 import {themeColors} from './colors';
+import {radius, spacing} from './sizes';
 import {
   type ThemeSemanticsCore as TeamSemanticsCore,
   ThemeVariant,
@@ -37,27 +38,51 @@ const semanticColors = {
   danger_900: themeColors.danger_900,
 };
 
+const basic = {
+  transparent: themeColors.transparent,
+
+  basic_800: themeColors.basic_800,
+
+  basicTrans_100: themeColors.basicTrans_100,
+};
+
 export const theme = {
   [ThemeVariant.dark]: {
     colors: {
+      black: themeColors.black,
+      white: themeColors.white,
       background: themeColors.black,
       backgroundReverse: themeColors.white,
 
       // SEMANTIC COLORS
       ...semanticColors,
+      ...basic,
     },
+    sizes: {
+      ...radius,
+    },
+    spacing,
+    radius,
   },
   [ThemeVariant.light]: {
     colors: {
+      black: themeColors.black,
+      white: themeColors.white,
       background: themeColors.white,
       backgroundReverse: themeColors.black,
 
       // SEMANTIC COLORS
       ...semanticColors,
+      ...basic,
     },
+    sizes: {
+      ...radius,
+    },
+    spacing,
+    radius,
   },
 } as const satisfies ThemeCore;
 
-type ThemeModes = keyof typeof theme;
+export type ThemeModes = keyof typeof theme;
 export type ThemeProps = (typeof theme)[ThemeModes];
 export type ThemeSemantics = TeamSemanticsCore;

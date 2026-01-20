@@ -1,5 +1,12 @@
-export const themeSizes = {
-  radius_small: 8,
-  radius_medium: 12,
-  radius_large: 14,
+export const spacing = {
+  xl: 32,
+  l: 24,
+  m: 16,
+  s: 12,
+};
+
+export const radius = {
+  s: 8,
+  m: 12,
+  l: 14,
 };
