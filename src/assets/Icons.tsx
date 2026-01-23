@@ -1,7 +1,7 @@
-import {Icon, IconElement, IconProps} from '@ui-kitten/components';
+import {LucideProps, Trash2} from 'lucide-react-native';
+import {ReactElement} from 'react';
 
-export const TrashIcon = (props: IconProps): IconElement => <Icon {...props} name="trash" />;
-export const ArrowUpIcon = (props: IconProps): IconElement => <Icon {...props} name="arrow-up" />;
-export const ArrowDownIcon = (props: IconProps): IconElement => (
-  <Icon {...props} name="arrow-down" />
-);
+export type LucidaIconType = (props: LucideProps) => ReactElement;
+
+const defaultProps: LucideProps = {color: 'black', size: 24};
+export const TrashIcon = (props = defaultProps) => <Trash2 {...props} />;

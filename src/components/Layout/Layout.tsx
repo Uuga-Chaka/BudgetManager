@@ -1,14 +1,14 @@
 import {type PropsWithChildren} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import {type RouteProp} from '@react-navigation/native';
 import {
   type NativeStackNavigationOptions,
   type NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
-import {Icon, Layout, TopNavigation, TopNavigationAction} from '@ui-kitten/components';
 
 import {type OnboardingParamList} from '@app/navigation/navigation.types';
+import {useAppTheme} from '@app/theme/useAppTheme';
 
 import {size} from '../../consts/styles';
 
@@ -31,22 +31,15 @@ type AppLayoutProps = {
 
 export default function AppLayout({children, navigation}: AppLayoutProps) {
   const canGoBack = navigation.canGoBack();
+  const {colors, statusBarStyle} = useAppTheme();
 
   const renderBackAction = () => {
     if (!canGoBack) return <></>;
-
-    return (
-      <TopNavigationAction
-        icon={props => <Icon {...props} name="arrow-back" />}
-        onPress={() => navigation.goBack()}
-      />
-    );
   };
 
   return (
     <>
-      <TopNavigation title={''} accessoryLeft={renderBackAction} />
-      <Layout style={styles.layout}>{children}</Layout>
+      <View style={[styles.layout, {backgroundColor: colors.background}]}>{children}</View>
     </>
   );
 }

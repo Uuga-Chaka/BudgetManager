@@ -1,9 +1,10 @@
 import React, {useCallback, useState} from 'react';
 import {View} from 'react-native';
 
-import {Button, Input, Text} from '@ui-kitten/components';
-
 import AppKeyBoardAwareScrollView from '@app/components/AppKeyBoardAwareScrollView/AppKeyBoardAwareScrollView';
+import Button from '@app/components/core/Button/Button';
+import Input from '@app/components/core/Input/Input';
+import Text from '@app/components/core/Text/Text';
 import PercentageDistributionInput from '@app/components/PercentageDistributionInput/PercentageDistributionInput';
 import {size} from '@app/consts/styles';
 import {Routes, type RootOnboardingScreenProps} from '@app/navigation/navigation.types';
@@ -57,7 +58,7 @@ export default function BudgetSetup({
             {...e}
           />
         ))}
-        <Button status="control" onPress={addPercentage}>
+        <Button status="info" onPress={addPercentage}>
           Añadir porcentaje
         </Button>
         <Button onPress={goNext}>Siguiente</Button>

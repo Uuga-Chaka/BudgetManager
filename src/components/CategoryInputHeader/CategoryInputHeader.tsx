@@ -1,10 +1,8 @@
 import {View, type ViewProps} from 'react-native';
 
-import {Button, Text} from '@ui-kitten/components';
-
-import {ArrowDownIcon, ArrowUpIcon} from '@app/assets/Icons';
-
 import {styleProps} from '../CategoryInput/CategoryInput.styles';
+import Button from '../core/Button/Button';
+import Text from '../core/Text/Text';
 
 export const CategoryInputHeader = ({
   handleCardOpen,
@@ -14,16 +12,16 @@ export const CategoryInputHeader = ({
 }: {handleCardOpen: () => void; isCardOpen: boolean; title?: string} & ViewProps) => (
   <View {...props}>
     <View style={styleProps().headerContainer}>
-      <Text category="h6" appearance={!title ? 'hint' : 'default'}>
-        {title ? title : 'Group name'}
-      </Text>
+      <Text variant="h6">{title ? title : 'Group name'}</Text>
       <Button
-        appearance="ghost"
-        status="control"
-        size="small"
+        // appearance="ghost"
+        // status="control"
+        // size="small"
         onPress={handleCardOpen}
-        accessoryLeft={isCardOpen ? ArrowDownIcon : ArrowUpIcon}
-      />
+        // accessoryLeft={isCardOpen ? ArrowDownIcon : ArrowUpIcon}
+      >
+        {isCardOpen ? 'Open' : 'Close'}
+      </Button>
     </View>
   </View>
 );

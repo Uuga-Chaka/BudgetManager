@@ -1,9 +1,12 @@
 import {View} from 'react-native';
 
-import {Button, Icon, Input} from '@ui-kitten/components';
+import {TrashIcon} from '@app/assets/Icons';
+import {useAppTheme} from '@app/theme/useAppTheme';
 
-import {styles} from './PercentageDistributionInput.styles';
+import {styleProps} from './PercentageDistributionInput.styles';
 import {type PercentageDistributionInputProps} from './PercentageDistributionInput.types';
+import Button from '../core/Button/Button';
+import Input from '../core/Input/Input';
 
 export default function PercentageDistributionInput({
   id,
@@ -13,6 +16,8 @@ export default function PercentageDistributionInput({
   onNameChange,
   onPercentageChange,
 }: PercentageDistributionInputProps) {
+  const {theme} = useAppTheme();
+  const styles = styleProps(theme);
   const onDelete = () => {
     if (id) onDeleteButtonPress?.(id);
   };
@@ -27,15 +32,23 @@ export default function PercentageDistributionInput({
 
   return (
     <View style={styles.container}>
-      <Input label="Nombre" value={name} style={styles.nameInput} onChangeText={_onNameChange} />
-      <Input label="%" value={percentage} onChangeText={_onPercentageChange} />
+      <Input
+        label="Nombre"
+        value={name}
+        containerStyle={styles.nameInput}
+        onChangeText={_onNameChange}
+      />
+      <Input
+        label="%"
+        value={percentage}
+        onChangeText={_onPercentageChange}
+        containerStyle={styles.percentageInput}
+      />
       <Button
-        size="small"
-        status="danger"
-        appearance="outline"
+        variant="ghost"
         style={styles.deleteButton}
         onPress={onDelete}
-        accessoryLeft={props => <Icon name="trash" {...props} />}
+        IconRight={TrashIcon}
       />
     </View>
   );

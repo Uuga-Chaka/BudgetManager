@@ -1,15 +1,16 @@
 import {useState} from 'react';
 import {View} from 'react-native';
 
-import {IndexPath, Input, Select, SelectItem, useTheme} from '@ui-kitten/components';
 import Animated from 'react-native-reanimated';
 
 import useAccordionAnimation from '@app/hooks/useAccordionAnimation';
+import {useAppTheme} from '@app/theme/useAppTheme';
 
 import {styleProps} from './CategoryInput.styles';
 import {type CategoryInputProps} from './CategoryInput.types';
 import {CategoryInputFooter} from '../CategoryInputFooter/CategoryInputFooter';
 import {CategoryInputHeader} from '../CategoryInputHeader/CategoryInputHeader';
+import Input from '../core/Input/Input';
 
 export default function CategoryInput({
   data = [],
@@ -19,21 +20,21 @@ export default function CategoryInput({
   onGroupNameChange,
   onSelectCategory,
 }: CategoryInputProps) {
-  const theme = useTheme();
+  const {colors} = useAppTheme();
 
   const [groupName, setGroupName] = useState(defaultGroupName);
 
-  const styles = styleProps(theme);
+  const styles = styleProps(colors);
   const {bodyStyle, handleCardOpen, isCardOpen, onHandlingLayout} = useAccordionAnimation();
 
-  const [selectedIndex, setSelectedIndex] = useState<IndexPath | IndexPath[]>(
-    () => new IndexPath(defaultValue),
-  );
+  // const [selectedIndex, setSelectedIndex] = useState<IndexPath | IndexPath[]>(
+  //   () => new IndexPath(defaultValue),
+  // );
 
-  const handleSelect = (index: IndexPath | IndexPath[]) => {
-    onSelectCategory?.(index);
-    setSelectedIndex(index);
-  };
+  // const handleSelect = (index: IndexPath | IndexPath[]) => {
+  //   onSelectCategory?.(index);
+  //   setSelectedIndex(index);
+  // };
 
   const handleGroupNameChange = (value: string) => {
     setGroupName(value);
@@ -60,7 +61,7 @@ export default function CategoryInput({
             label={'Nombre del grupo'}
             onChangeText={handleGroupNameChange}
           />
-          <Select
+          {/* <Select
             multiSelect={false}
             selectedIndex={selectedIndex}
             onSelect={handleSelect}
@@ -68,7 +69,7 @@ export default function CategoryInput({
             {data.map((value, i) => (
               <SelectItem title={value} key={String(i) + value} />
             ))}
-          </Select>
+          </Select> */}
           <CategoryInputFooter onDelete={handleDelete} />
         </View>
       </Animated.View>
