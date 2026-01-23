@@ -1,6 +1,6 @@
 export const RECOMMENDED_CATEGORIES = [
   {
-    id: 0,
+    id: 4,
     name: 'Ocio',
   },
   {

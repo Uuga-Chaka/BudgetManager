@@ -15,6 +15,7 @@ export default function PercentageDistributionInput({
   onDeleteButtonPress,
   onNameChange,
   onPercentageChange,
+  withPercentage = true,
 }: PercentageDistributionInputProps) {
   const {theme} = useAppTheme();
   const styles = styleProps(theme);
@@ -38,12 +39,14 @@ export default function PercentageDistributionInput({
         containerStyle={styles.nameInput}
         onChangeText={_onNameChange}
       />
-      <Input
-        label="%"
-        value={percentage}
-        onChangeText={_onPercentageChange}
-        containerStyle={styles.percentageInput}
-      />
+      {withPercentage && (
+        <Input
+          label="%"
+          value={percentage}
+          onChangeText={_onPercentageChange}
+          containerStyle={styles.percentageInput}
+        />
+      )}
       <Button
         variant="ghost"
         style={styles.deleteButton}
