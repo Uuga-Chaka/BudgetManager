@@ -59,10 +59,15 @@ export const themeColors = {
   // BASIC
 
   basic_100: '#fff',
-  basic_800: '#1e1b1d',
+  basic_200: '#c1c1c1',
+  basic_700: '#5b5b5b',
+  basic_800: '#28282c',
+  basic_900: '#1e1b1d',
 
   // BASIC TRANSPARENT
 
   transparent: '#34343400',
-  basicTrans_100: '#a4a4a440',
+  basicTrans_100: '#a4a4a47a',
+  basicTrans_300: '#8c89898f',
+  basicTrans_200: '#28282866',
 };

@@ -41,7 +41,7 @@ const semanticColors = {
 const basic = {
   transparent: themeColors.transparent,
 
-  basic_800: themeColors.basic_800,
+  basic_800: themeColors.basic_900,
 
   basicTrans_100: themeColors.basicTrans_100,
 };
@@ -54,9 +54,15 @@ export const theme = {
       background: themeColors.black,
       backgroundReverse: themeColors.white,
 
+      textHint: themeColors.basic_200,
+
       // SEMANTIC COLORS
       ...semanticColors,
       ...basic,
+
+      // INPUT
+      inputBackgroundColor: themeColors.basicTrans_200,
+      inputBorderColor: themeColors.basic_800,
     },
     sizes: {
       ...radius,
@@ -71,9 +77,15 @@ export const theme = {
       background: themeColors.white,
       backgroundReverse: themeColors.black,
 
+      textHint: themeColors.basic_200,
+
       // SEMANTIC COLORS
       ...semanticColors,
       ...basic,
+
+      // INPUT
+      inputBackgroundColor: themeColors.white,
+      inputBorderColor: themeColors.basic_800,
     },
     sizes: {
       ...radius,

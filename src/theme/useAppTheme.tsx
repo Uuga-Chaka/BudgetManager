@@ -1,4 +1,4 @@
-import {createContext, use, useMemo, type PropsWithChildren} from 'react';
+import {createContext, use, useMemo, useState, type PropsWithChildren} from 'react';
 import {useColorScheme} from 'react-native';
 
 import {theme, type ThemeProps, type ThemeModes} from './theme';
@@ -10,18 +10,23 @@ type ThemeContextTypes = {
   theme: ThemeProps;
   colors: ThemeProps['colors'];
   sizes: ThemeProps['sizes'];
+  toggleSelectedTheme: () => void;
 };
 
 const ThemeContext = createContext<ThemeContextTypes | undefined>(undefined);
 
 export const AppThemeProvider = ({children}: PropsWithChildren) => {
   const systemScheme = useColorScheme();
+  const [selectedTheme, setSelectedTheme] = useState(true);
+
+  const toggleSelectedTheme = () => setSelectedTheme(prev => !prev);
+
+  const isThemeLight = systemScheme === ThemeVariant.light;
 
   const contextValue = useMemo(() => {
-    const mode: ThemeModes =
-      systemScheme === ThemeVariant.light ? ThemeVariant.light : ThemeVariant.dark;
+    const mode: ThemeModes = isThemeLight && selectedTheme ? ThemeVariant.light : ThemeVariant.dark;
 
-    const statusBarMode = mode === ThemeVariant.light ? ThemeVariant.dark : ThemeVariant.light;
+    const statusBarMode = !isThemeLight ? ThemeVariant.light : ThemeVariant.dark;
 
     return {
       mode,
@@ -29,8 +34,9 @@ export const AppThemeProvider = ({children}: PropsWithChildren) => {
       theme: theme[mode],
       colors: theme[mode].colors,
       sizes: theme[mode].sizes,
+      toggleSelectedTheme,
     };
-  }, [systemScheme]);
+  }, [isThemeLight, selectedTheme]);
 
   return <ThemeContext value={contextValue}>{children}</ThemeContext>;
 };

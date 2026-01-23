@@ -1,28 +1,29 @@
-import {StyleService, type ThemeType} from '@ui-kitten/components';
+import {StyleSheet} from 'react-native';
 
 import {size} from '@app/consts/styles';
+import {type ThemeProps} from '@app/theme/theme';
 
-export const styleProps = (theme?: ThemeType) =>
-  StyleService.create({
-    bodyContainer: {
-      gap: size.l,
-    },
-    headerContainer: {
-      alignItems: 'center',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-    container: {
-      borderColor: theme?.['border-basic-color-3'],
-      borderWidth: 1,
-      borderRadius: 4,
-      backgroundColor: theme?.['background-basic-color-1'],
+export const styleProps = (colors?: ThemeProps['colors']) =>
+  StyleSheet.create({
+    animatedView: {
+      overflow: 'hidden',
     },
     body: {
       paddingHorizontal: 24,
       paddingVertical: 16,
     },
-    animatedView: {
-      overflow: 'hidden',
+    bodyContainer: {
+      gap: size.l,
+    },
+    container: {
+      backgroundColor: colors?.background,
+      borderColor: colors?.primary,
+      borderRadius: 4,
+      borderWidth: 1,
+    },
+    headerContainer: {
+      alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
     },
   });

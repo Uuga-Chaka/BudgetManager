@@ -3,6 +3,7 @@ import {
   type TextStyle,
   type PressableProps,
   type ViewStyle,
+  View,
 } from 'react-native';
 
 import Animated, {
@@ -12,6 +13,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 
+import {type LucidaIconType} from '@app/assets/Icons';
 import {type ThemeSemantics, type ThemeProps} from '@app/theme/theme';
 import {useAppTheme} from '@app/theme/useAppTheme';
 
@@ -29,7 +31,7 @@ const getButtonVariants = (theme: ThemeProps) => {
   const {colors, spacing, radius} = theme;
   const baseView: ViewStyle = {
     borderRadius: radius.s,
-    paddingHorizontal: spacing.m,
+    paddingHorizontal: spacing.s,
     paddingVertical: spacing.s,
     borderWidth: 1,
   };
@@ -72,7 +74,9 @@ type ButtonProps = PressableProps & {
   textStyle?: TextStyle;
   status?: ThemeSemantics;
   variant?: ButtonVariantType;
-  children: string;
+  children?: string;
+  IconLeft?: LucidaIconType;
+  IconRight?: LucidaIconType;
 };
 
 export default function Button({
@@ -80,6 +84,8 @@ export default function Button({
   textStyle,
   variant = ButtonVariant.filled,
   status = 'primary',
+  IconLeft,
+  IconRight,
   ...props
 }: ButtonProps) {
   const {theme, colors} = useAppTheme();
@@ -124,6 +130,29 @@ export default function Button({
     }
   }, [variant]);
 
+  const renderIcon = (IconComponent?: LucidaIconType) => {
+    if (!IconComponent) return null;
+
+    const _style: ViewStyle = {
+      justifyContent: 'center',
+    };
+
+    switch (variant) {
+      case ButtonVariant.ghost:
+        return (
+          <View style={_style}>
+            <IconComponent color={baseColor} strokeWidth={2.5} />
+          </View>
+        );
+      default:
+        return (
+          <View style={_style}>
+            <IconComponent color={theme.colors.background} strokeWidth={2.5} />
+          </View>
+        );
+    }
+  };
+
   return (
     <>
       <RNButton
@@ -131,9 +160,13 @@ export default function Button({
         onPressIn={() => (pressed.value = withTiming(1, {duration: 50}))}
         onPressOut={() => (pressed.value = withTiming(0, {duration: 250}))}>
         <Animated.View style={[correctAppearance.container, animatedContainerStyle]}>
-          <Text variant="s1" style={[correctAppearance.text, textStyle]}>
-            {children}
-          </Text>
+          {renderIcon(IconLeft)}
+          {children && (
+            <Text variant="s1" style={[correctAppearance.text, textStyle]}>
+              {children}
+            </Text>
+          )}
+          {renderIcon(IconRight)}
         </Animated.View>
       </RNButton>
     </>

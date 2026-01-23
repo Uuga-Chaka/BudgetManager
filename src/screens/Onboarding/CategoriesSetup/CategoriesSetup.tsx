@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
 
-import {Button, Text} from '@ui-kitten/components';
-
 import AppKeyBoardAwareScrollView from '@app/components/AppKeyBoardAwareScrollView/AppKeyBoardAwareScrollView';
 import CategoryInput from '@app/components/CategoryInput/CategoryInput';
+import Button from '@app/components/core/Button/Button';
+import Input from '@app/components/core/Input/Input';
+import Text from '@app/components/core/Text/Text';
 import {size} from '@app/consts/styles';
 
 import {RECOMMENDED_CATEGORIES} from './CategoriesSetup.const';
@@ -32,12 +33,10 @@ export default function CategoriesSetup() {
         </Text>
 
         {categories.map(({name, id}) => {
-          return (
-            <CategoryInput defaultGroupName={name} key={id} onDelete={() => onDeleteCategory(id)} />
-          );
+          return <Input label="Nombre de categoria" value={name} key={id} />;
         })}
 
-        <Button status="control" onPress={onAddCategory}>
+        <Button status="info" onPress={onAddCategory}>
           Añadir categoria
         </Button>
         <Button>Siguiente</Button>
