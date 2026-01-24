@@ -9,6 +9,7 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import reactNativeOldPlugin from 'eslint-plugin-react-native';
 import tseslint from 'typescript-eslint';
 import {defineConfig} from 'eslint/config';
+import testingLibrary from 'eslint-plugin-testing-library';
 
 export default defineConfig([
   {
@@ -27,7 +28,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['**/*.{ts,tsx}', '**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
     ignores: [
       '**/node_modules/**',
       '**/android/**',
@@ -75,6 +76,7 @@ export default defineConfig([
       eslintReact.configs['recommended-typescript'],
       importPlugin.flatConfigs.recommended,
       importPlugin.flatConfigs.typescript,
+      testingLibrary.configs['flat/dom'],
     ],
     rules: {
       ...importPlugin.configs['recommended'].rules,
