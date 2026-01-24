@@ -33,6 +33,8 @@ const getButtonVariants = (theme: ThemeProps) => {
     borderRadius: radius.s,
     paddingHorizontal: spacing.s,
     paddingVertical: spacing.s,
+    backgroundColor: colors.transparent,
+    borderColor: colors.transparent,
     borderWidth: 1,
   };
 
@@ -46,6 +48,7 @@ const getButtonVariants = (theme: ThemeProps) => {
       container: {
         ...baseView,
         backgroundColor: colors.primary,
+        borderColor: colors.primary,
       },
       text: {
         ...baseText,
@@ -54,7 +57,6 @@ const getButtonVariants = (theme: ThemeProps) => {
     outline: {
       container: {
         ...baseView,
-        backgroundColor: colors.transparent,
         borderWidth: 1,
         borderColor: colors.primary,
       },
@@ -154,21 +156,20 @@ export default function Button({
   };
 
   return (
-    <>
-      <RNButton
-        {...props}
-        onPressIn={() => (pressed.value = withTiming(1, {duration: 50}))}
-        onPressOut={() => (pressed.value = withTiming(0, {duration: 250}))}>
-        <Animated.View style={[correctAppearance.container, animatedContainerStyle]}>
-          {renderIcon(IconLeft)}
-          {children && (
-            <Text variant="s1" style={[correctAppearance.text, textStyle]}>
-              {children}
-            </Text>
-          )}
-          {renderIcon(IconRight)}
-        </Animated.View>
-      </RNButton>
-    </>
+    <RNButton
+      role="button"
+      {...props}
+      onPressIn={() => (pressed.value = withTiming(1, {duration: 50}))}
+      onPressOut={() => (pressed.value = withTiming(0, {duration: 250}))}>
+      <Animated.View style={[correctAppearance.container, animatedContainerStyle]}>
+        {renderIcon(IconLeft)}
+        {children && (
+          <Text variant="s1" style={[correctAppearance.text, textStyle]}>
+            {children}
+          </Text>
+        )}
+        {renderIcon(IconRight)}
+      </Animated.View>
+    </RNButton>
   );
 }
