@@ -1,5 +1,6 @@
-import {useState} from 'react';
+import {type Ref, useState} from 'react';
 import {
+  type FocusEvent,
   type StyleProp,
   StyleSheet,
   TextInput,
@@ -18,6 +19,7 @@ const styleProps = ({isFocused, theme}: {theme: ThemeProps; isFocused: boolean})
   const styles = StyleSheet.create({
     container: {
       flexDirection: 'column',
+      zIndex: -1,
     },
     label: {
       marginBottom: 4, // TODO: Add value to theme
@@ -35,29 +37,46 @@ const styleProps = ({isFocused, theme}: {theme: ThemeProps; isFocused: boolean})
   return styles;
 };
 
-type InputProps = {label: string; containerStyle?: StyleProp<ViewStyle>} & TextInputProps;
-export default function Input({label, style, containerStyle, ...props}: InputProps) {
+type InputProps = {
+  label: string;
+  containerStyle?: StyleProp<ViewStyle>;
+  inputRef?: Ref<TextInput>;
+} & TextInputProps;
+
+export default function Input({
+  label,
+  style,
+  containerStyle,
+  onLayout,
+  inputRef,
+  ...props
+}: InputProps) {
   const {theme} = useAppTheme();
 
   const [isFocused, setIsFocused] = useState(false);
   const styles = styleProps({theme, isFocused});
 
-  const onFocus = () => {
+  const _onFocus = (e: FocusEvent) => {
     setIsFocused(true);
+    if (props.onFocus) props.onFocus(e);
   };
 
-  const onBlur = () => setIsFocused(false);
+  const _onBlur = (e: FocusEvent) => {
+    setIsFocused(false);
+    if (props.onBlur) props.onBlur(e);
+  };
 
   return (
-    <View style={[styles.container, containerStyle]}>
+    <View style={[styles.container, containerStyle]} onLayout={onLayout}>
       <Text variant="label" style={[styles.label, style]}>
         {label}
       </Text>
       <TextInput
         {...props}
+        ref={inputRef}
         style={styles.textInput}
-        onFocus={onFocus}
-        onBlur={onBlur}
+        onFocus={_onFocus}
+        onBlur={_onBlur}
         placeholderTextColor={theme.colors.textHint}
       />
     </View>

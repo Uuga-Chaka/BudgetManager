@@ -76,7 +76,7 @@ export default defineConfig([
       eslintReact.configs['recommended-typescript'],
       importPlugin.flatConfigs.recommended,
       importPlugin.flatConfigs.typescript,
-      testingLibrary.configs['flat/dom'],
+      // testingLibrary.configs['flat/dom'],
     ],
     rules: {
       ...importPlugin.configs['recommended'].rules,

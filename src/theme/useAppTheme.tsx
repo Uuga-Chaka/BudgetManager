@@ -4,7 +4,7 @@ import {useColorScheme} from 'react-native';
 import {theme, type ThemeProps, type ThemeModes} from './theme';
 import {ThemeVariant} from './theme.types';
 
-type ThemeContextTypes = {
+export type ThemeContextTypes = {
   mode: ThemeModes;
   statusBarMode: ThemeModes;
   theme: ThemeProps;

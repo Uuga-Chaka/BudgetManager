@@ -10,7 +10,7 @@ type RNTextProps = TextProps & {variant?: FontVariantType};
 
 export default function Text({children, variant = 'p1', style, ...props}: RNTextProps) {
   const {colors} = useAppTheme();
-  const selectedVariant = variant in fontVariant ? fontVariant[variant] : fontVariant.p1;
+  const selectedVariant = fontVariant[variant] || fontVariant.p1;
   return (
     <RNText {...props} style={[selectedVariant, {color: colors.backgroundReverse}, style]}>
       {children}

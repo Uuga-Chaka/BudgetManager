@@ -31,8 +31,9 @@ export default function CategoriesSetup() {
     <AppKeyBoardAwareScrollView>
       <View style={{gap: size.l}}>
         <Text>
-          Crea tu grupo de porcentajes y como quieres distrubir tu presupuesto. Te recomendamos
-          estos porcentajes
+          Crea tu grupo de categorias. Te recomendamos las siguientes en caso de que tengas pereza
+          de crear la tuyas. Recuerda, siempre puedes modificarlas cuando quieras en el panel de
+          configuración
         </Text>
 
         {categories.map(({name, id}) => (

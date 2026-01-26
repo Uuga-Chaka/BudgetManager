@@ -4,9 +4,13 @@ const {defaults} = require('jest-config');
 module.exports = {
   preset: 'react-native',
   moduleDirectories: [...defaults.moduleDirectories, 'bower_components'],
-  setupFiles: ['./utils/test/worklets.js', './utils/test/keyboardController.js'],
+  setupFiles: [
+    './utils/test/worklets.js',
+    './utils/test/keyboardController.js',
+    './utils/test/flashList.js',
+  ],
   setupFilesAfterEnv: ['./utils/test/reanimated.js'],
   transformIgnorePatterns: [
-    'node_modules/(?!(jest-)?react-native|@react-native|react-native-keyboard-controller|react-native-reanimated|react-native-worklets)',
+    'node_modules/(?!(jest-)?react-native|@react-native|react-native-keyboard-controller|react-native-reanimated|react-native-worklets|@shopify/flash-list)',
   ],
 };
