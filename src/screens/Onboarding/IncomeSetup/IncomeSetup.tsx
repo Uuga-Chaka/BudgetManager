@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 
 import AppKeyBoardAwareScrollView from '@app/components/AppKeyBoardAwareScrollView/AppKeyBoardAwareScrollView';
+import Autocomplete from '@app/components/core/Autocomplete/Autocomplete';
 import Button from '@app/components/core/Button/Button';
 import Input from '@app/components/core/Input/Input';
 import Text from '@app/components/core/Text/Text';
@@ -42,6 +43,35 @@ export default function IncomeSetup({
         <Text style={styles.description}>Actualizaremos esta información para el mes de enero</Text>
         <Input label={'Nombre del ingreso'} placeholder="Salario" />
         <Input label={'Moneda'} placeholder="COP" />
+        <Autocomplete
+          data={[
+            {
+              firstName: 'John',
+              lastName: 'Doe',
+            },
+            {
+              firstName: 'Jane',
+              lastName: 'Doe',
+            },
+            {
+              firstName: 'Average',
+              lastName: 'Joe',
+            },
+          ]}
+          renderItem={({firstName, lastName}) => (
+            <Text>
+              {firstName}-{lastName}
+            </Text>
+          )}
+          filterOptions={(data, value) => {
+            return data.filter(e => {
+              const listValue = `${e.firstName.toLowerCase()}-${e.lastName.toLowerCase()}`;
+              const searchValue = value.toLowerCase();
+              return listValue.match(searchValue);
+            });
+          }}
+          ListEmptyComponent={<Text>No hay nada</Text>}
+        />
         <Input
           label={'Cantidad'}
           placeholder="1'.000.000"
