@@ -21,6 +21,11 @@ const styleProps = ({isFocused, theme}: {theme: ThemeProps; isFocused: boolean})
       flexDirection: 'column',
       zIndex: -1,
     },
+    errorMessage: {
+      color: colors.danger,
+      marginHorizontal: spacing.s,
+      marginTop: 5,
+    },
     label: {
       marginBottom: 4, // TODO: Add value to theme
       marginLeft: 5, // TODO: Add value to theme
@@ -37,10 +42,11 @@ const styleProps = ({isFocused, theme}: {theme: ThemeProps; isFocused: boolean})
   return styles;
 };
 
-type InputProps = {
+export type InputCoreProps = {
   label: string;
   containerStyle?: StyleProp<ViewStyle>;
   inputRef?: Ref<TextInput>;
+  errorMessage?: string;
 } & TextInputProps;
 
 export default function Input({
@@ -48,9 +54,10 @@ export default function Input({
   style,
   containerStyle,
   onLayout,
+  errorMessage,
   inputRef,
   ...props
-}: InputProps) {
+}: InputCoreProps) {
   const {theme} = useAppTheme();
 
   const [isFocused, setIsFocused] = useState(false);
@@ -79,6 +86,11 @@ export default function Input({
         onBlur={_onBlur}
         placeholderTextColor={theme.colors.textHint}
       />
+      {errorMessage && (
+        <Text variant="s2" style={styles.errorMessage}>
+          {errorMessage}
+        </Text>
+      )}
     </View>
   );
 }

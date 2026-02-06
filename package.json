@@ -12,6 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@react-navigation/bottom-tabs": "^7.9.0",
     "@react-navigation/elements": "^2.9.3",
     "@react-navigation/native": "^7.1.26",
@@ -27,20 +28,22 @@
     "react-native-screens": "^4.19.0",
     "react-native-svg": "^15.15.1",
     "react-native-worklets": "^0.7.1",
+    "zod": "^4.3.6",
     "zustand": "^5.0.10"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/plugin-proposal-decorators": "^7.28.0",
+    "@babel/plugin-transform-export-namespace-from": "^7.27.1",
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
     "@eslint-react/eslint-plugin": "^2.5.1",
     "@eslint/compat": "^2.0.0",
     "@eslint/js": "^9.39.2",
     "@jest/globals": "^30.2.0",
-    "@react-native-community/cli": "20.0.0",
-    "@react-native-community/cli-platform-android": "20.0.0",
-    "@react-native-community/cli-platform-ios": "20.0.0",
+    "@react-native-community/cli": "^14.0.1",
+    "@react-native-community/cli-platform-android": "^15.1.0",
+    "@react-native-community/cli-platform-ios": "^14.0.1",
     "@react-native/babel-preset": "0.83.1",
     "@react-native/eslint-config": "^0.83.1",
     "@react-native/metro-config": "0.83.1",

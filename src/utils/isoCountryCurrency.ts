@@ -1,16 +1,18 @@
 // copied from https://github.com/OleksaDid/iso-country-currency/blob/master/index.js
 
-export type CountryDetail = {
-  [key: string]: {
-    countryName: string;
-    currency: string;
-    symbol: string;
-    numericCode: number;
-    dateFormat?: string;
-  };
+export type CountryData = {
+  [isoCode: string]: CountryDetails;
 };
 
-const dataJSON = {
+export type CountryDetails = {
+  countryName: string;
+  currency: string;
+  symbol: string;
+  numericCode: number;
+  dateFormat?: string;
+};
+
+const countriesData = {
   AD: {
     countryName: 'Andorra',
     currency: 'EUR',
@@ -1599,21 +1601,21 @@ const dataJSON = {
     symbol: 'ZWL',
     numericCode: 932,
   },
-} as const satisfies CountryDetail;
+} as const satisfies CountryData;
 
-export type ISOCode = keyof typeof dataJSON;
-export type CountryProperties = keyof (typeof dataJSON)[ISOCode];
+export type ISOCountryCode = keyof typeof countriesData;
+export type CountryProperty = keyof (typeof countriesData)[ISOCountryCode];
 export type ParamArrayProp = typeof currencyAndSymbol | typeof allSearchParams;
-export type CountryInfo = CountryDetail & {iso: ISOCode; dateFormat: string};
+export type CountryInfo = ReturnType<typeof getAllISOCodes>[number];
 
 const currencyAndSymbol = ['currency', 'symbol'];
 const allSearchParams = currencyAndSymbol.concat(['countryName', 'dateFormat']);
 
 export const getAllISOCodes = () => {
-  const keys = Object.keys(dataJSON) as ISOCode[];
+  const keys = Object.keys(countriesData) as ISOCountryCode[];
 
   return keys.map(key => {
-    const ISOObject = dataJSON[key] as CountryDetail[ISOCode];
+    const ISOObject = countriesData[key] as CountryData[ISOCountryCode];
 
     return {
       iso: key,
@@ -1625,13 +1627,13 @@ export const getAllISOCodes = () => {
   });
 };
 
-export const getAllInfoByISO = (isoCode: ISOCode) => {
-  const iso = isoCode.toUpperCase() as ISOCode;
+export const getAllInfoByISO = (isoCode: ISOCountryCode) => {
+  const iso = isoCode.toUpperCase() as ISOCountryCode;
 
-  if (!(iso in dataJSON)) {
+  if (!(iso in countriesData)) {
     throw new Error("ISO2 code wasn't found");
   }
-  const ISOObject = dataJSON[iso] as CountryDetail[ISOCode];
+  const ISOObject = countriesData[iso] as CountryData[ISOCountryCode];
 
   return {
     iso,
@@ -1642,22 +1644,22 @@ export const getAllInfoByISO = (isoCode: ISOCode) => {
   };
 };
 
-export const getParamByISO = function (iso: ISOCode, param: CountryProperties) {
+export const getParamByISO = function (iso: ISOCountryCode, param: CountryProperty) {
   checkParam(param, allSearchParams);
-  const upperCaseIso = iso.toUpperCase() as ISOCode;
+  const upperCaseIso = iso.toUpperCase() as ISOCountryCode;
 
-  if (upperCaseIso in dataJSON) {
-    return dataJSON[upperCaseIso][param];
+  if (upperCaseIso in countriesData) {
+    return countriesData[upperCaseIso][param];
   }
 
   throw new Error("ISO2 code wasn't found");
 };
 
-export const getISOByParam = function (param: CountryProperties, value: string | number) {
+export const getISOByParam = function (param: CountryProperty, value: string | number) {
   checkParam(param, allSearchParams);
 
-  for (const key in dataJSON) {
-    if (key in dataJSON && dataJSON[key as ISOCode][param] === value) {
+  for (const key in countriesData) {
+    if (key in countriesData && countriesData[key as ISOCountryCode][param] === value) {
       return key;
     }
   }
@@ -1665,32 +1667,35 @@ export const getISOByParam = function (param: CountryProperties, value: string |
 };
 
 export const getParamByParam = function (
-  givenParam: CountryProperties,
+  givenParam: CountryProperty,
   givenParamValue: string,
-  searchParam: CountryProperties,
+  searchParam: CountryProperty,
 ) {
   checkParam(givenParam, allSearchParams);
   checkParam(searchParam, allSearchParams);
 
-  for (const key in dataJSON) {
-    if (key in dataJSON && dataJSON[key as ISOCode][givenParam] === givenParamValue) {
-      return dataJSON[key as ISOCode][searchParam as CountryProperties];
+  for (const key in countriesData) {
+    if (
+      key in countriesData &&
+      countriesData[key as ISOCountryCode][givenParam] === givenParamValue
+    ) {
+      return countriesData[key as ISOCountryCode][searchParam as CountryProperty];
     }
   }
   throw new Error(givenParam + " wasn't found in " + givenParamValue);
 };
 
 export const getAllCountriesByCurrencyOrSymbol = function (
-  param: CountryProperties,
+  param: CountryProperty,
   value: string | number,
 ) {
   const countriesArray = [];
 
   checkParam(param, currencyAndSymbol);
 
-  for (const key in dataJSON) {
-    if (key in dataJSON && dataJSON[key as ISOCode][param] === value) {
-      countriesArray.push(dataJSON[key as ISOCode].countryName);
+  for (const key in countriesData) {
+    if (key in countriesData && countriesData[key as ISOCountryCode][param] === value) {
+      countriesArray.push(countriesData[key as ISOCountryCode].countryName);
     }
   }
 
@@ -1701,15 +1706,15 @@ export const getAllCountriesByCurrencyOrSymbol = function (
 };
 
 export const getAllISOByCurrencyOrSymbol = function (
-  param: CountryProperties,
+  param: CountryProperty,
   value: string | number,
 ) {
   const ISOArray = [];
 
   checkParam(param, currencyAndSymbol);
 
-  for (const key in dataJSON) {
-    if (key in dataJSON && dataJSON[key as ISOCode][param] === value) {
+  for (const key in countriesData) {
+    if (key in countriesData && countriesData[key as ISOCountryCode][param] === value) {
       ISOArray.push(key);
     }
   }
@@ -1721,7 +1726,7 @@ export const getAllISOByCurrencyOrSymbol = function (
   return ISOArray;
 };
 
-function checkParam(param: CountryProperties, paramArray: ParamArrayProp) {
+function checkParam(param: CountryProperty, paramArray: ParamArrayProp) {
   if (paramArray.indexOf(param) === -1) {
     throw new Error('Invalid search param');
   }
