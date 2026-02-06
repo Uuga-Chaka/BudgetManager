@@ -1,21 +1,14 @@
 import React, {type ReactElement, type ReactNode, useMemo, useRef, useState} from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  type TextInput,
-  type TextInputProps,
-} from 'react-native';
+import {ScrollView, StyleSheet, TouchableOpacity, View, type TextInput} from 'react-native';
 
-import {type ListRenderItem} from '@shopify/flash-list';
 import {KeyboardController} from 'react-native-keyboard-controller';
 
 import {useAppKeyboardContext} from '@app/components/AppKeyBoardAwareScrollView/AppKeyBoardAwareScrollView';
 import {type ThemeProps} from '@app/theme/theme';
 import {useAppTheme} from '@app/theme/useAppTheme';
+import {isPrimitive} from '@app/utils/functions';
 
-import Input from '../Input/Input';
+import Input, {type InputCoreProps} from '../Input/Input';
 
 const stylesProps = (showPopover: boolean, theme: ThemeProps) => {
   const {radius, colors, spacing} = theme;
@@ -43,50 +36,51 @@ const stylesProps = (showPopover: boolean, theme: ThemeProps) => {
   return styles;
 };
 
-// TODO: create union type to differentiate between object data and primary type data
-type AutocompleteProps<T> = {
+type BaseAutocompleteProps<T> = {
   data: T[];
   ListEmptyComponent?: ReactElement;
   onSelectItem?: (data: T) => void;
+  value?: string;
+  onTextChange?: (value: string) => void;
   defaultValue?: T;
-  getSelectedItemLabel: (data: T) => string;
-} & TextInputProps;
-
-type AutocompletePropsDefault<T extends string> = {
-  filterOptions?: never;
-  renderItem: (item: T) => ReactNode;
-  customRender?: never;
 };
 
-type AutocompletePropsCustom<T extends object> = {
+interface PrimitiveAutocompleteProps<T> extends BaseAutocompleteProps<T> {
+  customRenderItem?: (item: T) => ReactNode;
   filterOptions?: (data: T[], value: string) => T[];
-  renderItem?: never;
-  customRender: (item: T) => ReactNode;
-};
+  getSelectedItemLabel?: (data: T) => string;
+}
 
-type AutoProps<T> = AutocompleteProps<T> &
-  (T extends object
-    ? AutocompletePropsCustom<T>
-    : T extends string
-      ? AutocompletePropsDefault<T>
-      : never);
+interface ObjectAutocompleteProps<T> extends BaseAutocompleteProps<T> {
+  customRenderItem: (item: T) => ReactNode;
+  filterOptions: (data: T[], value: string) => T[];
+  getSelectedItemLabel: (data: T) => string;
+}
 
-export default function Autocomplete<T>({
+type AutocompleteProps<T> = (T extends object
+  ? ObjectAutocompleteProps<T>
+  : PrimitiveAutocompleteProps<T>) &
+  InputCoreProps;
+
+// TODO: Add warning hook to handle all the possible mistakes that could be product of bad data
+
+const Autocomplete = <T,>({
   data,
-  renderItem,
+  customRenderItem,
   ListEmptyComponent,
   onSelectItem,
   filterOptions,
-  customRender,
+  getSelectedItemLabel,
   defaultValue,
   ...textInputProps
-}: AutoProps<T>) {
+}: AutocompleteProps<T>): ReactNode => {
   const {theme} = useAppTheme();
 
   const [showPopover, setShowPopover] = useState(false);
   const inputRef = useRef<TextInput>(null);
   const popoverInputRef = useRef<TextInput>(null);
   const [value, setValue] = useState<string>('');
+  const [selectedValue, setSelectedValue] = useState<T | undefined>(defaultValue);
   const styles = stylesProps(showPopover, theme);
 
   const {setIsScrollEnabled} = useAppKeyboardContext();
@@ -105,26 +99,39 @@ export default function Autocomplete<T>({
     setValue(value);
   };
 
+  const defaultRender = (data: T) => {
+    if (isPrimitive(data)) return String(data);
+    return '';
+  };
+
   const handleSelectedItem = (item: T) => {
     onSelectItem?.(item);
-    onChangeText(item);
+    onChangeText(getSelectedItemLabel?.(item) ?? defaultRender(item));
+    setSelectedValue(item);
     KeyboardController.dismiss();
+    setShowPopover(false);
   };
 
   // TODO: verify if it's necessary to  check if the passed array contains objects or strings
   const handleDataFilter = useMemo(() => {
     if (!value) return data;
-    if (filterOptions) return filterOptions(data, value);
+    if (filterOptions && typeof data === 'object') return filterOptions(data, value);
     return data.filter(e => String(e).toLowerCase().includes(value));
   }, [value, data, filterOptions]);
 
-  const pressableWrapper: ListRenderItem<T> = ({item, index}) => {
+  const pressableWrapper = ({item, index}: {item: T; index: number}) => {
+    if (!customRenderItem && isPrimitive(item))
+      return (
+        <TouchableOpacity
+          key={index}
+          onPress={() => handleSelectedItem(item)}
+          style={styles.listItemPressable}>
+          {String(item)}
+        </TouchableOpacity>
+      );
     return (
-      <TouchableOpacity
-        key={index}
-        onPress={() => handleSelectedItem(item)}
-        style={styles.listItemPressable}>
-        {renderItem(item)}
+      <TouchableOpacity key={index} onPress={() => handleSelectedItem(item)}>
+        {customRenderItem?.(item)}
       </TouchableOpacity>
     );
   };
@@ -134,7 +141,6 @@ export default function Autocomplete<T>({
       <View style={styles.inputContainer}>
         <Input
           {...textInputProps}
-          label="moneda"
           inputRef={inputRef}
           value={value}
           testID="autocomplete_input"
@@ -166,4 +172,6 @@ export default function Autocomplete<T>({
       </View>
     </View>
   );
-}
+};
+
+export default Autocomplete;

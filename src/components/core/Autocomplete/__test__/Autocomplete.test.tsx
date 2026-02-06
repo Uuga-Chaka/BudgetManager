@@ -44,10 +44,10 @@ const setup = <T,>({
 
   render(
     <AppKeyBoardAwareScrollView>
-      <Autocomplete<T>
+      <Autocomplete
         placeholder="autocomplete"
         data={data ?? []}
-        renderItem={renderItem || renderItemMock}
+        customRenderItem={renderItem || renderItemMock}
         ListEmptyComponent={<Text>{emptyText}</Text>}
         filterOptions={filterOptions}
       />
