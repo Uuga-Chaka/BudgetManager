@@ -41,6 +41,7 @@ const semanticColors = {
 const basic = {
   transparent: themeColors.transparent,
 
+  basic_200: themeColors.basic_200,
   basic_800: themeColors.basic_900,
 
   basicTrans_100: themeColors.basicTrans_100,

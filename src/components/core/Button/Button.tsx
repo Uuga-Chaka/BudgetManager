@@ -27,7 +27,7 @@ const ButtonVariant = {
 
 type ButtonVariantType = keyof typeof ButtonVariant;
 
-const getButtonVariants = (theme: ThemeProps) => {
+const getButtonVariants = (theme: ThemeProps, disabled?: boolean) => {
   const {colors, spacing, radius} = theme;
   const baseView: ViewStyle = {
     borderRadius: radius.s,
@@ -39,7 +39,7 @@ const getButtonVariants = (theme: ThemeProps) => {
   };
 
   const baseText: TextStyle = {
-    color: colors.black,
+    color: disabled ? colors.white : colors.primary,
     textAlign: 'center',
   };
 
@@ -62,12 +62,12 @@ const getButtonVariants = (theme: ThemeProps) => {
       },
       text: {
         ...baseText,
-        color: colors.primary,
+        color: disabled ? colors.basic_200 : colors.primary,
       },
     },
     ghost: {
       container: {...baseView},
-      text: {...baseText, color: colors.primary},
+      text: {...baseText, color: disabled ? colors.basic_200 : colors.primary},
     },
   } as const satisfies Record<ButtonVariantType, Record<string, ViewStyle | TextStyle>>;
 };
@@ -91,14 +91,18 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const {theme, colors} = useAppTheme();
+  const {disabled} = props;
 
-  const selectedAppearance = getButtonVariants(theme);
+  const selectedAppearance = getButtonVariants(theme, disabled ?? false);
   const correctAppearance = selectedAppearance[variant] || selectedAppearance.filled;
 
   const pressed = useSharedValue(0);
 
-  const baseColor = colors[status] || colors.primary;
-  const pressedColor = colors[`${status}_700`] || colors.primary_700;
+  const baseColor = disabled ? colors.basic_200 : colors[status] || colors.primary;
+  const pressedColor = disabled ? colors.basic_200 : colors[`${status}_700`] || colors.primary_700;
+
+  const ghostBaseColor = colors.transparent;
+  const ghostPressedColor = disabled ? colors.basic_200 : colors.basicTrans_100;
 
   const animatedContainerStyle = useAnimatedStyle(() => {
     const pressedPrimary = interpolateColor(pressed.value, [0, 1], [baseColor, pressedColor]);
@@ -106,7 +110,7 @@ export default function Button({
     const pressedGhost = interpolateColor(
       pressed.value,
       [0, 1],
-      [colors.transparent, colors.basicTrans_100],
+      [ghostBaseColor, ghostPressedColor],
     );
     switch (variant) {
       case ButtonVariant.filled:
