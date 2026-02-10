@@ -9,8 +9,11 @@ export const InputForm = <T extends FieldValues>({
   defaultValue,
   disabled,
   shouldUnregister,
+  inputStyle,
+  containerStyle,
+  disableErrorMsg,
   ...props
-}: UseControllerProps<T> & InputCoreProps) => {
+}: UseControllerProps<T> & InputCoreProps & {disableErrorMsg?: boolean}) => {
   return (
     <Controller
       name={name}
@@ -25,9 +28,11 @@ export const InputForm = <T extends FieldValues>({
             {...fieldRest}
             onChangeText={onChange}
             {...props}
+            containerStyle={containerStyle}
+            textInputStyle={inputStyle}
             // TODO: Implement disabled state
             // disabled={disabled}
-            errorMessage={error?.message}
+            errorMessage={disableErrorMsg ? undefined : error?.message}
             // TODO: Implement isInvalid state
             // isInvalid={!!error}
           />

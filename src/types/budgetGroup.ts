@@ -1,7 +1,7 @@
 export type PercentageBudget = {
   id: number;
   name: string;
-  percentage: string;
+  percentage: number;
 };
 
 export type PercentageBudgetGroup = PercentageBudget[];

@@ -43,10 +43,12 @@ const styleProps = ({isFocused, theme}: {theme: ThemeProps; isFocused: boolean})
 };
 
 export type InputCoreProps = {
-  label: string;
   containerStyle?: StyleProp<ViewStyle>;
-  inputRef?: Ref<TextInput>;
   errorMessage?: string;
+  inputRef?: Ref<TextInput>;
+  inputStyle?: StyleProp<ViewStyle>;
+  label: string;
+  textInputStyle?: StyleProp<ViewStyle>;
 } & TextInputProps;
 
 export default function Input({
@@ -55,6 +57,7 @@ export default function Input({
   containerStyle,
   onLayout,
   errorMessage,
+  textInputStyle,
   inputRef,
   ...props
 }: InputCoreProps) {
@@ -81,7 +84,7 @@ export default function Input({
       <TextInput
         {...props}
         ref={inputRef}
-        style={styles.textInput}
+        style={[styles.textInput, textInputStyle]}
         onFocus={_onFocus}
         onBlur={_onBlur}
         placeholderTextColor={theme.colors.textHint}
