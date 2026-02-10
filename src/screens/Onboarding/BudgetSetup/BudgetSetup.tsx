@@ -1,6 +1,9 @@
 import React, {useCallback, useState} from 'react';
 import {View} from 'react-native';
 
+import {zodResolver} from '@hookform/resolvers/zod';
+import {useForm} from 'react-hook-form';
+
 import AppKeyBoardAwareScrollView from '@app/components/AppKeyBoardAwareScrollView/AppKeyBoardAwareScrollView';
 import Button from '@app/components/core/Button/Button';
 import Input from '@app/components/core/Input/Input';
@@ -11,12 +14,28 @@ import {Routes, type RootOnboardingScreenProps} from '@app/navigation/navigation
 import {type PercentageBudgetGroup} from '@app/types/budgetGroup';
 
 import {DEFAULT_PERCENTAGE} from './BudgetSetup.const';
+import {type BudgetFormData, budgetSchema} from './BudgetSetup.schema';
 
 export default function BudgetSetup({
   navigation,
 }: RootOnboardingScreenProps<typeof Routes.BudgetSetup>) {
   const [budgetGroup, setBudgetGroup] = useState<PercentageBudgetGroup>(DEFAULT_PERCENTAGE);
   const [groupName, setGroupName] = useState('Mi presupuesto');
+
+  const {
+    control,
+    watch,
+    setValue,
+    handleSubmit,
+    formState: {isValid},
+  } = useForm<BudgetFormData>({
+    resolver: zodResolver(budgetSchema),
+    mode: 'onChange',
+    defaultValues: {
+      percentageGroupName: '',
+      percentageGroups: [],
+    },
+  });
 
   const removeBudget = useCallback((id: number) => {
     setBudgetGroup(prev => prev.filter(item => item.id !== id));
