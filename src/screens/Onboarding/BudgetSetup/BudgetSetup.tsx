@@ -65,9 +65,9 @@ export default function BudgetSetup({
     const maxId = groupList.length > 0 ? Math.max(...groupList.map(e => e.id)) : 0;
     const newId = maxId + 1;
     append({id: newId, name: '', percentage: 0});
-  }, []);
+  }, [groupList]);
 
-  const goNext = handleSubmit(data => {
+  const handleNext = handleSubmit(data => {
     setPercentageGroupName(data.percentageGroupName);
     setPercentageGroups(data.percentageGroups);
     navigation.navigate(Routes.CategoriesSetup);
@@ -106,7 +106,7 @@ export default function BudgetSetup({
         <Button status="info" onPress={addPercentage}>
           Añadir porcentaje
         </Button>
-        <Button onPress={goNext} disabled={!isValid}>
+        <Button onPress={handleNext} disabled={!isValid}>
           Siguiente
         </Button>
       </View>
