@@ -7,7 +7,6 @@ type SetupStoreState = {
   incomeName: string;
   countryCode: string;
   incomeAmount: number;
-  incomeType: string;
 
   // ##---PERCENTAGE GROUP---##
   percentageGroupName: string;
@@ -22,7 +21,6 @@ type SetupStoreActions = {
   setIncomeName: (incomeName: SetupStoreState['incomeName']) => void;
   setCountryCode: (countryCode: SetupStoreState['countryCode']) => void;
   setIncomeAmount: (incomeAmount: SetupStoreState['incomeAmount']) => void;
-  setIncomeType: (incomeType: SetupStoreState['incomeType']) => void;
 
   // ##---PERCENTAGE GROUP---##
   setPercentageGroupName: (percentageGroupName: SetupStoreState['percentageGroupName']) => void;
@@ -34,7 +32,7 @@ type SetupStoreActions = {
 
 type SetupStore = SetupStoreActions & SetupStoreState;
 
-export const useStore = create<SetupStore>()(set => ({
+export const useSetupStore = create<SetupStore>()(set => ({
   // ##---BUDGET SETUP---##
   incomeName: '',
   setIncomeName: incomeName => set(() => ({incomeName})),
@@ -42,8 +40,6 @@ export const useStore = create<SetupStore>()(set => ({
   setCountryCode: countryCode => set(() => ({countryCode})),
   incomeAmount: 0,
   setIncomeAmount: incomeAmount => set(() => ({incomeAmount})),
-  incomeType: '',
-  setIncomeType: incomeType => set(() => ({incomeType})),
 
   // ##---PERCENTAGE GROUP---##
   percentageGroupName: '',

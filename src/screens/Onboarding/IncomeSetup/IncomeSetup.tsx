@@ -10,6 +10,7 @@ import Button from '@app/components/core/Button/Button';
 import Text from '@app/components/core/Text/Text';
 import {InputForm} from '@app/components/formComponents/InputForm';
 import {Routes, type RootOnboardingScreenProps} from '@app/navigation/navigation.types';
+import {useSetupStore} from '@app/store';
 import {useLocaleStore} from '@app/store/localeStore';
 import {type ThemeProps} from '@app/theme/theme';
 import {useAppTheme} from '@app/theme/useAppTheme';
@@ -47,8 +48,8 @@ const selectedItemLabel = ({countryName, currency, symbol}: CountryInfo) =>
 export default function IncomeSetup({
   navigation,
 }: RootOnboardingScreenProps<typeof Routes.IncomeSetup>) {
-  const navigate = () => navigation.push(Routes.BudgetSetup);
   const {availableRegions} = useLocaleStore();
+  const {setIncomeAmount, setCountryCode, setIncomeName} = useSetupStore();
 
   const {theme} = useAppTheme();
   const styles = styleProps(theme);
@@ -57,15 +58,24 @@ export default function IncomeSetup({
     control,
     watch,
     setValue,
+    handleSubmit,
     formState: {isValid},
   } = useForm<IncomeFormData>({
     resolver: zodResolver(incomeSchema),
     mode: 'onChange',
     defaultValues: {
       incomeName: '',
-      amount: '',
+      amount: 0,
       currency: '',
     },
+  });
+
+  const handleNext = handleSubmit(data => {
+    setIncomeAmount(data.amount);
+    setCountryCode(data.currency);
+    setIncomeName(data.incomeName);
+
+    navigation.push(Routes.BudgetSetup);
   });
 
   const selectedCurrency = watch('currency');
@@ -135,7 +145,7 @@ export default function IncomeSetup({
           value={visualMoney}
           inputMode="numeric"
         />
-        <Button variant="outline" onPress={navigate} disabled={!isValid}>
+        <Button variant="outline" onPress={handleNext} disabled={!isValid}>
           Siguiente
         </Button>
       </View>
