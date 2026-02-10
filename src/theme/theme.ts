@@ -42,9 +42,11 @@ const basic = {
   transparent: themeColors.transparent,
 
   basic_200: themeColors.basic_200,
+  basic_700: themeColors.basic_700,
   basic_800: themeColors.basic_900,
 
   basicTrans_100: themeColors.basicTrans_100,
+  basicTrans_300: themeColors.basicTrans_300,
 };
 
 export const theme = {

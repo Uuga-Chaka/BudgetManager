@@ -53,7 +53,12 @@ export default function IncomeSetup({
   const {theme} = useAppTheme();
   const styles = styleProps(theme);
 
-  const {control, watch, setValue} = useForm<IncomeFormData>({
+  const {
+    control,
+    watch,
+    setValue,
+    formState: {isValid},
+  } = useForm<IncomeFormData>({
     resolver: zodResolver(incomeSchema),
     mode: 'onChange',
     defaultValues: {
@@ -130,7 +135,7 @@ export default function IncomeSetup({
           value={visualMoney}
           inputMode="numeric"
         />
-        <Button variant="outline" onPress={navigate}>
+        <Button variant="outline" onPress={navigate} disabled={!isValid}>
           Siguiente
         </Button>
       </View>

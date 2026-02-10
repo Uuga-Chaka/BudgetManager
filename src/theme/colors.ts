@@ -6,7 +6,7 @@ export const themeColors = {
   primary_200: '#FCACAC',
   primary_300: '#F8818C',
   primary_400: '#F2617C',
-  primary_500: '#EA2F65',
+  primary_500: '#E1265C',
   primary_600: '#C92262',
   primary_700: '#A8175D',
   primary_800: '#870E55',
@@ -60,6 +60,7 @@ export const themeColors = {
 
   basic_100: '#fff',
   basic_200: '#c1c1c1',
+  basic_500: '#777777',
   basic_700: '#5b5b5b',
   basic_800: '#28282c',
   basic_900: '#1e1b1d',
@@ -70,4 +71,5 @@ export const themeColors = {
   basicTrans_100: '#a4a4a47a',
   basicTrans_300: '#8c89898f',
   basicTrans_200: '#28282866',
+  basicTrans_700: '#5b5b5b80',
 };
