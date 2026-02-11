@@ -7,6 +7,7 @@ import BudgetSetup from '@app/screens/Onboarding/BudgetSetup/BudgetSetup';
 import CategoriesSetup from '@app/screens/Onboarding/CategoriesSetup/CategoriesSetup';
 import IncomeSetup from '@app/screens/Onboarding/IncomeSetup/IncomeSetup';
 import Introduction from '@app/screens/Onboarding/Introduction/Introduction';
+import ResumeSetup from '@app/screens/Onboarding/ResumeSetup/ResumeSetup';
 
 import {type OnboardingParamList, Routes} from './navigation.types';
 
@@ -23,6 +24,7 @@ export default function OnboardingRouter() {
         <Screen name={Routes.IncomeSetup} component={IncomeSetup} />
         <Screen name={Routes.BudgetSetup} component={BudgetSetup} />
         <Screen name={Routes.CategoriesSetup} component={CategoriesSetup} />
+        <Screen name={Routes.ResumeSetup} component={ResumeSetup} />
       </Group>
     </Navigator>
   );

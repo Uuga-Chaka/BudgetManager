@@ -11,7 +11,7 @@ export const budgetSchema = z.object({
       z.object({
         id: z.number(),
         name: z.string().trim().min(1, 'El nombre del grupo es requerido'),
-        percentage: z.coerce.number<number>().min(0).max(100),
+        percentage: z.coerce.number<number>().min(1).max(100),
       }),
     )
     .min(1, 'Debes agregar al menos un grupo')
