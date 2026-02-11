@@ -15,6 +15,7 @@ import {useSetupStore} from '@app/store';
 import {type ThemeProps} from '@app/theme/theme';
 import {useAppTheme} from '@app/theme/useAppTheme';
 
+import {DEFAULT_PERCENTAGE} from './BudgetSetup.const';
 import {type BudgetFormData, budgetSchema} from './BudgetSetup.schema';
 
 const styleProps = (theme: ThemeProps) => {
@@ -53,8 +54,8 @@ export default function BudgetSetup({
     resolver: zodResolver(budgetSchema),
     mode: 'onChange',
     defaultValues: {
-      percentageGroupName: '',
-      percentageGroups: [],
+      percentageGroupName: 'My group name',
+      percentageGroups: DEFAULT_PERCENTAGE,
     },
   });
 
@@ -97,6 +98,8 @@ export default function BudgetSetup({
             <InputForm
               containerStyle={styles.percentageInput}
               label="%"
+              keyboardType="numeric"
+              value={field.percentage.toString()}
               name={`percentageGroups.${index}.percentage`}
               control={control}
             />

@@ -4,16 +4,16 @@ export const DEFAULT_PERCENTAGE: PercentageBudgetGroup = [
   {
     id: 1,
     name: 'Necesidades',
-    percentage: '50',
+    percentage: 50,
   },
   {
     id: 2,
     name: 'Deseos',
-    percentage: '30',
+    percentage: 30,
   },
   {
     id: 3,
     name: 'Ahorros',
-    percentage: '20',
+    percentage: 20,
   },
 ];

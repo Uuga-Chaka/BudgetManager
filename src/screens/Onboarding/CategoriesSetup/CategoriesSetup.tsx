@@ -1,32 +1,69 @@
-import React, {useCallback, useState} from 'react';
-import {View} from 'react-native';
+import React, {useCallback} from 'react';
+import {StyleSheet, View} from 'react-native';
 
+import {zodResolver} from '@hookform/resolvers/zod';
+import {useFieldArray, useForm} from 'react-hook-form';
+
+import {TrashIcon} from '@app/assets/Icons';
 import AppKeyBoardAwareScrollView from '@app/components/AppKeyBoardAwareScrollView/AppKeyBoardAwareScrollView';
 import Button from '@app/components/core/Button/Button';
 import Text from '@app/components/core/Text/Text';
-import PercentageDistributionInput from '@app/components/PercentageDistributionInput/PercentageDistributionInput';
+import {InputForm} from '@app/components/formComponents/InputForm';
 import {size} from '@app/consts/styles';
+import {useSetupStore} from '@app/store';
+import {type ThemeProps} from '@app/theme/theme';
+import {useAppTheme} from '@app/theme/useAppTheme';
 
 import {RECOMMENDED_CATEGORIES} from './CategoriesSetup.const';
+import {categorySchema, type CategoryFormData} from './CategoriesSetup.schema';
+
+const styleProps = (theme: ThemeProps) => {
+  const styles = StyleSheet.create({
+    container: {
+      alignItems: 'flex-end',
+      flexDirection: 'row',
+      gap: theme.spacing.s,
+    },
+    nameInput: {
+      flex: 1,
+    },
+  });
+  return styles;
+};
 
 export default function CategoriesSetup() {
-  const [categories, setCategories] = useState(RECOMMENDED_CATEGORIES);
+  const {theme} = useAppTheme();
+  const styles = styleProps(theme);
+  const {setCategories} = useSetupStore();
 
-  const onDeleteCategory = useCallback((id: number) => {
-    setCategories(prev => prev.filter(e => e.id !== id));
-  }, []);
+  const {
+    control,
+    watch,
+    handleSubmit,
+    formState: {isValid},
+  } = useForm<CategoryFormData>({
+    mode: 'onChange',
+    resolver: zodResolver(categorySchema),
+    defaultValues: {
+      categories: RECOMMENDED_CATEGORIES,
+    },
+  });
 
-  const onAddCategory = () => {
-    setCategories(prev => {
-      const maxId = prev.length > 0 ? Math.max(...prev.map(e => e.id)) : 0;
-      const newId = maxId + 1;
-      return [...prev, {id: newId, name: ''}];
-    });
-  };
+  const {fields, remove, append} = useFieldArray({control, name: 'categories'});
 
-  const onChangeCategoryName = (value: string, id: number) => {
-    setCategories(prev => prev.map(e => (e.id === id ? {...e, name: value} : e)));
-  };
+  const categoriesList = watch('categories');
+
+  const onAddCategory = useCallback(() => {
+    const maxId = categoriesList.length > 0 ? Math.max(...categoriesList.map(e => e.id)) : 0;
+    const newId = maxId + 1;
+    append({id: newId, name: ''});
+  }, [categoriesList]);
+
+  const handleNext = handleSubmit(data => {
+    setCategories(data.categories);
+    // navigation.navigate(Routes.CategoriesSetup);
+  });
+
   return (
     <AppKeyBoardAwareScrollView>
       <View style={{gap: size.l}}>
@@ -36,21 +73,24 @@ export default function CategoriesSetup() {
           configuración
         </Text>
 
-        {categories.map(({name, id}) => (
-          <PercentageDistributionInput
-            withPercentage={false}
-            name={name}
-            key={id}
-            id={id}
-            onNameChange={onChangeCategoryName}
-            onDeleteButtonPress={onDeleteCategory}
-          />
+        {fields.map((field, index) => (
+          <View style={styles.container} key={field.id}>
+            <InputForm
+              containerStyle={styles.nameInput}
+              label="Nombre"
+              name={`categories.${index}.name`}
+              control={control}
+            />
+            <Button variant="ghost" onPress={() => remove(index)} IconRight={TrashIcon} />
+          </View>
         ))}
 
         <Button status="info" onPress={onAddCategory}>
           Añadir categoria
         </Button>
-        <Button>Siguiente</Button>
+        <Button onPress={handleNext} disabled={!isValid}>
+          Siguiente
+        </Button>
       </View>
     </AppKeyBoardAwareScrollView>
   );

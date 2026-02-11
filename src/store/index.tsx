@@ -13,7 +13,7 @@ type SetupStoreState = {
   percentageGroups: PercentageBudgetGroup;
 
   // ##---CATEGORIES---##
-  categories: string[];
+  categories: {id: number; name: string}[];
 };
 
 type SetupStoreActions = {
