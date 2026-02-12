@@ -2,9 +2,10 @@ import {Database} from '@nozbe/watermelondb';
 import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite';
 
 import migrations from './migrations';
-import AccountModel from './models/accounts';
+import BudgetModel from './models/budget';
 import BudgetGroupModel from './models/budgetGroup';
 import CategoriesModel from './models/categories';
+import IncomeModel from './models/income';
 import MonthlyBudgetModel from './models/monthlyBudget';
 import ScheduledTransactionsModel from './models/scheduledTransactions';
 import TransactionModel from './models/transaction';
@@ -15,7 +16,7 @@ import schema from './schema';
 const adapter = new SQLiteAdapter({
   schema,
   // (You might want to comment it out for development purposes -- see Migrations documentation)
-  migrations,
+  // migrations,
   // (optional database name or file system path)
   // dbName: 'myapp',
   // (recommended option, should work flawlessly out of the box on iOS. On Android,
@@ -31,11 +32,12 @@ const adapter = new SQLiteAdapter({
 export const database = new Database({
   adapter,
   modelClasses: [
-    AccountModel,
+    IncomeModel,
+    BudgetModel,
     BudgetGroupModel,
-    CategoriesModel,
-    MonthlyBudgetModel,
-    ScheduledTransactionsModel,
-    TransactionModel,
+    // CategoriesModel,
+    // MonthlyBudgetModel,
+    // ScheduledTransactionsModel,
+    // TransactionModel,
   ],
 });

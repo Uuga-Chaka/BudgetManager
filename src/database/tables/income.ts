@@ -1,16 +1,12 @@
 import {tableSchema} from '@nozbe/watermelondb';
 
-import {ACCOUNTS, CREATED_AT, CURRENCY, CURRENT_BALANCE, NAME, TYPE, UPDATED_AT} from '../consts';
+import {tables, CREATED_AT, CURRENCY, CURRENT_BALANCE, NAME, UPDATED_AT} from '../consts';
 
-export const accountsTable = tableSchema({
-  name: ACCOUNTS,
+export const incomeTable = tableSchema({
+  name: tables.INCOME,
   columns: [
     {
       name: NAME,
-      type: 'string',
-    },
-    {
-      name: TYPE, // Cash, Debit, Savings, Credit
       type: 'string',
     },
     {
@@ -23,11 +19,11 @@ export const accountsTable = tableSchema({
     },
     {
       name: CREATED_AT,
-      type: 'string',
+      type: 'number',
     },
     {
       name: UPDATED_AT,
-      type: 'string',
+      type: 'number',
     },
   ],
 });

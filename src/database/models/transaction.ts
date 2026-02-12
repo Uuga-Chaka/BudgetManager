@@ -1,11 +1,11 @@
 import {Model, Relation} from '@nozbe/watermelondb';
 import {field, date, relation, readonly} from '@nozbe/watermelondb/decorators';
 
-import AccountModel from './accounts';
 import CategoriesModel from './categories';
+import IncomeModel from './income';
 import {
   ACCOUNT_ID,
-  ACCOUNTS,
+  INCOME,
   AMOUNT,
   CATEGORIES,
   CATEGORY_ID,
@@ -23,7 +23,7 @@ export default class TransactionModel extends Model {
   static table = TRANSACTIONS;
 
   static associations = {
-    [ACCOUNTS]: {type: 'belongs_to', key: 'account_id'},
+    [INCOME]: {type: 'belongs_to', key: 'account_id'},
     [CATEGORIES]: {type: 'belongs_to', key: 'category_id'},
   } as const;
 
@@ -35,7 +35,7 @@ export default class TransactionModel extends Model {
   @readonly @date(UPDATED_AT) updatedAt!: Date;
 
   // Relations
-  @relation(ACCOUNTS, ACCOUNT_ID) account!: Relation<AccountModel>;
+  @relation(INCOME, ACCOUNT_ID) account!: Relation<IncomeModel>;
   @relation(CATEGORIES, CATEGORY_ID) category!: Relation<CategoriesModel>;
 
   // For Transfers only

@@ -1,11 +1,14 @@
 // Tables name
-export const ACCOUNTS = 'accounts';
-export const BUDGET_GROUPS = 'budget_groups';
-export const CATEGORIES = 'categories';
-export const MONTHLY_BUDGET = 'monthly_budgets';
-export const SCHEDULES_TRANSACTIONS = 'scheduled_transactions';
-export const TRANSACTIONS = 'transactions';
-export const BUDGET_HISTORY = 'budget_history';
+export const tables = {
+  INCOME: 'income',
+  BUDGET_GROUPS: 'budget_group',
+  BUDGET: 'budget',
+  CATEGORIES: 'categories',
+  MONTHLY_BUDGET: 'monthly_budgets',
+  SCHEDULES_TRANSACTIONS: 'scheduled_transactions',
+  TRANSACTIONS: 'transactions',
+  BUDGET_HISTORY: 'budget_history',
+} as const;
 
 // Column name
 
@@ -31,6 +34,7 @@ export const CURRENCY = 'currency';
 
 // budget_groups
 export const TARGET_PERCENTAGE = 'target_percentage';
+export const BUDGET_GROUP_ID = 'budget_group_id';
 
 // categories
 export const COLOR = 'color';

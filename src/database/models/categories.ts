@@ -29,7 +29,7 @@ export default class CategoriesModel extends Model {
 
   @field(NAME) name!: string;
   @field(COLOR) color!: string;
-  @field(IS_SYSTEM_CATEGORY) isSystemCategory: boolean = false;
+  @field(IS_SYSTEM_CATEGORY) isSystemCategory!: boolean;
 
   @readonly @date(CREATED_AT) createdAt!: Date;
   @readonly @date(UPDATED_AT) updatedAt!: Date;

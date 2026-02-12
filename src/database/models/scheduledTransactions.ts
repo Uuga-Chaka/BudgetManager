@@ -4,7 +4,7 @@ import {Associations} from '@nozbe/watermelondb/Model';
 
 import {
   ACCOUNT_ID,
-  ACCOUNTS,
+  INCOME,
   ACTIVE,
   AMOUNT,
   CATEGORIES,
@@ -13,14 +13,14 @@ import {
   DESCRIPTION,
   SCHEDULES_TRANSACTIONS,
 } from '../consts';
-import AccountModel from './accounts';
 import CategoriesModel from './categories';
+import IncomeModel from './income';
 
 export default class ScheduledTransactionsModel extends Model {
   static table: string = SCHEDULES_TRANSACTIONS;
 
   static associations: Associations = {
-    [ACCOUNTS]: {type: 'belongs_to', key: ACCOUNT_ID},
+    [INCOME]: {type: 'belongs_to', key: ACCOUNT_ID},
     [CATEGORIES]: {type: 'belongs_to', key: CATEGORY_ID},
   };
 
@@ -29,6 +29,6 @@ export default class ScheduledTransactionsModel extends Model {
   @field(DAY_OF_MONTH) dayOfMonth!: number;
   @field(ACTIVE) active!: boolean;
 
-  @relation(ACCOUNTS, ACCOUNT_ID) account!: Relation<AccountModel>;
+  @relation(INCOME, ACCOUNT_ID) account!: Relation<IncomeModel>;
   @relation(CATEGORIES, CATEGORY_ID) category!: Relation<CategoriesModel>;
 }
