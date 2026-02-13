@@ -35,7 +35,7 @@ export const database = new Database({
     IncomeModel,
     BudgetModel,
     BudgetGroupModel,
-    // CategoriesModel,
+    CategoriesModel,
     // MonthlyBudgetModel,
     // ScheduledTransactionsModel,
     // TransactionModel,

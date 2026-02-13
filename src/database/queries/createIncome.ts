@@ -2,6 +2,7 @@ import {database} from '..';
 import {tables} from '../consts';
 
 import type BudgetGroupModel from '../models/budgetGroup';
+import type CategoriesModel from '../models/categories';
 import type IncomeModel from '../models/income';
 
 interface CreateIncomePayload {
@@ -53,5 +54,27 @@ export const createBudgetGroup = async ({
     });
   } catch (error) {
     console.error(`[Database Error] Failed to create budget group "${name}":`, error);
+  }
+};
+
+export const createCategories = async (categories: {name: string}[]) => {
+  try {
+    return await database.write(async () => {
+      const categoriesCollection = database.get<CategoriesModel>(tables.CATEGORIES);
+      const preparedRecords = categories
+        .filter(({name}) => name.trim().length > 0)
+        .map(({name}) =>
+          categoriesCollection.prepareCreate(category => {
+            category.name = name.trim();
+          }),
+        );
+
+      if (preparedRecords.length === 0) return [];
+      await database.batch(...preparedRecords);
+
+      return preparedRecords;
+    });
+  } catch (error) {
+    console.error(`[Database Error] Failed to create categories`, {categories, error});
   }
 };

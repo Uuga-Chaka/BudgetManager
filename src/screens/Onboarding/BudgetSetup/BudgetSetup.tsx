@@ -10,8 +10,7 @@ import Button from '@app/components/core/Button/Button';
 import Text from '@app/components/core/Text/Text';
 import {InputForm} from '@app/components/formComponents/InputForm';
 import {size} from '@app/consts/styles';
-import {createBudgetGroup} from '@app/database/queries/createIncome';
-import {type Routes, type RootOnboardingScreenProps} from '@app/navigation/navigation.types';
+import {Routes, type RootOnboardingScreenProps} from '@app/navigation/navigation.types';
 import {useSetupStore} from '@app/store';
 import {type ThemeProps} from '@app/theme/theme';
 import {useAppTheme} from '@app/theme/useAppTheme';
@@ -72,8 +71,7 @@ export default function BudgetSetup({
   const handleNext = handleSubmit(data => {
     setPercentageGroupName(data.percentageGroupName);
     setPercentageGroups(data.percentageGroups);
-    createBudgetGroup({name: data.percentageGroupName, budgetList: data.percentageGroups});
-    // navigation.navigate(Routes.CategoriesSetup);
+    navigation.navigate(Routes.CategoriesSetup);
   });
 
   return (
