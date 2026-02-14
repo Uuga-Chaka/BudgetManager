@@ -29,7 +29,7 @@ export const CREATED_AT = 'created_at';
 export const UPDATED_AT = 'updated_at';
 
 // accounts
-export const CURRENT_BALANCE = 'current_balance';
+export const INCOME_AMOUNT = 'income_amount';
 export const CURRENCY = 'currency';
 
 // budget_groups

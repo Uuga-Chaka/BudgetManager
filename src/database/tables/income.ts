@@ -1,6 +1,6 @@
 import {tableSchema} from '@nozbe/watermelondb';
 
-import {tables, CREATED_AT, CURRENCY, CURRENT_BALANCE, NAME, UPDATED_AT} from '../consts';
+import {tables, CREATED_AT, CURRENCY, INCOME_AMOUNT, NAME, UPDATED_AT} from '../consts';
 
 export const incomeTable = tableSchema({
   name: tables.INCOME,
@@ -10,7 +10,7 @@ export const incomeTable = tableSchema({
       type: 'string',
     },
     {
-      name: CURRENT_BALANCE,
+      name: INCOME_AMOUNT,
       type: 'number',
     },
     {

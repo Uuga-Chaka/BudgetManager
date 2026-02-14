@@ -9,7 +9,6 @@ import Autocomplete from '@app/components/core/Autocomplete/Autocomplete';
 import Button from '@app/components/core/Button/Button';
 import Text from '@app/components/core/Text/Text';
 import {InputForm} from '@app/components/formComponents/InputForm';
-import {createIncome} from '@app/database/queries/createIncome';
 import {Routes, type RootOnboardingScreenProps} from '@app/navigation/navigation.types';
 import {useSetupStore} from '@app/store';
 import {useLocaleStore} from '@app/store/localeStore';

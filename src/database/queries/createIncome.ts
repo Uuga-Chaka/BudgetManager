@@ -20,7 +20,7 @@ export const createIncome = async ({
     return await database.write(async () => {
       const newIncome = await database.get<IncomeModel>(tables.INCOME).create(income => {
         income.name = name;
-        income.currentBalance = currentBalance;
+        income.incomeAmount = currentBalance;
         income.currency = currency;
       });
 
@@ -76,5 +76,93 @@ export const createCategories = async (categories: {name: string}[]) => {
     });
   } catch (error) {
     console.error(`[Database Error] Failed to create categories`, {categories, error});
+  }
+};
+
+interface SetupDataPayload {
+  income: {
+    name: string;
+    incomeAmount: number;
+    currency: string;
+  };
+  budgetGroup: {
+    name: string;
+    budgets: {name: string; percentage: number}[];
+  };
+  categories: {name: string}[];
+}
+
+export const initializeAccountSetup = async ({
+  income,
+  budgetGroup,
+  categories,
+}: SetupDataPayload) => {
+  try {
+    return await database.write(async writer => {
+      const newIncome = await database.get<IncomeModel>(tables.INCOME).create(i => {
+        i.name = income.name;
+        i.incomeAmount = income.incomeAmount;
+        i.currency = income.currency;
+      });
+
+      const newBudgetGroup = await database
+        .get<BudgetGroupModel>(tables.BUDGET_GROUPS)
+        .create(bg => {
+          bg.name = budgetGroup.name;
+        });
+      const newBudgets = await writer.callWriter(() =>
+        newBudgetGroup.addBudgetGroup(budgetGroup.budgets),
+      );
+
+      const categoriesCollection = database.get<CategoriesModel>(tables.CATEGORIES);
+      const preparedCategories = categories
+        .filter(c => c.name.trim().length > 0)
+        .map(c =>
+          categoriesCollection.prepareCreate(cat => {
+            cat.name = c.name.trim();
+          }),
+        );
+
+      if (preparedCategories.length > 0) {
+        await database.batch(...preparedCategories);
+      }
+
+      return {
+        income: newIncome,
+        budgetGroup: newBudgetGroup,
+        budgets: newBudgets,
+        categories: preparedCategories,
+      };
+    });
+  } catch (error) {
+    console.error(`[Database Error] Critical failure during combined setup:`, error);
+    throw error;
+  }
+};
+
+export const getAllBudgetGroups = async () => {
+  try {
+    return await database.get<BudgetGroupModel>(tables.BUDGET_GROUPS).query().fetch();
+  } catch (error) {
+    console.error(`[Database Error] Failed to get all budget group`, error);
+    return [];
+  }
+};
+
+export const getAllCategories = async () => {
+  try {
+    return await database.get<CategoriesModel>(tables.CATEGORIES).query().fetch();
+  } catch (error) {
+    console.error(`[Database Error] Failed to get all categories`, error);
+    return [];
+  }
+};
+
+export const getAllIncomes = async () => {
+  try {
+    const incomes = await database.get<IncomeModel>(tables.INCOME).query().fetch();
+    return incomes?.[0];
+  } catch (error) {
+    console.error(`[Database Error] Failed to get all incomes`, error);
   }
 };

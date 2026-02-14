@@ -10,7 +10,6 @@ import Button from '@app/components/core/Button/Button';
 import Text from '@app/components/core/Text/Text';
 import {InputForm} from '@app/components/formComponents/InputForm';
 import {size} from '@app/consts/styles';
-import {createCategories} from '@app/database/queries/createIncome';
 import {type RootOnboardingScreenProps, Routes} from '@app/navigation/navigation.types';
 import {useSetupStore} from '@app/store';
 import {type ThemeProps} from '@app/theme/theme';

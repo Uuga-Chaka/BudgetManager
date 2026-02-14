@@ -28,6 +28,7 @@ export const Routes = {
   BudgetSetup: 'BudgetSetup',
   CategoriesSetup: 'CategoriesSetup',
   ResumeSetup: 'ResumeSetup',
+  ScheduleTransactions: 'ScheduleTransactions',
 } as const;
 
 export type RootStackParamList = {
@@ -47,6 +48,7 @@ export type OnboardingParamList = {
   [Routes.BudgetSetup]: undefined;
   [Routes.CategoriesSetup]: undefined;
   [Routes.ResumeSetup]: undefined;
+  [Routes.ScheduleTransactions]: undefined;
 };
 
 // types for screen components props

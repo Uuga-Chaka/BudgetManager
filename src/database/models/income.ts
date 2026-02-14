@@ -7,7 +7,7 @@ import {
   tables,
   CREATED_AT,
   CURRENCY,
-  CURRENT_BALANCE,
+  INCOME_AMOUNT,
   NAME,
   TRANSACTIONS,
   UPDATED_AT,
@@ -23,7 +23,7 @@ export default class IncomeModel extends Model {
 
   @field(NAME) name!: string;
   @field(CURRENCY) currency!: string;
-  @field(CURRENT_BALANCE) currentBalance!: number;
+  @field(INCOME_AMOUNT) incomeAmount!: number;
 
   @date(CREATED_AT) createdAt!: number;
   @date(UPDATED_AT) updatedAt!: number;

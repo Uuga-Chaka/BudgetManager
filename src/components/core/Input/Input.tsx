@@ -19,7 +19,7 @@ const styleProps = ({isFocused, theme}: {theme: ThemeProps; isFocused: boolean})
   const styles = StyleSheet.create({
     container: {
       flexDirection: 'column',
-      zIndex: -1,
+      zIndex: 2,
     },
     errorMessage: {
       color: colors.danger,
@@ -36,7 +36,9 @@ const styleProps = ({isFocused, theme}: {theme: ThemeProps; isFocused: boolean})
       borderRadius: sizes.m,
       borderWidth: 1,
       color: colors.backgroundReverse,
+      fontSize: 14,
       paddingHorizontal: spacing.m,
+      zIndex: 99999,
     },
   });
   return styles;

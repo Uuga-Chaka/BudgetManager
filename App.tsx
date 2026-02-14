@@ -6,6 +6,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {AppThemeProvider} from '@app/theme/useAppTheme';
 
 import Router from './src/navigation/MainStack';
+import './src/database/index';
 
 export default function App() {
   return (
