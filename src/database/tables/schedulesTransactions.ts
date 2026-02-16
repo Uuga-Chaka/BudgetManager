@@ -1,51 +1,37 @@
 import {tableSchema} from '@nozbe/watermelondb';
 
-import {
-  ACCOUNT_ID,
-  ACTIVE,
-  AMOUNT,
-  CATEGORY_ID,
-  CREATED_AT,
-  DAY_OF_MONTH,
-  DESCRIPTION,
-  SCHEDULES_TRANSACTIONS,
-  UPDATED_AT,
-} from '../consts';
+import {columns, CREATED_AT, tables, UPDATED_AT} from '../consts';
 
 export const schedulesTransactionsTable = tableSchema({
-  name: SCHEDULES_TRANSACTIONS,
+  name: tables.SCHEDULES_TRANSACTIONS,
   columns: [
     {
-      name: DESCRIPTION,
+      name: columns.DESCRIPTION,
       type: 'string',
     },
     {
-      name: AMOUNT,
+      name: columns.BUDGET_AMOUNT,
       type: 'number',
     },
     {
-      name: CATEGORY_ID,
+      name: columns.CATEGORY_ID,
       type: 'string',
     },
     {
-      name: ACCOUNT_ID,
+      name: columns.BUDGET_ID,
       type: 'string',
     },
     {
-      name: DAY_OF_MONTH,
-      type: 'number',
-    },
-    {
-      name: ACTIVE,
-      type: 'boolean',
+      name: columns.BUDGET_GROUP_ID,
+      type: 'string',
     },
     {
       name: CREATED_AT,
-      type: 'string',
+      type: 'number',
     },
     {
       name: UPDATED_AT,
-      type: 'string',
+      type: 'number',
     },
   ],
 });

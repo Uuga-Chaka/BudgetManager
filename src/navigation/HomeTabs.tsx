@@ -10,12 +10,9 @@ import {Routes, type TabStackParamList} from './navigation.types';
 const Tab = createBottomTabNavigator<TabStackParamList>();
 export default function HomeTabs() {
   return (
-    <Tab.Navigator
-      initialRouteName={Routes.Dashboard}
-      tabBar={BottomTabBar}
-      screenOptions={{headerShown: false}}>
-      <Tab.Screen name={Routes.Dashboard} component={Dashboard} />
+    <Tab.Navigator initialRouteName={Routes.Dashboard} screenOptions={{headerShown: false}}>
       <Tab.Screen name={Routes.Transactions} component={Transactions} />
+      <Tab.Screen name={Routes.Dashboard} component={Dashboard} />
       <Tab.Screen name={Routes.Planning} component={Planning} />
     </Tab.Navigator>
   );

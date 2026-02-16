@@ -4,12 +4,10 @@ import {budgetTable} from './tables/budget';
 import {budgetGroupsTable} from './tables/budgetGroups';
 import {categoriesTable} from './tables/categories';
 import {incomeTable} from './tables/income';
-import {monthlyBudgetTable} from './tables/monthlyBudget';
 import {schedulesTransactionsTable} from './tables/schedulesTransactions';
-import {transactionsTable} from './tables/transactions';
 
 export default appSchema({
-  version: 1,
+  version: 2,
   tables: [
     incomeTable,
     budgetTable,
@@ -17,6 +15,6 @@ export default appSchema({
     categoriesTable,
     // monthlyBudgetTable,
     // transactionsTable,
-    // schedulesTransactionsTable,
+    schedulesTransactionsTable,
   ],
 });

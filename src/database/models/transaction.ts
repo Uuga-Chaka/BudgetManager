@@ -1,43 +1,26 @@
 import {Model, Relation} from '@nozbe/watermelondb';
-import {field, date, relation, readonly} from '@nozbe/watermelondb/decorators';
+import {field, date, relation, text} from '@nozbe/watermelondb/decorators';
+import {Associations} from '@nozbe/watermelondb/Model';
 
+import BudgetModel from './budget';
+import BudgetGroupModel from './budgetGroup';
 import CategoriesModel from './categories';
-import IncomeModel from './income';
-import {
-  ACCOUNT_ID,
-  INCOME,
-  AMOUNT,
-  CATEGORIES,
-  CATEGORY_ID,
-  CREATED_AT,
-  DATE,
-  TRANSACTIONS,
-  TRANSFER_ACCOUNT_ID,
-  TYPE,
-  UPDATED_AT,
-} from '../consts';
-
-import type {TransactionType} from '../types';
+import {tables, columns} from '../consts';
 
 export default class TransactionModel extends Model {
-  static table = TRANSACTIONS;
+  static table = tables.TRANSACTIONS;
 
-  static associations = {
-    [INCOME]: {type: 'belongs_to', key: 'account_id'},
-    [CATEGORIES]: {type: 'belongs_to', key: 'category_id'},
-  } as const;
+  static associations: Associations = {
+    [tables.BUDGET]: {type: 'belongs_to', key: columns.BUDGET_ID},
+    [tables.BUDGET_GROUPS]: {type: 'belongs_to', key: columns.BUDGET_GROUP_ID},
+    [tables.CATEGORIES]: {type: 'belongs_to', key: columns.CATEGORY_ID},
+  };
 
-  @field(AMOUNT) amount!: number;
-  @field(TYPE) type!: TransactionType;
-  @date(DATE) date!: Date;
+  @text(columns.DESCRIPTION) description!: string;
+  @field(columns.BUDGET_AMOUNT) amount!: number;
+  @date(columns.TRANSACTION_DATE) transactionDate!: Date;
 
-  @readonly @date(CREATED_AT) createdAt!: Date;
-  @readonly @date(UPDATED_AT) updatedAt!: Date;
-
-  // Relations
-  @relation(INCOME, ACCOUNT_ID) account!: Relation<IncomeModel>;
-  @relation(CATEGORIES, CATEGORY_ID) category!: Relation<CategoriesModel>;
-
-  // For Transfers only
-  @field(TRANSFER_ACCOUNT_ID) transferAccountId?: string;
+  @relation(tables.BUDGET, columns.BUDGET_ID) budget!: Relation<BudgetModel>;
+  @relation(tables.CATEGORIES, columns.CATEGORY_ID) category!: Relation<CategoriesModel>;
+  @relation(tables.BUDGET_GROUPS, columns.BUDGET_GROUP_ID) budgetGroup!: Relation<BudgetGroupModel>;
 }

@@ -1,34 +1,28 @@
 import {Model, Relation} from '@nozbe/watermelondb';
-import {field, relation, text} from '@nozbe/watermelondb/decorators';
+import {field, readonly, relation, text, date} from '@nozbe/watermelondb/decorators';
 import {Associations} from '@nozbe/watermelondb/Model';
 
-import {
-  ACCOUNT_ID,
-  INCOME,
-  ACTIVE,
-  AMOUNT,
-  CATEGORIES,
-  CATEGORY_ID,
-  DAY_OF_MONTH,
-  DESCRIPTION,
-  SCHEDULES_TRANSACTIONS,
-} from '../consts';
+import {columns, CREATED_AT, tables, UPDATED_AT} from '../consts';
+import BudgetModel from './budget';
+import BudgetGroupModel from './budgetGroup';
 import CategoriesModel from './categories';
-import IncomeModel from './income';
 
 export default class ScheduledTransactionsModel extends Model {
-  static table: string = SCHEDULES_TRANSACTIONS;
+  static table: string = tables.SCHEDULES_TRANSACTIONS;
 
   static associations: Associations = {
-    [INCOME]: {type: 'belongs_to', key: ACCOUNT_ID},
-    [CATEGORIES]: {type: 'belongs_to', key: CATEGORY_ID},
+    [tables.BUDGET]: {type: 'belongs_to', key: columns.BUDGET_ID},
+    [tables.BUDGET_GROUPS]: {type: 'belongs_to', key: columns.BUDGET_GROUP_ID},
+    [tables.CATEGORIES]: {type: 'belongs_to', key: columns.CATEGORY_ID},
   };
 
-  @text(DESCRIPTION) description!: string;
-  @field(AMOUNT) amount!: number;
-  @field(DAY_OF_MONTH) dayOfMonth!: number;
-  @field(ACTIVE) active!: boolean;
+  @text(columns.DESCRIPTION) description!: string;
+  @field(columns.BUDGET_AMOUNT) budgetAmount!: number;
 
-  @relation(INCOME, ACCOUNT_ID) account!: Relation<IncomeModel>;
-  @relation(CATEGORIES, CATEGORY_ID) category!: Relation<CategoriesModel>;
+  @readonly @date(CREATED_AT) createdAt!: Date;
+  @readonly @date(UPDATED_AT) updatedAt!: Date;
+
+  @relation(tables.BUDGET, columns.BUDGET_ID) budget!: Relation<BudgetModel>;
+  @relation(tables.CATEGORIES, columns.CATEGORY_ID) category!: Relation<CategoriesModel>;
+  @relation(tables.BUDGET_GROUPS, columns.BUDGET_GROUP_ID) budgetGroup!: Relation<BudgetGroupModel>;
 }

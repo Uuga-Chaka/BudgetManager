@@ -11,7 +11,11 @@ import Button from '@app/components/core/Button/Button';
 import Text from '@app/components/core/Text/Text';
 import {InputForm} from '@app/components/formComponents/InputForm';
 import {MoneyInputForm} from '@app/components/formComponents/MoneyInputForm';
-import {getAllBudgetGroups, getAllCategories} from '@app/database/queries/createIncome';
+import {
+  createScheduledTransaction,
+  getAllBudgetGroups,
+  getAllCategories,
+} from '@app/database/queries/createIncome';
 import {type ThemeProps} from '@app/theme/theme';
 import {useAppTheme} from '@app/theme/useAppTheme';
 
@@ -52,11 +56,14 @@ export default function ScheduleTransactions() {
   const {theme} = useAppTheme();
   const {
     control,
+    handleSubmit,
+    setValue,
     formState: {isValid},
   } = useForm<ScheduleTransactionFormType>({
     resolver: zodResolver(BudgetListSchema),
     mode: 'onChange',
     defaultValues: {
+      budgetGroupId: '',
       budgetList: [],
     },
   });
@@ -80,13 +87,19 @@ export default function ScheduleTransactions() {
     fetchCategories();
   }, []);
 
-  const fetchBudgetByGroup = async (budget: Query<BudgetModel>) => {
+  const fetchBudgetByGroup = async (budget: Query<BudgetModel>, budgetGroupId: string) => {
     const budgetList = await budget.fetch();
+    setValue(schemaKey.budgetGroupId, budgetGroupId);
     setBudgetList(budgetList);
   };
 
   const addTransaction = () => {
-    append({budgetAmount: 0, budgetId: '', categoryId: '', name: ''});
+    append({
+      [schemaKey.budgetAmount]: 0,
+      [schemaKey.budgetId]: '',
+      [schemaKey.categoryId]: '',
+      [schemaKey.description]: '',
+    });
   };
 
   const renderListItem = ({value}: {value: string}) => (
@@ -95,20 +108,29 @@ export default function ScheduleTransactions() {
     </View>
   );
 
+  const saveScheduleTransactions = handleSubmit(async ({budgetGroupId, budgetList}) => {
+    const value = await createScheduledTransaction({
+      budgetGroupId,
+      scheduledTransactions: budgetList,
+    });
+
+    console.log(value);
+  });
+
   return (
     <AppKeyBoardAwareScrollView>
       <View>
         <Text style={styles.descriptionText}>
           Ahora, ingresemos los gastos fijos de cada mes, sirven como recordatorio para que y
           verificar que si los pagaste. No te preocupes que el precio es una estimación, lo puedes
-          cambiard cada vez que quieras
+          cambiar cada vez que quieras
         </Text>
         <Autocomplete
           label="Budget group"
           data={budgetGroups}
           defaultSelection={budgetGroups[0]}
           customRenderItem={({name}) => renderListItem({value: name})}
-          onSelectItem={({budgets}) => fetchBudgetByGroup(budgets)}
+          onSelectItem={({budgets, id}) => fetchBudgetByGroup(budgets, id)}
           getSelectedItemLabel={({name}) => name}
           ListEmptyComponent={<Text>No hay nada</Text>}
           disableFilter
@@ -120,7 +142,7 @@ export default function ScheduleTransactions() {
               <InputForm
                 control={control}
                 placeholder="Verduras"
-                name={`budgetList.${index}.${schemaKey.name}`}
+                name={`budgetList.${index}.${schemaKey.description}`}
                 label={'Cantidad'}
               />
               <MoneyInputForm
@@ -134,37 +156,48 @@ export default function ScheduleTransactions() {
               <Controller
                 control={control}
                 name={`budgetList.${index}.${schemaKey.budgetId}`}
-                render={() => (
+                render={({field: {onChange, value}}) => (
                   <Autocomplete
                     data={budgetList}
                     customRenderItem={({name}) => renderListItem({value: name})}
                     disableFilter
+                    onSelectItem={item => onChange(item.id)}
+                    value={value}
                     getSelectedItemLabel={({name}) => name}
                     label="Presupuesto"
+                    ListEmptyComponent={<Text>No hay nada</Text>}
                   />
                 )}
               />
               <Controller
                 control={control}
                 name={`budgetList.${index}.${schemaKey.categoryId}`}
-                render={() => (
+                render={({field: {onChange, value}}) => (
                   <Autocomplete
                     data={categories}
                     key={field.id}
                     customRenderItem={({name}) => renderListItem({value: name})}
                     disableFilter
                     getSelectedItemLabel={({name}) => name}
+                    onSelectItem={item => onChange(item.id)}
+                    value={value}
                     label="Categoria"
+                    ListEmptyComponent={<Text>No hay nada</Text>}
                   />
                 )}
               />
+
               <Button onPress={() => remove(index)}>Delete budget</Button>
             </View>
           );
         })}
         <View style={styles.buttonContainer}>
-          <Button onPress={addTransaction}>Añadir transacción</Button>
-          <Button disabled={!isValid}>Guardar</Button>
+          <Button onPress={addTransaction} disabled={!budgetList.length}>
+            Añadir transacción
+          </Button>
+          <Button disabled={!isValid} onPress={saveScheduleTransactions}>
+            Guardar
+          </Button>
         </View>
       </View>
     </AppKeyBoardAwareScrollView>

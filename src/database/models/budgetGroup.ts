@@ -2,17 +2,24 @@ import {Model, Query} from '@nozbe/watermelondb';
 import {children, date, field, readonly, writer} from '@nozbe/watermelondb/decorators';
 import {Associations} from '@nozbe/watermelondb/Model';
 
-import {tables, CREATED_AT, NAME, UPDATED_AT, BUDGET_GROUP_ID} from '../consts';
+import {tables, CREATED_AT, NAME, UPDATED_AT, BUDGET_GROUP_ID, columns} from '../consts';
 import BudgetModel from './budget';
+import ScheduledTransactionsModel from './scheduledTransactions';
 
 export default class BudgetGroupModel extends Model {
   static table: string = tables.BUDGET_GROUPS;
 
   static associations: Associations = {
     [tables.BUDGET]: {type: 'has_many', foreignKey: BUDGET_GROUP_ID},
+    [tables.SCHEDULES_TRANSACTIONS]: {
+      type: 'has_many',
+      foreignKey: columns.SCHEDULES_TRANSACTION_ID,
+    },
   };
 
   @children(tables.BUDGET) budgets!: Query<BudgetModel>;
+  @children(tables.SCHEDULES_TRANSACTIONS)
+  scheduledTransactions!: Query<ScheduledTransactionsModel>;
 
   @field(NAME) name!: string;
 

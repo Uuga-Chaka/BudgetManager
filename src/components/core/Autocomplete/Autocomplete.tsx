@@ -9,7 +9,6 @@ import {useAppTheme} from '@app/theme/useAppTheme';
 import {isPrimitive} from '@app/utils/functions';
 
 import Input, {type InputCoreProps} from '../Input/Input';
-import Text from '../Text/Text';
 import TouchableInput from '../TouchableInput/TouchableInput';
 
 const stylesProps = (showPopover: boolean, theme: ThemeProps) => {
@@ -112,10 +111,8 @@ const Autocomplete = <T,>({
     setShowPopover(false);
   };
 
-  // Inside Autocomplete
   useEffect(() => {
     if (showPopover) {
-      // Add a tiny delay to ensure the View is painted and focusable
       const timer = setTimeout(() => {
         popoverInputRef.current?.focus();
       }, 50);
@@ -123,7 +120,6 @@ const Autocomplete = <T,>({
     }
   }, [showPopover]);
 
-  // TODO: verify if it's necessary to  check if the passed array contains objects or strings
   const handleDataFilter = useMemo(() => {
     if (!value || disableFilter) return data;
     if (filterOptions && typeof data === 'object') return filterOptions(data, value);
@@ -156,14 +152,6 @@ const Autocomplete = <T,>({
           placeholder={textInputProps.placeholder}
           onPress={() => setShowPopover(true)}
         />
-        {/* <Input
-          {...textInputProps}
-          inputRef={inputRef}
-          value={value}
-          testID={`autocomplete_input_${textInputProps.label}`} // Make it unique
-          onFocus={_onFocus}
-          onChangeText={onChangeText}
-        /> */}
       </View>
       <View testID="autocomplete_popover_input_container" style={styles.inputPopoverContainer}>
         <Input

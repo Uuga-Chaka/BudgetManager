@@ -1,10 +1,13 @@
+import {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import Button from '@app/components/core/Button/Button';
+import Text from '@app/components/core/Text/Text';
+import {localStorageKeys} from '@app/consts/localStorageKeys';
+import {database} from '@app/database';
 import {type ThemeProps} from '@app/theme/theme';
 import {useAppTheme} from '@app/theme/useAppTheme';
 
@@ -16,6 +19,11 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const styleProps = (colors: ThemeProps['colors']) => {
   const styles = StyleSheet.create({
+    loadingContainer: {
+      alignItems: 'center',
+      height: '100%',
+      justifyContent: 'center',
+    },
     navigatorStyle: {
       backgroundColor: colors.background,
     },
@@ -28,24 +36,42 @@ const styleProps = (colors: ThemeProps['colors']) => {
 };
 
 export default function Router() {
-  const {colors, statusBarMode, toggleSelectedTheme} = useAppTheme();
-
+  const {colors, statusBarMode} = useAppTheme();
+  const [initialRoute, setInitialRoute] = useState<keyof RootStackParamList>();
   const styles = styleProps(colors);
 
   const {top} = useSafeAreaInsets();
 
+  useEffect(() => {
+    const checkOnboarding = async () => {
+      const isOnboardingComplete = await database.localStorage.get(
+        localStorageKeys.IS_ONBOARDING_COMPLETED,
+      );
+      setInitialRoute(isOnboardingComplete ? Routes.Home : Routes.Onboarding);
+    };
+
+    checkOnboarding();
+  }, []);
+
+  if (!initialRoute) {
+    return (
+      <View style={{...styles.loadingContainer, marginTop: top}}>
+        <Text variant="h6">Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={{...styles.safeAreaContainer, marginTop: top}}>
-      <Button onPress={toggleSelectedTheme}>toggle</Button>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName={Routes.Onboarding}
+          initialRouteName={initialRoute}
           screenOptions={{
             headerShown: false,
             statusBarStyle: statusBarMode,
             contentStyle: styles.navigatorStyle,
           }}>
-          {/* <Stack.Screen name={Routes.Home} component={HomeTabs} /> */}
+          <Stack.Screen name={Routes.Home} component={HomeTabs} />
           <Stack.Screen name={Routes.Onboarding} component={OnboardingRouter} />
         </Stack.Navigator>
       </NavigationContainer>

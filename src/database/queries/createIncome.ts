@@ -4,6 +4,7 @@ import {tables} from '../consts';
 import type BudgetGroupModel from '../models/budgetGroup';
 import type CategoriesModel from '../models/categories';
 import type IncomeModel from '../models/income';
+import type ScheduledTransactionsModel from '../models/scheduledTransactions';
 
 interface CreateIncomePayload {
   name: string;
@@ -164,5 +165,49 @@ export const getAllIncomes = async () => {
     return incomes?.[0];
   } catch (error) {
     console.error(`[Database Error] Failed to get all incomes`, error);
+  }
+};
+
+interface ScheduledTransactions {
+  budgetId: string;
+  categoryId: string;
+  description: string;
+  budgetAmount: number;
+}
+interface ScheduledTransactionPayload {
+  budgetGroupId: string;
+  scheduledTransactions: ScheduledTransactions[];
+}
+
+export const createScheduledTransaction = async ({
+  scheduledTransactions,
+  budgetGroupId,
+}: ScheduledTransactionPayload) => {
+  try {
+    return await database.write(async () => {
+      const scheduleTransactionsTable = await database.get<ScheduledTransactionsModel>(
+        tables.SCHEDULES_TRANSACTIONS,
+      );
+
+      const preparedRecords = scheduledTransactions.map(
+        ({budgetAmount: amount, budgetId, categoryId, description}) => {
+          return scheduleTransactionsTable.prepareCreate(st => {
+            st.budget.id = budgetId;
+            st.budgetGroup.id = budgetGroupId;
+            st.category.id = categoryId;
+            st.description = description;
+            st.budgetAmount = amount;
+          });
+        },
+      );
+
+      if (preparedRecords.length === 0) return [];
+
+      await database.batch(...preparedRecords);
+
+      return preparedRecords;
+    });
+  } catch (error) {
+    console.error(`[Database Error] Failed to create scheduled transaction`, error);
   }
 };

@@ -1,12 +1,10 @@
 import React from 'react';
-import {Text} from 'react-native';
-
-import AppLayout from '@app/components/Layout/Layout';
+import {Text, View} from 'react-native';
 
 export default function Dashboard() {
   return (
-    <AppLayout>
+    <View>
       <Text>Dashboard</Text>
-    </AppLayout>
+    </View>
   );
 }

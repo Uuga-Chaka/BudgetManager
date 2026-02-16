@@ -1,42 +1,32 @@
 import {tableSchema} from '@nozbe/watermelondb';
 
-import {
-  ACCOUNT_ID,
-  AMOUNT,
-  CATEGORY_ID,
-  CREATED_AT,
-  DATE,
-  TRANSACTIONS,
-  TRANSFER_ACCOUNT_ID,
-  TYPE,
-  UPDATED_AT,
-} from '../consts';
+import {columns, CREATED_AT, tables, UPDATED_AT} from '../consts';
 
 export const transactionsTable = tableSchema({
-  name: TRANSACTIONS,
+  name: tables.TRANSACTIONS,
   columns: [
     {
-      name: ACCOUNT_ID,
+      name: columns.DESCRIPTION,
       type: 'string',
     },
     {
-      name: CATEGORY_ID,
+      name: columns.BUDGET_AMOUNT,
+      type: 'number',
+    },
+    {
+      name: columns.CATEGORY_ID,
       type: 'string',
     },
     {
-      name: AMOUNT,
+      name: columns.BUDGET_ID,
       type: 'string',
     },
     {
-      name: DATE,
+      name: columns.BUDGET_GROUP_ID,
       type: 'string',
     },
     {
-      name: TYPE, // Income, Expense, Transfer
-      type: 'string',
-    },
-    {
-      name: TRANSFER_ACCOUNT_ID, // Only populated if type is 'TRANSFER' (Destination Account)
+      name: columns.TRANSACTION_DATE,
       type: 'string',
     },
     {

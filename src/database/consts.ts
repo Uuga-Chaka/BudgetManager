@@ -12,6 +12,16 @@ export const tables = {
 
 // Column name
 
+export const columns = {
+  BUDGET_ID: 'budget_id',
+  BUDGET_GROUP_ID: 'budget_group_id',
+  CATEGORY_ID: 'category_id',
+  BUDGET_AMOUNT: 'budget_amount',
+  DESCRIPTION: 'description',
+  SCHEDULES_TRANSACTION_ID: 'schedule_transaction_id',
+  TRANSACTION_DATE: 'transaction_date',
+};
+
 // common
 export const ID = 'id';
 export const NAME = 'name';

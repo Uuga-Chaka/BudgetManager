@@ -3,6 +3,8 @@ import {StyleSheet, View} from 'react-native';
 
 import Button from '@app/components/core/Button/Button';
 import Text from '@app/components/core/Text/Text';
+import {localStorageKeys} from '@app/consts/localStorageKeys';
+import {database} from '@app/database';
 import {initializeAccountSetup} from '@app/database/queries/createIncome';
 import {Routes, type RootOnboardingScreenProps} from '@app/navigation/navigation.types';
 import {useSetupStore} from '@app/store';
@@ -23,21 +25,25 @@ export default function ResumeSetup({
     useSetupStore();
 
   const saveSetup = async () => {
-    // Store all the default information of the user
-    await initializeAccountSetup({
-      income: {
-        name: incomeName,
-        currency: countryCode,
-        incomeAmount: incomeAmount,
-      },
-      budgetGroup: {
-        name: percentageGroupName,
-        budgets: percentageGroups,
-      },
-      categories: categories,
-    });
+    try {
+      await initializeAccountSetup({
+        income: {
+          name: incomeName,
+          currency: countryCode,
+          incomeAmount: incomeAmount,
+        },
+        budgetGroup: {
+          name: percentageGroupName,
+          budgets: percentageGroups,
+        },
+        categories: categories,
+      });
 
-    navigation.navigate(Routes.ScheduleTransactions);
+      database.localStorage.set(localStorageKeys.IS_ONBOARDING_COMPLETED, true);
+      navigation.reset({index: 0, routes: [{name: Routes.ScheduleTransactions}]});
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
