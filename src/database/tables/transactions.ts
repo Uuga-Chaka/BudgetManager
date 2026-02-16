@@ -1,6 +1,6 @@
 import {tableSchema} from '@nozbe/watermelondb';
 
-import {columns, CREATED_AT, tables, UPDATED_AT} from '../consts';
+import {columns, tables} from '../consts';
 
 export const transactionsTable = tableSchema({
   name: tables.TRANSACTIONS,
@@ -30,12 +30,12 @@ export const transactionsTable = tableSchema({
       type: 'string',
     },
     {
-      name: CREATED_AT,
-      type: 'string',
+      name: columns.CREATED_AT,
+      type: 'number',
     },
     {
-      name: UPDATED_AT,
-      type: 'string',
+      name: columns.UPDATED_AT,
+      type: 'number',
     },
   ],
 });

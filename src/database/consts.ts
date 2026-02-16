@@ -20,6 +20,8 @@ export const columns = {
   DESCRIPTION: 'description',
   SCHEDULES_TRANSACTION_ID: 'schedule_transaction_id',
   TRANSACTION_DATE: 'transaction_date',
+  CREATED_AT: 'created_at',
+  UPDATED_AT: 'updated_at',
 };
 
 // common

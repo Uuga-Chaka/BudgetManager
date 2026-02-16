@@ -1,6 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import {BottomTabBar} from '@app/components/HomeTabs/HomeTabs';
 import Dashboard from '@app/screens/Dashboard/Dashboard';
 import Planning from '@app/screens/Planning/Planning';
 import Transactions from '@app/screens/Transactions/Transactions';

@@ -6,7 +6,6 @@ import BudgetModel from './models/budget';
 import BudgetGroupModel from './models/budgetGroup';
 import CategoriesModel from './models/categories';
 import IncomeModel from './models/income';
-import MonthlyBudgetModel from './models/monthlyBudget';
 import ScheduledTransactionsModel from './models/scheduledTransactions';
 import TransactionModel from './models/transaction';
 import schema from './schema';
@@ -38,6 +37,6 @@ export const database = new Database({
     CategoriesModel,
     // MonthlyBudgetModel,
     ScheduledTransactionsModel,
-    // TransactionModel,
+    TransactionModel,
   ],
 });

@@ -1,5 +1,5 @@
 import {Model, Relation} from '@nozbe/watermelondb';
-import {field, date, relation, text} from '@nozbe/watermelondb/decorators';
+import {field, date, relation, text, readonly} from '@nozbe/watermelondb/decorators';
 import {Associations} from '@nozbe/watermelondb/Model';
 
 import BudgetModel from './budget';
@@ -19,6 +19,9 @@ export default class TransactionModel extends Model {
   @text(columns.DESCRIPTION) description!: string;
   @field(columns.BUDGET_AMOUNT) amount!: number;
   @date(columns.TRANSACTION_DATE) transactionDate!: Date;
+
+  @readonly @date(columns.CREATED_AT) createdAt!: Date;
+  @readonly @date(columns.UPDATED_AT) updatedAt!: Date;
 
   @relation(tables.BUDGET, columns.BUDGET_ID) budget!: Relation<BudgetModel>;
   @relation(tables.CATEGORIES, columns.CATEGORY_ID) category!: Relation<CategoriesModel>;
