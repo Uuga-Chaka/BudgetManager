@@ -1,6 +1,5 @@
 import {
   Controller,
-  type Noop,
   type FieldValues,
   type UseControllerProps,
   type FieldPath,
@@ -28,14 +27,9 @@ export const MoneyInputForm = <
   ...props
 }: UseControllerProps<TFieldValues, TName, TTransformedValues> &
   InputCoreProps & {disableErrorMsg?: boolean; countryCode: string}) => {
-  const _onFocus = (value: string, onChange: (...event: unknown[]) => void) => {
-    onChange(String(value));
-  };
-
-  const _onBlur = (value: string, onBlur: Noop, onChange: (...event: unknown[]) => void) => {
+  const _onChange = (value: string, onChange: (...event: unknown[]) => void) => {
     const {formatted} = formatCurrency({value});
     onChange(formatted);
-    onBlur();
   };
 
   return (
@@ -46,14 +40,12 @@ export const MoneyInputForm = <
       defaultValue={defaultValue}
       disabled={disabled}
       shouldUnregister={shouldUnregister}
-      render={({field: {onChange, value, onBlur, ...fieldRest}, fieldState: {error}}) => {
+      render={({field: {onChange, value, ...fieldRest}, fieldState: {error}}) => {
         return (
           <Input
             {...fieldRest}
-            value={String(value)}
-            onFocus={() => _onFocus(value, onChange)}
-            onChangeText={onChange}
-            onBlur={() => _onBlur(value, onBlur, onChange)}
+            value={value}
+            onChangeText={text => _onChange(text, onChange)}
             {...props}
             containerStyle={containerStyle}
             textInputStyle={inputStyle}

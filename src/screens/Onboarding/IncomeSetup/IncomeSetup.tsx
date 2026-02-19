@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import {StyleSheet, View} from 'react-native';
 
 import {zodResolver} from '@hookform/resolvers/zod';
@@ -9,15 +9,15 @@ import Autocomplete from '@app/components/core/Autocomplete/Autocomplete';
 import Button from '@app/components/core/Button/Button';
 import Text from '@app/components/core/Text/Text';
 import {InputForm} from '@app/components/formComponents/InputForm';
+import {MoneyInputForm} from '@app/components/formComponents/MoneyInputForm';
 import {Routes, type RootOnboardingScreenProps} from '@app/navigation/navigation.types';
 import {useSetupStore} from '@app/store';
 import {useLocaleStore} from '@app/store/localeStore';
 import {type ThemeProps} from '@app/theme/theme';
 import {useAppTheme} from '@app/theme/useAppTheme';
-import {formatCurrency} from '@app/utils/currency';
 import {type CountryInfo} from '@app/utils/isoCountryCurrency';
 
-import {incomeSchema, type IncomeFormData} from './IncomeSetup.schema';
+import {type IncomeFormDataOutout, incomeSchema, type IncomeFormData} from './IncomeSetup.schema';
 
 const styleProps = (theme: ThemeProps) => {
   const styles = StyleSheet.create({
@@ -57,15 +57,14 @@ export default function IncomeSetup({
   const {
     control,
     watch,
-    setValue,
     handleSubmit,
     formState: {isValid},
-  } = useForm<IncomeFormData>({
+  } = useForm<IncomeFormData, unknown, IncomeFormDataOutout>({
     resolver: zodResolver(incomeSchema),
     mode: 'onChange',
     defaultValues: {
       incomeName: '',
-      amount: 0,
+      amount: '',
       currency: '',
     },
   });
@@ -75,32 +74,10 @@ export default function IncomeSetup({
     setCountryCode(data.currency);
     setIncomeName(data.incomeName);
 
-    // const res = createIncome({
-    //   name: data.incomeName,
-    //   currency: data.currency,
-    //   currentBalance: data.amount,
-    // });
     navigation.push(Routes.BudgetSetup);
   });
 
   const selectedCurrency = watch('currency');
-
-  const [visualMoney, setVisualMoney] = useState('');
-
-  const handleMoney = useCallback(
-    (value: string) => {
-      const {formatted, numericValue} = formatCurrency({value, currency: selectedCurrency});
-      setVisualMoney(() => {
-        if (!value) {
-          setValue('amount', 0);
-          return '';
-        }
-        setValue('amount', numericValue, {shouldValidate: true});
-        return formatted;
-      });
-    },
-    [selectedCurrency],
-  );
 
   const customListItem = useCallback(
     ({countryName, currency, symbol}: CountryInfo) => (
@@ -141,14 +118,13 @@ export default function IncomeSetup({
             />
           )}
         />
-        <InputForm
+        <MoneyInputForm
           control={control}
           name="amount"
-          label={'Cantidad'}
           placeholder="1'.000.000"
-          onChangeText={handleMoney}
-          value={visualMoney}
-          inputMode="numeric"
+          label="cantidad"
+          countryCode={selectedCurrency}
+          keyboardType="number-pad"
         />
         <Button variant="outline" onPress={handleNext} disabled={!isValid}>
           Siguiente

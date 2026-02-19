@@ -8,7 +8,7 @@ import {schedulesTransactionsTable} from './tables/schedulesTransactions';
 import {transactionsTable} from './tables/transactions';
 
 export default appSchema({
-  version: 2,
+  version: 1,
   tables: [
     incomeTable,
     budgetTable,
