@@ -42,7 +42,7 @@ export default function Router() {
   const [initialRoute, setInitialRoute] = useState<keyof RootStackParamList>();
   const styles = styleProps(colors);
 
-  const {top} = useSafeAreaInsets();
+  const {top, bottom, left, right} = useSafeAreaInsets();
 
   useEffect(() => {
     const checkOnboarding = async () => {
@@ -57,14 +57,28 @@ export default function Router() {
 
   if (!initialRoute) {
     return (
-      <View style={{...styles.loadingContainer, marginTop: top}}>
+      <View
+        style={{
+          ...styles.loadingContainer,
+          paddingTop: top,
+          paddingBottom: bottom,
+          paddingLeft: left,
+          paddingRight: right,
+        }}>
         <Text variant="h6">Loading...</Text>
       </View>
     );
   }
 
   return (
-    <View style={{...styles.safeAreaContainer, marginTop: top}}>
+    <View
+      style={{
+        ...styles.safeAreaContainer,
+        paddingTop: top,
+        paddingBottom: bottom,
+        paddingLeft: left,
+        paddingRight: right,
+      }}>
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName={initialRoute}
