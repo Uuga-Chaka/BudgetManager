@@ -9,6 +9,8 @@ import type BudgetModel from '@app/database/models/budget';
 import type CategoriesModel from '@app/database/models/categories';
 import type TransactionModel from '@app/database/models/transaction';
 
+// TODO: REDO styles a connect it to themes
+
 const styles = StyleSheet.create({
   amount: {
     color: '#2e7d32',

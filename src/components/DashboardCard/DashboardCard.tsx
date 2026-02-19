@@ -16,6 +16,8 @@ import type BudgetModel from '@app/database/models/budget';
 import type BudgetGroupModel from '@app/database/models/budgetGroup';
 import type IncomeModel from '@app/database/models/income';
 
+// TODO: REDO styles a connect it to themes
+
 const styles = StyleSheet.create({
   allocatedAmount: {
     color: '#212529',
