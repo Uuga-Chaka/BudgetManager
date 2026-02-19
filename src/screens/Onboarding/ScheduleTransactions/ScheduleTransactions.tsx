@@ -3,6 +3,7 @@ import {StyleSheet, View} from 'react-native';
 
 import {zodResolver} from '@hookform/resolvers/zod';
 import {type Query} from '@nozbe/watermelondb';
+import {CommonActions} from '@react-navigation/native';
 import {Controller, useFieldArray, useForm} from 'react-hook-form';
 
 import AppKeyBoardAwareScrollView from '@app/components/AppKeyBoardAwareScrollView/AppKeyBoardAwareScrollView';
@@ -16,13 +17,15 @@ import {
   getAllBudgetGroups,
   getAllCategories,
 } from '@app/database/queries/createIncome';
+import {type RootOnboardingScreenProps, Routes} from '@app/navigation/navigation.types';
 import {type ThemeProps} from '@app/theme/theme';
 import {useAppTheme} from '@app/theme/useAppTheme';
 
 import {
   BudgetListSchema,
+  type ScheduleTransactionFormTypeOutput,
   schemaKey,
-  type ScheduleTransactionFormType,
+  type ScheduleTransactionFormTypeInput,
 } from './ScheduleTransactions.schema';
 
 import type BudgetModel from '@app/database/models/budget';
@@ -49,7 +52,9 @@ const styleProps = ({colors, spacing}: ThemeProps) => {
   return styles;
 };
 
-export default function ScheduleTransactions() {
+export default function ScheduleTransactions({
+  navigation,
+}: RootOnboardingScreenProps<typeof Routes.ScheduleTransactions>) {
   const [budgetGroups, setBudgetGroups] = useState<BudgetGroupModel[]>([]);
   const [budgetList, setBudgetList] = useState<BudgetModel[]>([]);
   const [categories, setCategories] = useState<CategoriesModel[]>([]);
@@ -59,7 +64,7 @@ export default function ScheduleTransactions() {
     handleSubmit,
     setValue,
     formState: {isValid},
-  } = useForm<ScheduleTransactionFormType>({
+  } = useForm<ScheduleTransactionFormTypeInput, unknown, ScheduleTransactionFormTypeOutput>({
     resolver: zodResolver(BudgetListSchema),
     mode: 'onChange',
     defaultValues: {
@@ -95,7 +100,7 @@ export default function ScheduleTransactions() {
 
   const addTransaction = () => {
     append({
-      [schemaKey.budgetAmount]: 0,
+      [schemaKey.budgetAmount]: '',
       [schemaKey.budgetId]: '',
       [schemaKey.categoryId]: '',
       [schemaKey.description]: '',
@@ -109,12 +114,16 @@ export default function ScheduleTransactions() {
   );
 
   const saveScheduleTransactions = handleSubmit(async ({budgetGroupId, budgetList}) => {
-    const value = await createScheduledTransaction({
+    await createScheduledTransaction({
       budgetGroupId,
       scheduledTransactions: budgetList,
     });
-
-    console.log(value);
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: Routes.Home}],
+      }),
+    );
   });
 
   return (

@@ -16,6 +16,7 @@ export const Routes = {
   // ROOT
   Onboarding: 'Onboarding',
   Home: 'Home',
+  AddTransaction: 'AddTransaction',
 
   // TAB
   Dashboard: 'Dashboard',
@@ -32,8 +33,9 @@ export const Routes = {
 } as const;
 
 export type RootStackParamList = {
-  [Routes.Onboarding]: NavigatorScreenParams<OnboardingParamList>;
-  [Routes.Home]: NavigatorScreenParams<TabStackParamList>;
+  [Routes.Onboarding]: NavigatorScreenParams<OnboardingParamList> | undefined;
+  [Routes.Home]: NavigatorScreenParams<TabStackParamList> | undefined;
+  [Routes.AddTransaction]: undefined;
 };
 
 export type TabStackParamList = {
@@ -52,6 +54,11 @@ export type OnboardingParamList = {
 };
 
 // types for screen components props
+export type RootScreenProps<RouteName extends keyof RootStackParamList> = NativeStackScreenProps<
+  RootStackParamList,
+  RouteName
+>;
+
 export type RootOnboardingScreenProps<RouteName extends keyof OnboardingParamList> =
   CompositeScreenProps<
     NativeStackScreenProps<OnboardingParamList, RouteName>,

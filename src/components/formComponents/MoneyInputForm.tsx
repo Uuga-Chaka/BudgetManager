@@ -1,10 +1,20 @@
-import {Controller, type FieldValues, type UseControllerProps} from 'react-hook-form';
+import {
+  Controller,
+  type Noop,
+  type FieldValues,
+  type UseControllerProps,
+  type FieldPath,
+} from 'react-hook-form';
 
 import {formatCurrency} from '@app/utils/currency';
 
 import Input, {type InputCoreProps} from '../core/Input/Input';
 
-export const MoneyInputForm = <T extends FieldValues>({
+export const MoneyInputForm = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  TTransformedValues = TFieldValues,
+>({
   name,
   control,
   rules,
@@ -14,21 +24,18 @@ export const MoneyInputForm = <T extends FieldValues>({
   inputStyle,
   containerStyle,
   disableErrorMsg,
-  countryCode,
+  // TODO: add to formatCurrency countryCode,
   ...props
-}: UseControllerProps<T> & InputCoreProps & {disableErrorMsg?: boolean; countryCode: string}) => {
-  const handleMoney = (text: string, onChange: (value: number) => void) => {
-    if (!text) {
-      onChange(0);
-      return;
-    }
-    const {numericValue} = formatCurrency({value: text, currency: countryCode});
-    onChange(numericValue);
+}: UseControllerProps<TFieldValues, TName, TTransformedValues> &
+  InputCoreProps & {disableErrorMsg?: boolean; countryCode: string}) => {
+  const _onFocus = (value: string, onChange: (...event: unknown[]) => void) => {
+    onChange(String(value));
   };
 
-  const parseToMoney = (value: string) => {
-    const {formatted} = formatCurrency({value, currency: countryCode});
-    return formatted;
+  const _onBlur = (value: string, onBlur: Noop, onChange: (...event: unknown[]) => void) => {
+    const {formatted} = formatCurrency({value});
+    onChange(formatted);
+    onBlur();
   };
 
   return (
@@ -39,12 +46,14 @@ export const MoneyInputForm = <T extends FieldValues>({
       defaultValue={defaultValue}
       disabled={disabled}
       shouldUnregister={shouldUnregister}
-      render={({field: {onChange, value, ...fieldRest}, fieldState: {error}}) => {
+      render={({field: {onChange, value, onBlur, ...fieldRest}, fieldState: {error}}) => {
         return (
           <Input
             {...fieldRest}
-            value={parseToMoney(String(value))}
-            onChangeText={text => handleMoney(text, onChange)}
+            value={String(value)}
+            onFocus={() => _onFocus(value, onChange)}
+            onChangeText={onChange}
+            onBlur={() => _onBlur(value, onBlur, onChange)}
             {...props}
             containerStyle={containerStyle}
             textInputStyle={inputStyle}

@@ -1,10 +1,15 @@
+import {Q} from '@nozbe/watermelondb';
+
+import {getCurrentMonthFirstLastDayInUnix} from '@app/utils/date';
+
 import {database} from '..';
-import {tables} from '../consts';
+import {columns, tables} from '../consts';
 
 import type BudgetGroupModel from '../models/budgetGroup';
 import type CategoriesModel from '../models/categories';
 import type IncomeModel from '../models/income';
 import type ScheduledTransactionsModel from '../models/scheduledTransactions';
+import type TransactionModel from '../models/transaction';
 
 interface CreateIncomePayload {
   name: string;
@@ -209,5 +214,83 @@ export const createScheduledTransaction = async ({
     });
   } catch (error) {
     console.error(`[Database Error] Failed to create scheduled transaction`, error);
+  }
+};
+
+export const getIncomeSumByCurrentMonth = () => {
+  const {firstDay, lastDay} = getCurrentMonthFirstLastDayInUnix();
+
+  const results = database
+    .get<IncomeModel>(tables.INCOME)
+    .query(
+      Q.where(columns.CREATED_AT, Q.gte(firstDay)),
+      Q.where(columns.CREATED_AT, Q.lte(lastDay)),
+    )
+    .observe();
+
+  return results;
+};
+
+export const getCurrentMonthLatestBudget = () => {
+  const {firstDay, lastDay} = getCurrentMonthFirstLastDayInUnix();
+  const budgetGroups = database.get<BudgetGroupModel>(tables.BUDGET_GROUPS);
+
+  const currentBudgetGroup = budgetGroups
+    .query(
+      Q.where(columns.CREATED_AT, Q.gte(firstDay)),
+      Q.where(columns.CREATED_AT, Q.lte(lastDay)),
+      Q.sortBy(columns.CREATED_AT, Q.desc),
+      Q.take(1),
+    )
+    .observe();
+
+  return currentBudgetGroup;
+};
+
+export const getCurrentMonthTransactions = () => {
+  const {firstDay, lastDay} = getCurrentMonthFirstLastDayInUnix();
+
+  const transactions = database.get<TransactionModel>(tables.TRANSACTIONS);
+
+  const currentMonthTransactions = transactions
+    .query(
+      Q.where(columns.CREATED_AT, Q.gte(firstDay)),
+      Q.where(columns.CREATED_AT, Q.lte(lastDay)),
+    )
+    .observe();
+
+  return currentMonthTransactions;
+};
+
+interface CreateTransactionPayload {
+  budgetAmount: number;
+  budgetId: string;
+  categoryId: string;
+  description: string;
+  budgetGroupId: string;
+  date?: Date;
+}
+export const createTransaction = async ({
+  budgetAmount,
+  budgetId,
+  categoryId,
+  description,
+  budgetGroupId,
+  date,
+}: CreateTransactionPayload) => {
+  try {
+    return await database.write(async () => {
+      const transactionDate = new Date();
+      return await database.get<TransactionModel>(tables.TRANSACTIONS).create(transaction => {
+        transaction.amount = budgetAmount;
+        transaction.budget.id = budgetId;
+        transaction.budgetGroup.id = budgetGroupId;
+        transaction.category.id = categoryId;
+        transaction.description = description;
+        transaction.transactionExecutedAt = date || transactionDate;
+      });
+    });
+  } catch (error) {
+    console.error(`[Database Error] Failed to create transaction`, error);
   }
 };

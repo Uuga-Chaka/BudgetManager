@@ -11,13 +11,17 @@ export const budgetSchema = z.object({
       z.object({
         id: z.number(),
         name: z.string().trim().min(1, 'El nombre del grupo es requerido'),
-        percentage: z.coerce.number<number>().min(1).max(100),
+        percentage: z.coerce
+          .number<number>()
+          .min(1)
+          .max(100)
+          .transform(val => val / 100),
       }),
     )
     .min(1, 'Debes agregar al menos un grupo')
     .superRefine((groups, ctx) => {
       const total = groups.reduce((acc, curr) => acc + curr.percentage, 0);
-      if (total !== 100) {
+      if (total !== 1) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: `La suma de los porcentajes debe ser 100% (Actual: ${total}%)`,

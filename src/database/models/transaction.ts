@@ -18,7 +18,7 @@ export default class TransactionModel extends Model {
 
   @text(columns.DESCRIPTION) description!: string;
   @field(columns.BUDGET_AMOUNT) amount!: number;
-  @date(columns.TRANSACTION_DATE) transactionDate!: Date;
+  @date(columns.TRANSACTION_DATE) transactionExecutedAt!: Date;
 
   @readonly @date(columns.CREATED_AT) createdAt!: Date;
   @readonly @date(columns.UPDATED_AT) updatedAt!: Date;

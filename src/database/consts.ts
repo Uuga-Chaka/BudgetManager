@@ -19,9 +19,13 @@ export const columns = {
   BUDGET_AMOUNT: 'budget_amount',
   DESCRIPTION: 'description',
   SCHEDULES_TRANSACTION_ID: 'schedule_transaction_id',
-  TRANSACTION_DATE: 'transaction_date',
+  TRANSACTION_DATE: 'transaction_executed_at',
   CREATED_AT: 'created_at',
   UPDATED_AT: 'updated_at',
+  NAME: 'name',
+  CURRENCY: 'currency',
+  INCOME_AMOUNT: 'income_amount',
+  TRANSACTION_ID: 'transaction_id',
 };
 
 // common

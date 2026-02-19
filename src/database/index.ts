@@ -1,7 +1,7 @@
 import {Database} from '@nozbe/watermelondb';
 import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite';
 
-import migrations from './migrations';
+// import migrations from './migrations';
 import BudgetModel from './models/budget';
 import BudgetGroupModel from './models/budgetGroup';
 import CategoriesModel from './models/categories';

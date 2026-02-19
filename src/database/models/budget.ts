@@ -14,6 +14,7 @@ import {
 } from '../consts';
 import BudgetGroupModel from './budgetGroup';
 import ScheduledTransactionsModel from './scheduledTransactions';
+import TransactionModel from './transaction';
 
 export default class BudgetModel extends Model {
   static table: string = tables.BUDGET;
@@ -24,6 +25,10 @@ export default class BudgetModel extends Model {
       type: 'has_many',
       foreignKey: columns.SCHEDULES_TRANSACTION_ID,
     },
+    [tables.TRANSACTIONS]: {
+      type: 'has_many',
+      foreignKey: columns.TRANSACTION_ID,
+    },
   };
 
   @field(NAME) name!: string;
@@ -33,6 +38,8 @@ export default class BudgetModel extends Model {
   @relation(tables.BUDGET_GROUPS, BUDGET_GROUP_ID) budgetGroup!: Relation<BudgetGroupModel>;
   @children(tables.SCHEDULES_TRANSACTIONS)
   scheduledTransactions!: Query<ScheduledTransactionsModel>;
+  @children(tables.SCHEDULES_TRANSACTIONS)
+  transactions!: Query<TransactionModel>;
 
   @readonly @date(CREATED_AT) createdAt!: Date;
   @readonly @date(UPDATED_AT) updatedAt!: Date;

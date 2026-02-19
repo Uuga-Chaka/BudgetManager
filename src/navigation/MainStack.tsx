@@ -6,8 +6,10 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import Text from '@app/components/core/Text/Text';
+import AppLayout from '@app/components/Layout/Layout';
 import {localStorageKeys} from '@app/consts/localStorageKeys';
 import {database} from '@app/database';
+import AddTransaction from '@app/screens/AddTransaction/AddTransaction';
 import {type ThemeProps} from '@app/theme/theme';
 import {useAppTheme} from '@app/theme/useAppTheme';
 
@@ -72,6 +74,15 @@ export default function Router() {
             contentStyle: styles.navigatorStyle,
           }}>
           <Stack.Screen name={Routes.Home} component={HomeTabs} />
+          <Stack.Group screenLayout={AppLayout}>
+            <Stack.Screen
+              name={Routes.AddTransaction}
+              component={AddTransaction}
+              options={{
+                presentation: 'modal',
+              }}
+            />
+          </Stack.Group>
           <Stack.Screen name={Routes.Onboarding} component={OnboardingRouter} />
         </Stack.Navigator>
       </NavigationContainer>

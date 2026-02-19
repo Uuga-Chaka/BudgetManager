@@ -1,8 +1,17 @@
-import {Controller, type FieldValues, type UseControllerProps} from 'react-hook-form';
+import {
+  Controller,
+  type FieldPath,
+  type FieldValues,
+  type UseControllerProps,
+} from 'react-hook-form';
 
 import Input, {type InputCoreProps} from '../core/Input/Input';
 
-export const InputForm = <T extends FieldValues>({
+export const InputForm = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  TTransformedValues = TFieldValues,
+>({
   name,
   control,
   rules,
@@ -13,7 +22,8 @@ export const InputForm = <T extends FieldValues>({
   containerStyle,
   disableErrorMsg,
   ...props
-}: UseControllerProps<T> & InputCoreProps & {disableErrorMsg?: boolean}) => {
+}: UseControllerProps<TFieldValues, TName, TTransformedValues> &
+  InputCoreProps & {disableErrorMsg?: boolean}) => {
   return (
     <Controller
       name={name}

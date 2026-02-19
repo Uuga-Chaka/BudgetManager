@@ -27,7 +27,7 @@ export const transactionsTable = tableSchema({
     },
     {
       name: columns.TRANSACTION_DATE,
-      type: 'string',
+      type: 'number',
     },
     {
       name: columns.CREATED_AT,

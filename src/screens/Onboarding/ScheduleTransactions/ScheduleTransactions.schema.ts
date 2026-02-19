@@ -1,5 +1,7 @@
 import {z} from 'zod';
 
+import {currencyStringToNumber} from '@app/utils/currency';
+
 export const schemaKey = {
   categoryId: 'categoryId',
   budgetId: 'budgetId',
@@ -13,7 +15,10 @@ const SingleBudgetSchema = z.object({
   [schemaKey.categoryId]: z.string().nonempty(),
   [schemaKey.budgetId]: z.string().nonempty(),
   [schemaKey.description]: z.string().nonempty(),
-  [schemaKey.budgetAmount]: z.number().positive(),
+  [schemaKey.budgetAmount]: z
+    .string()
+    .nonempty()
+    .transform(n => currencyStringToNumber(n)),
 });
 
 export const BudgetListSchema = z.object({
@@ -21,4 +26,5 @@ export const BudgetListSchema = z.object({
   [schemaKey.budgetList]: z.array(SingleBudgetSchema),
 });
 
-export type ScheduleTransactionFormType = z.infer<typeof BudgetListSchema>;
+export type ScheduleTransactionFormTypeInput = z.input<typeof BudgetListSchema>;
+export type ScheduleTransactionFormTypeOutput = z.output<typeof BudgetListSchema>;
