@@ -8,12 +8,10 @@ import {
   getCurrentMonthLatestBudget,
   getIncomeSumByCurrentMonth,
 } from '@app/database/queries/createIncome';
-import {formatCurrency} from '@app/utils/currency';
 
 import Text from '../core/Text/Text';
 
 import type BudgetModel from '@app/database/models/budget';
-import type BudgetGroupModel from '@app/database/models/budgetGroup';
 import type IncomeModel from '@app/database/models/income';
 
 // TODO: REDO styles a connect it to themes
@@ -73,32 +71,20 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   scrollContainer: {
-    marginBottom: 12,
+    marginVertical: 12,
     paddingLeft: 16,
     paddingRight: 8,
   },
 });
 
-function Dashboard({
-  income,
-  budgetGroup,
-  budgets,
-}: {
-  income: IncomeModel[];
-  budgets: BudgetModel[];
-  budgetGroup: BudgetGroupModel[];
-}) {
+function Dashboard({income, budgets}: {income: IncomeModel[]; budgets: BudgetModel[]}) {
   const currentMonthIncome = income.reduce((prev, current) => prev + current.incomeAmount, 0);
 
-  const formattedCurrency = (value: number) => {
-    const {formatted} = formatCurrency({value: String(value)});
-    return formatted;
-  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.label}>Total Income</Text>
-        <Text style={styles.incomeAmount}>{formattedCurrency(currentMonthIncome)}</Text>
+        <Text style={styles.incomeAmount}>${currentMonthIncome.toLocaleString()}</Text>
       </View>
 
       <ScrollView
@@ -111,7 +97,7 @@ function Dashboard({
             <Text style={styles.percentage}>{e.targetPercentage * 100}%</Text>
             <View style={styles.divider} />
             <Text style={styles.allocatedAmount}>
-              {formattedCurrency(currentMonthIncome * e.targetPercentage)}
+              ${(currentMonthIncome * e.targetPercentage).toLocaleString()}
             </Text>
           </View>
         ))}

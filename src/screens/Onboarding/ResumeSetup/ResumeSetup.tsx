@@ -58,7 +58,7 @@ export default function ResumeSetup({
           <Text variant="h6">Entrada de dinero</Text>
 
           <Text>{countryCode}</Text>
-          <Text>{incomeAmount}</Text>
+          <Text>{incomeAmount.toLocaleString('en-CO')}</Text>
           <Text>{incomeName}</Text>
         </View>
 
@@ -67,7 +67,7 @@ export default function ResumeSetup({
           <Text>{percentageGroupName}</Text>
           {percentageGroups.map(e => (
             <Text key={e.id}>
-              {e.name} - {e.percentage}%
+              {e.name} - {e.percentage * 100}%
             </Text>
           ))}
         </View>
