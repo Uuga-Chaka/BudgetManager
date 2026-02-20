@@ -35,10 +35,10 @@ const styleProps = (theme: ThemeProps) => {
 };
 
 const filterOptions = (data: CountryInfo[], value: string) => {
+  const searchValue = value.trim().toLowerCase();
   return data.filter(e => {
     const listValue = `${e.countryName.toLowerCase()}-${e.currency.toLowerCase()}-${e.symbol.toLowerCase()}`;
-    const searchValue = value.toLowerCase();
-    return listValue.match(searchValue);
+    return listValue.includes(searchValue);
   });
 };
 

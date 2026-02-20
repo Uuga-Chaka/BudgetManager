@@ -1,11 +1,5 @@
-import React, {
-  createContext,
-  useRef,
-  type PropsWithChildren,
-  use,
-  useCallback,
-  useState,
-} from 'react';
+import React, {createContext, type PropsWithChildren, use, useCallback, useState} from 'react';
+import {View} from 'react-native';
 
 import {KeyboardAwareScrollView} from 'react-native-keyboard-controller';
 

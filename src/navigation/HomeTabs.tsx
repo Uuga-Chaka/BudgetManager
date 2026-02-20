@@ -20,9 +20,6 @@ export default function HomeTabs() {
             return <TransactionIcon stroke={'#adadad'} />;
           return <SettingsIcon stroke={'#adadad'} />;
         },
-        tabBarStyle: {
-          height: 80,
-        },
       })}>
       <Tab.Screen name={Routes.Transactions} component={TransactionScreen} />
       <Tab.Screen name={Routes.Dashboard} component={Dashboard} />
