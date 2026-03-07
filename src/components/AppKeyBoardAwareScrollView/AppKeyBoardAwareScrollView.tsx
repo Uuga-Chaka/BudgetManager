@@ -7,6 +7,7 @@ import {styles} from './AppKeyBoardAwareScrollView.styles';
 
 type AppKeyboardContextProps = {
   setIsScrollEnabled: (isEnabled: boolean) => void;
+  scrollEnabled: boolean;
 };
 
 const AppKeyboardContext = createContext<AppKeyboardContextProps | null>(null);
@@ -19,7 +20,7 @@ export default function AppKeyBoardAwareScrollView({children}: PropsWithChildren
   }, []);
 
   return (
-    <AppKeyboardContext value={{setIsScrollEnabled}}>
+    <AppKeyboardContext value={{setIsScrollEnabled, scrollEnabled}}>
       <KeyboardAwareScrollView
         bottomOffset={50}
         scrollEnabled={scrollEnabled}

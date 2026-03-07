@@ -24,6 +24,9 @@ export const Routes = {
   Planning: 'Planning',
 
   // ONBOARDING
+  SelectBudgetPlan: 'SelectBudgetPlan',
+  NetIncomeSetup: 'NetIncomeSetup',
+
   Introduction: 'Introduction',
   IncomeSetup: 'IncomeSetup',
   BudgetSetup: 'BudgetSetup',
@@ -45,6 +48,9 @@ export type TabStackParamList = {
 };
 
 export type OnboardingParamList = {
+  [Routes.SelectBudgetPlan]: undefined;
+  [Routes.NetIncomeSetup]: undefined;
+
   [Routes.Introduction]: undefined;
   [Routes.IncomeSetup]: undefined;
   [Routes.BudgetSetup]: undefined;
