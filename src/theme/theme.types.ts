@@ -19,4 +19,6 @@ export type ThemePropsCore = {
   sizes: Record<string, number>;
   spacing: Record<string, number>;
   radius: Record<string, number>;
+  fontSizes: Record<string, number>;
+  fontFamily: Record<string, string>;
 };

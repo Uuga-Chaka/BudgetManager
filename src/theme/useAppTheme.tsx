@@ -10,6 +10,8 @@ export type ThemeContextTypes = {
   theme: ThemeProps;
   colors: ThemeProps['colors'];
   sizes: ThemeProps['sizes'];
+  fontSize: ThemeProps['fontSizes'];
+  fontFamily: ThemeProps['fontFamily'];
   toggleSelectedTheme: () => void;
 };
 
@@ -34,6 +36,8 @@ export const AppThemeProvider = ({children}: PropsWithChildren) => {
       theme: theme[mode],
       colors: theme[mode].colors,
       sizes: theme[mode].sizes,
+      fontSize: theme[mode].fontSizes,
+      fontFamily: theme[mode].fontFamily,
       toggleSelectedTheme,
     };
   }, [isThemeLight, selectedTheme]);

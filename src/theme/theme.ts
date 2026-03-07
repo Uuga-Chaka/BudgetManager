@@ -1,5 +1,5 @@
 import {themeColors} from './colors';
-import {radius, spacing} from './sizes';
+import {radius, spacing, fontSizes} from './sizes';
 import {
   type ThemeSemanticsCore as TeamSemanticsCore,
   ThemeVariant,
@@ -49,6 +49,11 @@ const basic = {
   basicTrans_300: themeColors.basicTrans_300,
 };
 
+const fontFamily = {
+  primary: 'Lato-Regular',
+  secondary: 'MontaguSlab-Regular',
+};
+
 export const theme = {
   [ThemeVariant.dark]: {
     colors: {
@@ -72,6 +77,8 @@ export const theme = {
     },
     spacing,
     radius,
+    fontSizes,
+    fontFamily,
   },
   [ThemeVariant.light]: {
     colors: {
@@ -95,6 +102,8 @@ export const theme = {
     },
     spacing,
     radius,
+    fontSizes,
+    fontFamily,
   },
 } as const satisfies ThemeCore;
 
