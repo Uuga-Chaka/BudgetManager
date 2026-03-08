@@ -84,7 +84,7 @@ const Background = memo(() => {
       })}
 
       <Fill blendMode={'colorDodge'}>
-        <Turbulence freqX={0.9} freqY={0.9} octaves={2} />
+        <Turbulence freqX={0.4} freqY={0.4} octaves={2} />
       </Fill>
     </Canvas>
   );

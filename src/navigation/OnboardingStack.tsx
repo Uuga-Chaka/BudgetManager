@@ -10,6 +10,7 @@ import Introduction from '@app/screens/Onboarding/Introduction/Introduction';
 import ResumeSetup from '@app/screens/Onboarding/ResumeSetup/ResumeSetup';
 import ScheduleTransactions from '@app/screens/Onboarding/ScheduleTransactions/ScheduleTransactions';
 import BudgetPlanScreen from '@app/screens/UserSetup/BudgetPlanScreen/BudgetPlanScreen';
+import CommonExpensesScreen from '@app/screens/UserSetup/CommonExpensesScreen/CommonExpensesScreen';
 import NetIncomeSetupScreen from '@app/screens/UserSetup/NetIncomeSetupScreen/NetIncomeSetupScreen';
 
 import {type OnboardingParamList, Routes} from './navigation.types';
@@ -25,6 +26,7 @@ export default function OnboardingRouter() {
       <Group screenLayout={AppLayout}>
         <Screen name={Routes.SelectBudgetPlan} component={BudgetPlanScreen} />
         <Screen name={Routes.NetIncomeSetup} component={NetIncomeSetupScreen} />
+        <Screen name={Routes.CommonExpenses} component={CommonExpensesScreen} />
 
         <Screen name={Routes.Introduction} component={Introduction} />
         <Screen name={Routes.IncomeSetup} component={IncomeSetup} />

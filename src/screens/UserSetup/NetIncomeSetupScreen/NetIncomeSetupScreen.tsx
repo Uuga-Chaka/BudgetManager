@@ -6,6 +6,7 @@ import {KeyboardAvoidingView} from 'react-native-keyboard-controller';
 import {DollarSignIcon} from '@app/assets/Icons';
 import Button from '@app/components/core/Button/Button';
 import Text from '@app/components/core/Text/Text';
+import {type RootOnboardingScreenProps, Routes} from '@app/navigation/navigation.types';
 import {type ThemeProps} from '@app/theme/theme';
 import {useAppTheme} from '@app/theme/useAppTheme';
 
@@ -49,7 +50,9 @@ const styleProps = (theme: ThemeProps) => {
   return styles;
 };
 
-export default function NetIncomeSetupScreen() {
+export default function NetIncomeSetupScreen({
+  navigation,
+}: RootOnboardingScreenProps<typeof Routes.NetIncomeSetup>) {
   const {theme} = useAppTheme();
 
   const styles = styleProps(theme);
@@ -77,7 +80,7 @@ export default function NetIncomeSetupScreen() {
             <DollarSignIcon color={'white'} />
             <TextInput ref={inputRef} style={styles.input} />
           </View>
-          <Button>Continuar</Button>
+          <Button onPress={() => navigation.navigate(Routes.CommonExpenses)}>Continuar</Button>
         </View>
       </View>
     </KeyboardAvoidingView>
