@@ -34,7 +34,7 @@ const RuleItem = ({title, description, onPress}: RuleItemProps) => {
     <View style={styles.card}>
       <View style={styles.cardContent}>
         <Text variant="s1">{title}</Text>
-        <Text variant="p2">{description} </Text>
+        <Text variant="p2">{description}</Text>
         <Button onPress={onPress}>Seleccionar regla</Button>
       </View>
       <View style={styles.cardImagePlaceholder} />

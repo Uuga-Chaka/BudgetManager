@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {View, TextInput, StyleSheet} from 'react-native';
 
 import {KeyboardAvoidingView} from 'react-native-keyboard-controller';
@@ -11,13 +11,19 @@ import {useAppTheme} from '@app/theme/useAppTheme';
 
 const styleProps = (theme: ThemeProps) => {
   const styles = StyleSheet.create({
+    bottomContainer: {
+      flex: 1,
+      justifyContent: 'space-between',
+    },
+
     content: {
       flex: 1,
       marginVertical: 24,
     },
-
     descriptionContainer: {
+      flex: 1,
       gap: theme.spacing.l,
+      justifyContent: 'center',
     },
     inner: {
       flex: 1,
@@ -26,12 +32,16 @@ const styleProps = (theme: ThemeProps) => {
     },
     input: {
       flexGrow: 1,
+      fontFamily: theme.fontFamily.primary,
+      fontSize: theme.fontSizes.size16,
     },
+
     inputContainer: {
       alignItems: 'center',
       borderBottomWidth: 1,
       borderColor: theme.colors.white,
       flexDirection: 'row',
+
       textAlign: 'center',
       width: '100%',
     },
@@ -43,6 +53,12 @@ export default function NetIncomeSetupScreen() {
   const {theme} = useAppTheme();
 
   const styles = styleProps(theme);
+  const inputRef = useRef<TextInput>(null);
+
+  useEffect(() => {
+    if (inputRef !== null) inputRef.current?.focus();
+  }, [inputRef]);
+
   return (
     <KeyboardAvoidingView
       behavior={'padding'}
@@ -56,11 +72,13 @@ export default function NetIncomeSetupScreen() {
             deducciones.
           </Text>
         </View>
-        <View style={styles.inputContainer}>
-          <DollarSignIcon color={'white'} />
-          <TextInput style={styles.input} />
+        <View style={styles.bottomContainer}>
+          <View style={styles.inputContainer}>
+            <DollarSignIcon color={'white'} />
+            <TextInput ref={inputRef} style={styles.input} />
+          </View>
+          <Button>Continuar</Button>
         </View>
-        <Button>Continuar</Button>
       </View>
     </KeyboardAvoidingView>
   );

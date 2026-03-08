@@ -9,8 +9,8 @@ export const createTextConfiguration = (
 ): Record<FontVariantType, StyleProp<TextStyle>> => {
   const {colors, fontSizes, fontFamily} = theme;
 
-  const base: TextStyle = {color: colors.backgroundReverse};
-  const pBase: TextStyle = {color: colors.basicTrans_100, fontFamily: fontFamily.primary};
+  const base: TextStyle = {color: colors.text};
+  const pBase: TextStyle = {color: colors.text, fontFamily: fontFamily.primary, opacity: 0.7};
   const hBase: TextStyle = {...base, fontFamily: fontFamily.secondary};
 
   return {

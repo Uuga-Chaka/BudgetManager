@@ -61,7 +61,7 @@ export const theme = {
       white: themeColors.white,
       background: themeColors.black,
       backgroundReverse: themeColors.white,
-
+      text: themeColors.white,
       textHint: themeColors.basic_200,
 
       // SEMANTIC COLORS
@@ -87,6 +87,7 @@ export const theme = {
       background: themeColors.white,
       backgroundReverse: themeColors.black,
 
+      text: themeColors.black,
       textHint: themeColors.basic_200,
 
       // SEMANTIC COLORS
