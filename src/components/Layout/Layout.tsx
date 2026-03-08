@@ -16,21 +16,12 @@ import {
   vec,
 } from '@shopify/react-native-skia';
 
+import {ChevronLeftIcon} from '@app/assets/Icons';
 import {type OnboardingParamList} from '@app/navigation/navigation.types';
+import {type ThemeProps} from '@app/theme/theme';
 import {useAppTheme} from '@app/theme/useAppTheme';
 
-import {size} from '../../consts/styles';
-
-const styles = StyleSheet.create({
-  layout: {
-    alignContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: size.m,
-  },
-});
+import Text from '../core/Text/Text';
 
 type AppLayoutProps = {
   route: RouteProp<OnboardingParamList, keyof OnboardingParamList>;
@@ -42,17 +33,62 @@ const colorArray = ['#F8818C', '#FDD9D5', '#000000', '#E1265C', '#70094F', '#000
 
 const blobSize = 1000;
 
-export default function AppLayout({children, navigation}: AppLayoutProps) {
-  const canGoBack = navigation.canGoBack();
-  // const {colors, statusBarStyle} = useAppTheme();
+const styleProps = (theme: ThemeProps) => {
+  const styles = StyleSheet.create({
+    headerContainer: {
+      alignItems: 'center',
+      flexDirection: 'row',
+      height: 56,
+      justifyContent: 'flex-start',
+      padding: theme.spacing.s,
+      width: '100%',
+    },
+    headerSideSlot: {
+      alignItems: 'flex-start',
+      width: 32,
+    },
+    headerTitle: {
+      flex: 1,
+      textAlign: 'center',
+    },
+    layout: {
+      alignContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column',
+      flex: 1,
+      justifyContent: 'center',
+      paddingHorizontal: theme.sizes.m,
+    },
+  });
+  return styles;
+};
 
-  // const renderBackAction = () => {
-  //   if (!canGoBack) return <></>;
-  // };
+export default function AppLayout({children, navigation, options}: AppLayoutProps) {
+  const canGoBack = navigation.canGoBack();
+  const {theme} = useAppTheme();
+  const renderBackAction = () => {
+    if (!canGoBack) return <></>;
+    return (
+      <ChevronLeftIcon
+        color={theme.colors.backgroundReverse}
+        size={32}
+        onPress={() => navigation.goBack()}
+      />
+    );
+  };
+
+  const styles = styleProps(theme);
 
   return (
     <>
       <Background />
+      <View style={styles.headerContainer}>
+        {canGoBack && renderBackAction()}
+        <Text variant="s2" style={styles.headerTitle}>
+          {options.title}
+        </Text>
+        {canGoBack && <View style={styles.headerSideSlot} />}
+      </View>
       <View style={styles.layout}>{children}</View>
     </>
   );
@@ -67,11 +103,13 @@ const Background = memo(() => {
   }));
 
   return (
+    // eslint-disable-next-line react-native/no-inline-styles
     <Canvas style={{width, height, position: 'absolute', top: 0, left: 0}}>
       <Fill color={'black'} />
       {colorArray.map((color, i) => {
         return (
           <Group
+            // eslint-disable-next-line @eslint-react/no-array-index-key
             key={`blob-${i} + ${color}`}
             transform={[
               {translateX: blobPositions[i].translateX},

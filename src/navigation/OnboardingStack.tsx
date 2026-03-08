@@ -17,6 +17,12 @@ import {type OnboardingParamList, Routes} from './navigation.types';
 
 const {Screen, Navigator, Group} = createNativeStackNavigator<OnboardingParamList>();
 
+const titles = {
+  selectBudget: 'Configuración presupuestaria',
+  netIncome: 'Perfil de ingresos',
+  commonExpenses: 'Gastos recurrentes',
+};
+
 export default function OnboardingRouter() {
   return (
     <Navigator
@@ -24,9 +30,21 @@ export default function OnboardingRouter() {
         headerShown: false,
       }}>
       <Group screenLayout={AppLayout}>
-        <Screen name={Routes.SelectBudgetPlan} component={BudgetPlanScreen} />
-        <Screen name={Routes.NetIncomeSetup} component={NetIncomeSetupScreen} />
-        <Screen name={Routes.CommonExpenses} component={CommonExpensesScreen} />
+        <Screen
+          name={Routes.SelectBudgetPlan}
+          component={BudgetPlanScreen}
+          options={{title: titles.selectBudget}}
+        />
+        <Screen
+          name={Routes.NetIncomeSetup}
+          component={NetIncomeSetupScreen}
+          options={{title: titles.netIncome}}
+        />
+        <Screen
+          name={Routes.CommonExpenses}
+          component={CommonExpensesScreen}
+          options={{title: titles.commonExpenses}}
+        />
 
         <Screen name={Routes.Introduction} component={Introduction} />
         <Screen name={Routes.IncomeSetup} component={IncomeSetup} />

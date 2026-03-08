@@ -1,6 +1,7 @@
 import {
   BadgeDollarSign,
   ChartArea,
+  ChevronLeft,
   DollarSign,
   LucideProps,
   Plus,
@@ -18,3 +19,4 @@ export const DashboardIcon = (props = defaultProps) => <ChartArea {...props} />;
 export const SettingsIcon = (props = defaultProps) => <Settings {...props} />;
 export const PlusIcons = (props = defaultProps) => <Plus {...props} />;
 export const DollarSignIcon = (props = defaultProps) => <DollarSign {...props} />;
+export const ChevronLeftIcon = (props = defaultProps) => <ChevronLeft {...props} />;

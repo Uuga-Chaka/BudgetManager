@@ -47,13 +47,13 @@ export const createTextConfiguration = (
 
     s1: {
       ...hBase,
-      fontSize: fontSizes.size15,
+      fontSize: fontSizes.size16,
       fontWeight: 800,
       fontFamily: fontFamily.secondary,
     },
     s2: {
       ...base,
-      fontSize: fontSizes.size12,
+      fontSize: fontSizes.size18,
       fontWeight: 800,
       fontFamily: fontFamily.primary,
     },
