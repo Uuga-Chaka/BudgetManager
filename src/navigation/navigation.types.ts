@@ -27,6 +27,7 @@ export const Routes = {
   SelectBudgetPlan: 'SelectBudgetPlan',
   NetIncomeSetup: 'NetIncomeSetup',
   CommonExpenses: 'CommonExpenses',
+  BudgetSummary: 'BudgetSummary',
 
   Introduction: 'Introduction',
   IncomeSetup: 'IncomeSetup',
@@ -52,6 +53,7 @@ export type OnboardingParamList = {
   [Routes.SelectBudgetPlan]: undefined;
   [Routes.NetIncomeSetup]: undefined;
   [Routes.CommonExpenses]: undefined;
+  [Routes.BudgetSummary]: undefined;
 
   [Routes.Introduction]: undefined;
   [Routes.IncomeSetup]: undefined;

@@ -1,6 +1,7 @@
-import React, {useCallback, useState} from 'react';
+import {useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 
+import {CommonExpenseItem} from '@app/components/CommonExpenseItem/CommonExpenseItem';
 import Button from '@app/components/core/Button/Button';
 import Text from '@app/components/core/Text/Text';
 import {type ThemeProps} from '@app/theme/theme';
@@ -66,9 +67,9 @@ const styleProps = (theme: ThemeProps) => {
       justifyContent: 'space-between',
     },
     buttonContainer: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
+      flexDirection: 'column',
       gap: theme.spacing.s,
+      paddingVertical: theme.spacing.m,
     },
     container: {
       flex: 1,
@@ -76,7 +77,7 @@ const styleProps = (theme: ThemeProps) => {
     },
     topContainer: {
       justifyContent: 'center',
-      minHeight: '50%',
+      paddingVertical: 100,
     },
   });
 
@@ -98,18 +99,8 @@ const CommonExpensesScreen = () => {
     });
   };
 
-  const handleButtonSelected = useCallback(
-    (selectedExpense: string) => {
-      if (selectedExpenses.includes(selectedExpense)) {
-        return 'filled';
-      }
-      return 'outline';
-    },
-    [selectedExpenses],
-  );
-
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       <View style={styles.topContainer}>
         <Text variant="h1">¿Cuales son tus gastos más comunes?</Text>
         <Text variant="p1">
@@ -117,19 +108,21 @@ const CommonExpensesScreen = () => {
         </Text>
       </View>
       <View style={styles.bottomContainer}>
-        <View style={styles.buttonContainer}>
+        <ScrollView
+          contentContainerStyle={styles.buttonContainer}
+          showsVerticalScrollIndicator={false}>
           {commonExpensesList.map(e => (
-            <Button
+            <CommonExpenseItem
+              {...e}
               key={e.name}
-              variant={handleButtonSelected(e.name)}
-              onPress={() => onSelectedExpense(e.name)}>
-              {e.name}
-            </Button>
+              onPress={onSelectedExpense}
+              isSelected={selectedExpenses.includes(e.name)}
+            />
           ))}
-        </View>
+        </ScrollView>
         <Button>Continuar</Button>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 

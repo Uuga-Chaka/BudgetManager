@@ -40,7 +40,10 @@ const styleProps = (theme: ThemeProps) => {
       flexDirection: 'row',
       height: 56,
       justifyContent: 'flex-start',
+      left: 0,
       padding: theme.spacing.s,
+      position: 'absolute',
+      top: 0,
       width: '100%',
     },
     headerSideSlot: {
@@ -54,6 +57,7 @@ const styleProps = (theme: ThemeProps) => {
     layout: {
       alignContent: 'center',
       alignItems: 'center',
+      // backgroundColor: theme.colors.background,
       flexDirection: 'column',
       flex: 1,
       justifyContent: 'center',

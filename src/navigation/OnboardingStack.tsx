@@ -10,6 +10,7 @@ import Introduction from '@app/screens/Onboarding/Introduction/Introduction';
 import ResumeSetup from '@app/screens/Onboarding/ResumeSetup/ResumeSetup';
 import ScheduleTransactions from '@app/screens/Onboarding/ScheduleTransactions/ScheduleTransactions';
 import BudgetPlanScreen from '@app/screens/UserSetup/BudgetPlanScreen/BudgetPlanScreen';
+import BudgetSummaryScreen from '@app/screens/UserSetup/BudgetSummaryScreen/BudgetSummaryScreen';
 import CommonExpensesScreen from '@app/screens/UserSetup/CommonExpensesScreen/CommonExpensesScreen';
 import NetIncomeSetupScreen from '@app/screens/UserSetup/NetIncomeSetupScreen/NetIncomeSetupScreen';
 
@@ -21,6 +22,7 @@ const titles = {
   selectBudget: 'Configuración presupuestaria',
   netIncome: 'Perfil de ingresos',
   commonExpenses: 'Gastos recurrentes',
+  budgetSummary: 'Resumen de presupuesto',
 };
 
 export default function OnboardingRouter() {
@@ -44,6 +46,12 @@ export default function OnboardingRouter() {
           name={Routes.CommonExpenses}
           component={CommonExpensesScreen}
           options={{title: titles.commonExpenses}}
+        />
+
+        <Screen
+          name={Routes.BudgetSummary}
+          component={BudgetSummaryScreen}
+          options={{title: titles.budgetSummary}}
         />
 
         <Screen name={Routes.Introduction} component={Introduction} />
