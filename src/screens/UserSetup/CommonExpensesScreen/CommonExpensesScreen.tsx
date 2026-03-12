@@ -4,6 +4,7 @@ import {ScrollView, StyleSheet, View} from 'react-native';
 import {CommonExpenseItem} from '@app/components/CommonExpenseItem/CommonExpenseItem';
 import Button from '@app/components/core/Button/Button';
 import Text from '@app/components/core/Text/Text';
+import {type RootOnboardingScreenProps, Routes} from '@app/navigation/navigation.types';
 import {type ThemeProps} from '@app/theme/theme';
 import {useAppTheme} from '@app/theme/useAppTheme';
 
@@ -84,7 +85,9 @@ const styleProps = (theme: ThemeProps) => {
   return styles;
 };
 
-const CommonExpensesScreen = () => {
+const CommonExpensesScreen = ({
+  navigation,
+}: RootOnboardingScreenProps<typeof Routes.CommonExpenses>) => {
   const {theme} = useAppTheme();
   const styles = styleProps(theme);
 
@@ -120,7 +123,7 @@ const CommonExpensesScreen = () => {
             />
           ))}
         </ScrollView>
-        <Button>Continuar</Button>
+        <Button onPress={() => navigation.navigate(Routes.BudgetSummary)}>Continuar</Button>
       </View>
     </View>
   );
