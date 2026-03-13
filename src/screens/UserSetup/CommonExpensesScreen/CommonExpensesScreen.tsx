@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 
 import {CommonExpenseItem} from '@app/components/CommonExpenseItem/CommonExpenseItem';
 import Button from '@app/components/core/Button/Button';
@@ -63,10 +63,6 @@ const commonExpensesList = [
 
 const styleProps = (theme: ThemeProps) => {
   const styles = StyleSheet.create({
-    bottomContainer: {
-      flex: 1,
-      justifyContent: 'space-between',
-    },
     buttonContainer: {
       flexDirection: 'column',
       gap: theme.spacing.s,
@@ -74,11 +70,10 @@ const styleProps = (theme: ThemeProps) => {
     },
     container: {
       flex: 1,
-      paddingVertical: 24,
     },
     topContainer: {
       justifyContent: 'center',
-      paddingVertical: 100,
+      paddingVertical: 50,
     },
   });
 
@@ -104,27 +99,29 @@ const CommonExpensesScreen = ({
 
   return (
     <View style={styles.container}>
-      <View style={styles.topContainer}>
-        <Text variant="h1">¿Cuales son tus gastos más comunes?</Text>
-        <Text variant="p1">
-          Selecciona todos los que aplican para ayudarnos a categorizar tus gastos más facilmente.
-        </Text>
-      </View>
-      <View style={styles.bottomContainer}>
-        <ScrollView
-          contentContainerStyle={styles.buttonContainer}
-          showsVerticalScrollIndicator={false}>
-          {commonExpensesList.map(e => (
-            <CommonExpenseItem
-              {...e}
-              key={e.name}
-              onPress={onSelectedExpense}
-              isSelected={selectedExpenses.includes(e.name)}
-            />
-          ))}
-        </ScrollView>
-        <Button onPress={() => navigation.navigate(Routes.BudgetSummary)}>Continuar</Button>
-      </View>
+      <FlatList
+        ListHeaderComponent={() => (
+          <View style={styles.topContainer}>
+            <Text variant="h1">¿Cuales son tus gastos más comunes?</Text>
+            <Text variant="p1">
+              Selecciona todos los que aplican para ayudarnos a categorizar tus gastos más
+              facilmente.
+            </Text>
+          </View>
+        )}
+        data={commonExpensesList}
+        keyExtractor={item => item.name}
+        renderItem={({item}) => (
+          <CommonExpenseItem
+            {...item}
+            onPress={onSelectedExpense}
+            isSelected={selectedExpenses.includes(item.name)}
+          />
+        )}
+        contentContainerStyle={styles.buttonContainer}
+        showsVerticalScrollIndicator={false}
+      />
+      <Button onPress={() => navigation.navigate(Routes.BudgetSummary)}>Continuar</Button>
     </View>
   );
 };

@@ -65,10 +65,10 @@ export const CommonExpenseItem = ({
 
   const handleBudgetColor =
     {
-      Hogar: colors.info,
-      Deseos: colors.primary,
-      Ahorros: colors.success,
-    }[category] || colors.primary;
+      Deseos: colors.info,
+      Ocio: colors.primary,
+      Necesidades: colors.success,
+    }[budget] || colors.primary;
 
   return (
     <TouchableOpacity

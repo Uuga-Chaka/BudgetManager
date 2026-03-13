@@ -35,15 +35,16 @@ const blobSize = 1000;
 
 const styleProps = (theme: ThemeProps) => {
   const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      paddingHorizontal: theme.sizes.m,
+    },
     headerContainer: {
       alignItems: 'center',
       flexDirection: 'row',
       height: 56,
       justifyContent: 'flex-start',
-      left: 0,
       padding: theme.spacing.s,
-      position: 'absolute',
-      top: 0,
       width: '100%',
     },
     headerSideSlot: {
@@ -53,15 +54,6 @@ const styleProps = (theme: ThemeProps) => {
     headerTitle: {
       flex: 1,
       textAlign: 'center',
-    },
-    layout: {
-      alignContent: 'center',
-      alignItems: 'center',
-      // backgroundColor: theme.colors.background,
-      flexDirection: 'column',
-      flex: 1,
-      justifyContent: 'center',
-      paddingHorizontal: theme.sizes.m,
     },
   });
   return styles;
@@ -93,7 +85,7 @@ export default function AppLayout({children, navigation, options}: AppLayoutProp
         </Text>
         {canGoBack && <View style={styles.headerSideSlot} />}
       </View>
-      <View style={styles.layout}>{children}</View>
+      <View style={styles.container}>{children}</View>
     </>
   );
 }

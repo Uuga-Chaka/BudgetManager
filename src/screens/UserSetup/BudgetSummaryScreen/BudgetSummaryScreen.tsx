@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {FlatList, ScrollView, StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 
 import {type LucideProps} from 'lucide-react-native';
 import {Pie, PolarChart} from 'victory-native';
@@ -29,13 +29,6 @@ const styleProps = (theme: ThemeProps) => {
       padding: 20,
       width: '100%',
     },
-    container: {
-      alignItems: 'center',
-      flex: 1,
-      gap: theme.spacing.xl,
-      justifyContent: 'center',
-    },
-    detailsContainer: {width: '100%'},
     labelColor: {
       borderRadius: 4,
       height: theme.sizes.m,
@@ -47,10 +40,10 @@ const styleProps = (theme: ThemeProps) => {
       justifyContent: 'center',
     },
     listItemContainer: {
-      gap: theme.spacing.m,
-      marginTop: theme.spacing.l,
+      gap: theme.spacing.xs,
+      paddingTop: 32,
+      paddingVertical: theme.spacing.xs,
     },
-    scrollContainer: {flex: 1, width: '100%'},
     singleLabelContainer: {
       alignItems: 'center',
       flexDirection: 'row',
@@ -101,42 +94,44 @@ const BudgetSummaryScreen = ({
   const styles = styleProps(theme);
 
   return (
-    <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.container}>
-      <Text variant="h1">{(5000000).toLocaleString()}</Text>
+    <FlatList
+      showsVerticalScrollIndicator={false}
+      data={Data}
+      contentContainerStyle={styles.listItemContainer}
+      ListHeaderComponent={() => (
+        <>
+          <Text variant="h1">{(5000000).toLocaleString()}</Text>
 
-      <View style={styles.charContainer}>
-        <PolarChart data={Data} labelKey={'label'} valueKey={'value'} colorKey={'color'}>
-          <Pie.Chart innerRadius={100} />
-        </PolarChart>
-      </View>
-      <View style={styles.labelsContainer}>
-        {Data.map(e => (
-          <View key={e.label} style={styles.singleLabelContainer}>
-            <View style={[styles.labelColor, {backgroundColor: e.color}]} />
-            <View>
-              <Text> {e.label}</Text>
-            </View>
+          <View style={styles.charContainer}>
+            <PolarChart data={Data} labelKey={'label'} valueKey={'value'} colorKey={'color'}>
+              <Pie.Chart innerRadius={100} />
+            </PolarChart>
           </View>
-        ))}
-      </View>
-      <View style={styles.detailsContainer}>
-        <Text variant="s2">Breakdown</Text>
-        <FlatList
-          data={Data}
-          contentContainerStyle={styles.listItemContainer}
-          renderItem={({item: {icon, value, label, percentage, categories}}) => (
-            <SummaryListItem
-              Icon={icon}
-              budgetAmount={value}
-              budgetName={label}
-              budgetPercentage={percentage}
-              categories={categories}
-            />
-          )}
+          <View style={styles.labelsContainer}>
+            {Data.map(e => (
+              <View key={e.label} style={styles.singleLabelContainer}>
+                <View style={[styles.labelColor, {backgroundColor: e.color}]} />
+                <View>
+                  <Text> {e.label}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        </>
+      )}
+      ListFooterComponent={() => (
+        <Button onPress={() => navigation.navigate(Routes.Home)}>Finalizar</Button>
+      )}
+      renderItem={({item: {icon, value, label, percentage, categories}}) => (
+        <SummaryListItem
+          Icon={icon}
+          budgetAmount={value}
+          budgetName={label}
+          budgetPercentage={percentage}
+          categories={categories}
         />
-      </View>
-      <Button onPress={() => navigation.navigate(Routes.Home)}>Finalizar</Button>
-    </ScrollView>
+      )}
+    />
   );
 };
 
