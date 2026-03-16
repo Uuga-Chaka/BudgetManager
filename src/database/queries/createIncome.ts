@@ -1,5 +1,10 @@
 import {Q} from '@nozbe/watermelondb';
 
+import {
+  type CommonExpense,
+  DEFAULT_BUDGET_SETUP,
+  DEFAULT_CATEGORIES,
+} from '@app/consts/budgetGroupOptions';
 import {getCurrentMonthFirstLastDayInUnix} from '@app/utils/date';
 
 import {database} from '..';
@@ -292,5 +297,73 @@ export const createTransaction = async ({
     });
   } catch (error) {
     console.error(`[Database Error] Failed to create transaction`, error);
+  }
+};
+
+export const finalizeOnboardingData = ({
+  percentageGroupName,
+  incomeName,
+  incomeAmount,
+  commonExpenses,
+  percentageGroups = DEFAULT_BUDGET_SETUP,
+}: {
+  commonExpenses: CommonExpense[];
+  incomeName: string;
+  incomeAmount: number;
+  percentageGroupName: string;
+  percentageGroups?: {name: string; percentage: number; id: number}[];
+}) => {
+  try {
+    return database.write(async () => {
+      const newBudgetGroup = await database
+        .get<BudgetGroupModel>(tables.BUDGET_GROUPS)
+        .create(bg => {
+          bg.name = percentageGroupName;
+          bg.addBudgetGroup(
+            percentageGroups.map(({name, percentage}) => ({
+              name,
+              percentage,
+            })),
+          );
+        });
+
+      await database.get<IncomeModel>(tables.INCOME).create(income => {
+        income.name = incomeName;
+        income.incomeAmount = incomeAmount;
+        income.currency = 'COP';
+      });
+
+      const categoryMap = new Map<number, CategoriesModel>();
+
+      for (const cat of DEFAULT_CATEGORIES) {
+        const createdCat = await database
+          .get<CategoriesModel>(tables.CATEGORIES)
+          .create(category => {
+            category.name = cat.name;
+          });
+        categoryMap.set(cat.id, createdCat);
+      }
+
+      const scheduledTransactionsTable = database.get<ScheduledTransactionsModel>(
+        tables.SCHEDULES_TRANSACTIONS,
+      );
+
+      const expenseRecords = commonExpenses.map(({budgetId, categoryId, name}) => {
+        const dbCategory = categoryMap.get(categoryId);
+        return scheduledTransactionsTable.prepareCreate(transaction => {
+          transaction.description = name;
+          transaction.budgetGroup.id = newBudgetGroup.id;
+          transaction.budget.id = budgetId.toString();
+
+          if (dbCategory) {
+            transaction.category.set(dbCategory);
+          }
+        });
+      });
+
+      await database.batch(...expenseRecords);
+    });
+  } catch (error) {
+    console.error(`[Database Error] Failed to finalize onboarding`, error);
   }
 };

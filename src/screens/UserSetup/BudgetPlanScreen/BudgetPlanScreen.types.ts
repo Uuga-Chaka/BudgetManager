@@ -8,4 +8,5 @@ export type RuleList = {
   image: string;
   groupName?: string;
   budgetGroup?: PercentageBudgetGroup;
+  disabled?: boolean;
 };

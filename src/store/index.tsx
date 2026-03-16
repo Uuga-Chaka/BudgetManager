@@ -1,5 +1,6 @@
 import {create} from 'zustand';
 
+import {type CommonExpense} from '@app/consts/budgetGroupOptions';
 import {type PercentageBudgetGroup} from '@app/types/budgetGroup';
 
 type SetupStoreState = {
@@ -14,6 +15,9 @@ type SetupStoreState = {
 
   // ##---CATEGORIES---##
   categories: {id: number; name: string}[];
+
+  // ##---COMMON EXPENSES ---##
+  commonExpenses: CommonExpense[];
 };
 
 type SetupStoreActions = {
@@ -28,11 +32,15 @@ type SetupStoreActions = {
 
   // ##---CATEGORIES---##
   setCategories: (categories: SetupStoreState['categories']) => void;
+
+  // ##---COMMON EXPENSES ---##
+  setCommonExpenses: (expenses: SetupStoreState['commonExpenses']) => void;
+  toggleSelectedExpense: (expenses: CommonExpense) => void;
 };
 
 type SetupStore = SetupStoreActions & SetupStoreState;
 
-export const useSetupStore = create<SetupStore>()(set => ({
+export const useSetupStore = create<SetupStore>()((set, _, store) => ({
   // ##---BUDGET SETUP---##
   incomeName: '',
   setIncomeName: incomeName => set(() => ({incomeName})),
@@ -50,4 +58,25 @@ export const useSetupStore = create<SetupStore>()(set => ({
   // ##---CATEGORIES---##
   categories: [],
   setCategories: categories => set(() => ({categories})),
+
+  // ##---COMMON EXPENSES ---##
+  commonExpenses: [],
+  setCommonExpenses: commonExpenses => set(() => ({commonExpenses})),
+  toggleSelectedExpense: selectedExpense =>
+    set(state => {
+      const isSelected = state.commonExpenses.some(e => e.name === selectedExpense.name);
+
+      if (isSelected) {
+        return {
+          commonExpenses: state.commonExpenses.filter(e => e.name !== selectedExpense.name),
+        };
+      }
+
+      return {
+        commonExpenses: [...state.commonExpenses, selectedExpense],
+      };
+    }),
+
+  // ##---UTILS---##
+  reset: () => set(store.getInitialState()),
 }));

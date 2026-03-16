@@ -29,9 +29,11 @@ export default function BudgetPlanScreen({
         </Text>
       </View>
       <View style={styles.listContainer}>
-        {ruleList.map(e => (
-          <RuleItem {...e} onPress={() => handleBudgetSelection(e)} key={e.title} />
-        ))}
+        {ruleList
+          .filter(e => !e.disabled)
+          .map(e => (
+            <RuleItem {...e} onPress={() => handleBudgetSelection(e)} key={e.title} />
+          ))}
       </View>
     </ScrollView>
   );
@@ -57,6 +59,7 @@ type RuleItemProps = {
   image?: string;
 };
 
+// TODO: Handle implementation for pay yourself first
 const ruleList: RuleList[] = [
   {
     title: 'Regla 50/30/20',
@@ -75,6 +78,7 @@ const ruleList: RuleList[] = [
     image: 'image',
     groupName: 'Save yourself',
     budgetGroup: SAVE_YOURSELF_BUDGET,
+    disabled: true,
   },
   {
     title: 'Asignación personalizada',

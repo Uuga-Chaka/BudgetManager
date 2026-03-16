@@ -1,6 +1,7 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
 import {CheckIcon} from '@app/assets/Icons';
+import {type CommonExpense} from '@app/consts/budgetGroupOptions';
 import {type ThemeProps} from '@app/theme/theme';
 import {useAppTheme} from '@app/theme/useAppTheme';
 
@@ -48,16 +49,11 @@ const styleProps = (theme: ThemeProps) => {
 };
 
 export const CommonExpenseItem = ({
-  name,
-  category,
-  budget,
   onPress,
   isSelected,
-}: {
-  name: string;
-  category: string;
-  budget: string;
-  onPress: (expense: string) => void;
+  ...rest
+}: CommonExpense & {
+  onPress: (value: CommonExpense) => void;
   isSelected: boolean;
 }) => {
   const {theme, colors} = useAppTheme();
@@ -68,20 +64,20 @@ export const CommonExpenseItem = ({
       Deseos: colors.info,
       Ocio: colors.primary,
       Necesidades: colors.success,
-    }[budget] || colors.primary;
+    }[rest.budget] || colors.primary;
 
   return (
     <TouchableOpacity
-      onPress={() => onPress(name)}
+      onPress={() => onPress(rest)}
       style={[styles.container, isSelected && styles.selectedContainer]}>
       <View style={styles.checkboxContainer}>
         {isSelected && <CheckIcon color={colors.primary} />}
       </View>
       <View style={styles.infoContainer}>
-        <Text variant="h6">{name}</Text>
+        <Text variant="h6">{rest.name}</Text>
         <View style={styles.detailContainer}>
-          <Text style={[styles.textBudget, {color: handleBudgetColor}]}>{budget}</Text>
-          <Text style={styles.textCategory}> | {category}</Text>
+          <Text style={[styles.textBudget, {color: handleBudgetColor}]}>{rest.budget}</Text>
+          <Text style={styles.textCategory}> | {rest.category}</Text>
         </View>
       </View>
     </TouchableOpacity>
