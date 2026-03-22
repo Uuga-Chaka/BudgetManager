@@ -101,16 +101,20 @@ export default function AddTransaction({
 
   const saveScheduleTransactions = handleSubmit(
     async ({budgetAmount, budgetGroupId, budgetId, categoryId, description}) => {
-      const bdt = currencyStringToNumber(budgetAmount);
-      await createTransaction({
-        [schemaKey.budgetAmount]: bdt,
-        [schemaKey.budgetGroupId]: budgetGroupId,
-        [schemaKey.budgetId]: budgetId,
-        [schemaKey.categoryId]: categoryId,
-        [schemaKey.description]: description,
-      });
+      try {
+        const bdt = currencyStringToNumber(budgetAmount);
+        await createTransaction({
+          [schemaKey.budgetAmount]: bdt,
+          [schemaKey.budgetGroupId]: budgetGroupId,
+          [schemaKey.budgetId]: budgetId,
+          [schemaKey.categoryId]: categoryId,
+          [schemaKey.description]: description,
+        });
 
-      navigation.goBack();
+        navigation.goBack();
+      } catch (error) {
+        console.error('Error creating transaction:', error);
+      }
     },
   );
 

@@ -1,6 +1,7 @@
 import {Model, Query, Relation} from '@nozbe/watermelondb';
-import {children, date, field, readonly, relation} from '@nozbe/watermelondb/decorators';
+import {children, date, field, lazy, readonly, relation} from '@nozbe/watermelondb/decorators';
 import {Associations} from '@nozbe/watermelondb/Model';
+import {map, Observable} from 'rxjs';
 
 import {
   BUDGET_GROUP_ID,
@@ -27,7 +28,7 @@ export default class BudgetModel extends Model {
     },
     [tables.TRANSACTIONS]: {
       type: 'has_many',
-      foreignKey: columns.TRANSACTION_ID,
+      foreignKey: columns.BUDGET_ID,
     },
   };
 
@@ -38,7 +39,7 @@ export default class BudgetModel extends Model {
   @relation(tables.BUDGET_GROUPS, BUDGET_GROUP_ID) budgetGroup!: Relation<BudgetGroupModel>;
   @children(tables.SCHEDULES_TRANSACTIONS)
   scheduledTransactions!: Query<ScheduledTransactionsModel>;
-  @children(tables.SCHEDULES_TRANSACTIONS)
+  @children(tables.TRANSACTIONS)
   transactions!: Query<TransactionModel>;
 
   @readonly @date(CREATED_AT) createdAt!: Date;

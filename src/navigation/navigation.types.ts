@@ -17,6 +17,7 @@ export const Routes = {
   Onboarding: 'Onboarding',
   Home: 'Home',
   AddTransaction: 'AddTransaction',
+  TransactionByBudget: 'TransactionByBudget',
 
   // TAB
   Dashboard: 'Dashboard',
@@ -41,6 +42,7 @@ export type RootStackParamList = {
   [Routes.Onboarding]: NavigatorScreenParams<OnboardingParamList> | undefined;
   [Routes.Home]: NavigatorScreenParams<TabStackParamList> | undefined;
   [Routes.AddTransaction]: undefined;
+  [Routes.TransactionByBudget]: {budgetId: string};
 };
 
 export type TabStackParamList = {

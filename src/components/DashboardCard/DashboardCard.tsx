@@ -1,7 +1,8 @@
+import {useMemo} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 
 import {withObservables} from '@nozbe/watermelondb/react';
-import {of} from 'rxjs';
+import {combineLatest, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 import {
@@ -10,11 +11,11 @@ import {
 } from '@app/database/queries/createIncome';
 
 import Text from '../core/Text/Text';
+import SummaryGraph from '../SummaryGraph/SummaryGraph';
 
 import type BudgetModel from '@app/database/models/budget';
 import type IncomeModel from '@app/database/models/income';
-
-// TODO: REDO styles a connect it to themes
+import type TransactionModel from '@app/database/models/transaction';
 
 const styles = StyleSheet.create({
   allocatedAmount: {
@@ -77,14 +78,42 @@ const styles = StyleSheet.create({
   },
 });
 
-function Dashboard({income, budgets}: {income: IncomeModel[]; budgets: BudgetModel[]}) {
-  const currentMonthIncome = income.reduce((prev, current) => prev + current.incomeAmount, 0);
+function Dashboard({
+  income,
+  budgets,
+  transactions,
+}: {
+  transactions: TransactionModel[];
+  income: IncomeModel[];
+  budgets: BudgetModel[];
+}) {
+  const totalIncome = income.reduce((prev, current) => prev + current.incomeAmount, 0);
+
+  const budgetSummaries = useMemo(
+    () =>
+      budgets.map(budget => {
+        const totalSpentInBudget = transactions
+          .filter(r => r.budget.id === budget.id)
+          .reduce((prevT, currT) => currT.amount + prevT, 0);
+        return {
+          name: budget.name,
+          id: budget.id,
+          spent: totalSpentInBudget,
+          targetLimit: totalIncome * budget.targetPercentage,
+          targetPercentage: budget.targetPercentage,
+        };
+      }),
+    [budgets, transactions, income],
+  );
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.label}>Total Income</Text>
-        <Text style={styles.incomeAmount}>${currentMonthIncome.toLocaleString()}</Text>
+        <Text style={styles.incomeAmount}>${totalIncome.toLocaleString()}</Text>
+      </View>
+      <View style={{height: 200, width: '100%'}}>
+        <SummaryGraph data={budgetSummaries} totalIncome={totalIncome} />
       </View>
 
       <ScrollView
@@ -97,7 +126,7 @@ function Dashboard({income, budgets}: {income: IncomeModel[]; budgets: BudgetMod
             <Text style={styles.percentage}>{e.targetPercentage * 100}%</Text>
             <View style={styles.divider} />
             <Text style={styles.allocatedAmount}>
-              ${(currentMonthIncome * e.targetPercentage).toLocaleString()}
+              ${(totalIncome * e.targetPercentage).toLocaleString()}
             </Text>
           </View>
         ))}
@@ -115,4 +144,15 @@ const enhanceWithBudget = withObservables(['budgetGroup'], ({budgetGroup}) => ({
   budgets: budgetGroup ? budgetGroup.budgets.observe() : of([]),
 }));
 
-export const DashboardCard = enhance(enhanceWithBudget(Dashboard));
+const enhanceWithTransactions = withObservables(['budgets'], ({budgets}) => ({
+  transactions:
+    budgets.length > 0
+      ? combineLatest(budgets.map((b: BudgetModel) => b.transactions.observe())).pipe(
+          // @ts-expect-error untyped transaction
+          // TODO: Type properly
+          map(groups => groups.flat()),
+        )
+      : of([]),
+}));
+
+export const DashboardCard = enhance(enhanceWithBudget(enhanceWithTransactions(Dashboard)));
