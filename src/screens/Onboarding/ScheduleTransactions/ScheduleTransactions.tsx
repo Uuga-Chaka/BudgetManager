@@ -13,7 +13,7 @@ import Text from '@app/components/core/Text/Text';
 import {InputForm} from '@app/components/formComponents/InputForm';
 import {MoneyInputForm} from '@app/components/formComponents/MoneyInputForm';
 import {
-  createScheduledTransaction,
+  createCommonExpense,
   getAllBudgetGroups,
   getAllCategories,
 } from '@app/database/queries/createIncome';
@@ -114,9 +114,9 @@ export default function ScheduleTransactions({
   );
 
   const saveScheduleTransactions = handleSubmit(async ({budgetGroupId, budgetList}) => {
-    await createScheduledTransaction({
+    await createCommonExpense({
       budgetGroupId,
-      scheduledTransactions: budgetList,
+      commonExpenses: budgetList,
     });
     navigation.dispatch(
       CommonActions.reset({

@@ -1,7 +1,6 @@
 import {Model, Query, Relation} from '@nozbe/watermelondb';
-import {children, date, field, lazy, readonly, relation} from '@nozbe/watermelondb/decorators';
+import {children, date, field, readonly, relation} from '@nozbe/watermelondb/decorators';
 import {Associations} from '@nozbe/watermelondb/Model';
-import {map, Observable} from 'rxjs';
 
 import {
   BUDGET_GROUP_ID,
@@ -14,7 +13,7 @@ import {
   UPDATED_AT,
 } from '../consts';
 import BudgetGroupModel from './budgetGroup';
-import ScheduledTransactionsModel from './scheduledTransactions';
+import CommonExpensesModel from './commonExpenses';
 import TransactionModel from './transaction';
 
 export default class BudgetModel extends Model {
@@ -22,7 +21,7 @@ export default class BudgetModel extends Model {
 
   static associations: Associations = {
     [tables.BUDGET_GROUPS]: {type: 'belongs_to', key: BUDGET_GROUP_ID},
-    [tables.SCHEDULES_TRANSACTIONS]: {
+    [tables.COMMON_EXPENSES]: {
       type: 'has_many',
       foreignKey: columns.SCHEDULES_TRANSACTION_ID,
     },
@@ -37,8 +36,8 @@ export default class BudgetModel extends Model {
   @field(COLOR) color!: string;
 
   @relation(tables.BUDGET_GROUPS, BUDGET_GROUP_ID) budgetGroup!: Relation<BudgetGroupModel>;
-  @children(tables.SCHEDULES_TRANSACTIONS)
-  scheduledTransactions!: Query<ScheduledTransactionsModel>;
+  @children(tables.COMMON_EXPENSES)
+  scheduledTransactions!: Query<CommonExpensesModel>;
   @children(tables.TRANSACTIONS)
   transactions!: Query<TransactionModel>;
 

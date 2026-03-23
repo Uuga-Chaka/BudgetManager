@@ -14,8 +14,8 @@ import {columns, tables} from '../consts';
 import type BudgetModel from '../models/budget';
 import type BudgetGroupModel from '../models/budgetGroup';
 import type CategoriesModel from '../models/categories';
+import type CommonExpensesModel from '../models/commonExpenses';
 import type IncomeModel from '../models/income';
-import type ScheduledTransactionsModel from '../models/scheduledTransactions';
 import type TransactionModel from '../models/transaction';
 
 interface CreateIncomePayload {
@@ -180,30 +180,28 @@ export const getAllIncomes = async () => {
   }
 };
 
-interface ScheduledTransactions {
+interface CommonExpenses {
   budgetId: string;
   categoryId: string;
   description: string;
   budgetAmount: number;
 }
-interface ScheduledTransactionPayload {
+interface CommonExpensesPayload {
   budgetGroupId: string;
-  scheduledTransactions: ScheduledTransactions[];
+  commonExpenses: CommonExpenses[];
 }
 
-export const createScheduledTransaction = async ({
-  scheduledTransactions,
+export const createCommonExpense = async ({
+  commonExpenses,
   budgetGroupId,
-}: ScheduledTransactionPayload) => {
+}: CommonExpensesPayload) => {
   try {
     return await database.write(async () => {
-      const scheduleTransactionsTable = await database.get<ScheduledTransactionsModel>(
-        tables.SCHEDULES_TRANSACTIONS,
-      );
+      const commonExpensesTable = await database.get<CommonExpensesModel>(tables.COMMON_EXPENSES);
 
-      const preparedRecords = scheduledTransactions.map(
+      const preparedRecords = commonExpenses.map(
         ({budgetAmount: amount, budgetId, categoryId, description}) => {
-          return scheduleTransactionsTable.prepareCreate(st => {
+          return commonExpensesTable.prepareCreate(st => {
             st.budget.id = budgetId;
             st.budgetGroup.id = budgetGroupId;
             st.category.id = categoryId;
@@ -351,14 +349,12 @@ export const finalizeOnboardingData = async ({
         categoryMap.set(cat.id, categoryRecords[index]);
       });
 
-      const scheduledTransactionsTable = database.get<ScheduledTransactionsModel>(
-        tables.SCHEDULES_TRANSACTIONS,
-      );
+      const commonExpensesTable = database.get<CommonExpensesModel>(tables.COMMON_EXPENSES);
 
       const expenseRecords = commonExpenses.map(({budgetId, categoryId, name}) => {
         const dbBudget = budgetMap.get(budgetId);
         const dbCategory = categoryMap.get(categoryId);
-        return scheduledTransactionsTable.prepareCreate(transaction => {
+        return commonExpensesTable.prepareCreate(transaction => {
           transaction.description = name;
           if (dbBudget) transaction.budget.set(dbBudget);
           if (dbCategory) transaction.category.set(dbCategory);
@@ -379,9 +375,9 @@ export const finalizeOnboardingData = async ({
   }
 };
 
-export const getScheduledTransactionByBudgetIds = async (id: string) => {
+export const getCommonExpensesByBudgetIds = async (id: string) => {
   try {
-    const collection = database.get(tables.SCHEDULES_TRANSACTIONS);
+    const collection = database.get(tables.COMMON_EXPENSES);
     return await collection.query(Q.where(columns.BUDGET_ID, id)).fetch();
   } catch (err) {
     console.error(`[Database Error] Failed to get Scheduled Transaction By Budget Id:`, err);

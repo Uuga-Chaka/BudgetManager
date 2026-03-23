@@ -2,8 +2,8 @@ import {tableSchema} from '@nozbe/watermelondb';
 
 import {columns, CREATED_AT, tables, UPDATED_AT} from '../consts';
 
-export const schedulesTransactionsTable = tableSchema({
-  name: tables.SCHEDULES_TRANSACTIONS,
+export const commonExpensesTable = tableSchema({
+  name: tables.COMMON_EXPENSES,
   columns: [
     {
       name: columns.DESCRIPTION,

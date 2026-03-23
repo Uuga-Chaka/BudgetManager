@@ -5,7 +5,7 @@ export const tables = {
   BUDGET: 'budget',
   CATEGORIES: 'categories',
   MONTHLY_BUDGET: 'monthly_budgets',
-  SCHEDULES_TRANSACTIONS: 'scheduled_transactions',
+  COMMON_EXPENSES: 'common_expenses',
   TRANSACTIONS: 'transactions',
   BUDGET_HISTORY: 'budget_history',
 } as const;

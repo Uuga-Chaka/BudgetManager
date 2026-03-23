@@ -7,8 +7,8 @@ import BudgetModel from './budget';
 import BudgetGroupModel from './budgetGroup';
 import CategoriesModel from './categories';
 
-export default class ScheduledTransactionsModel extends Model {
-  static table: string = tables.SCHEDULES_TRANSACTIONS;
+export default class CommonExpensesModel extends Model {
+  static table: string = tables.COMMON_EXPENSES;
 
   static associations: Associations = {
     [tables.BUDGET]: {type: 'belongs_to', key: columns.BUDGET_ID},

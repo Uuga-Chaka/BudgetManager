@@ -5,8 +5,8 @@ import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite';
 import BudgetModel from './models/budget';
 import BudgetGroupModel from './models/budgetGroup';
 import CategoriesModel from './models/categories';
+import CommonExpensesModel from './models/commonExpenses';
 import IncomeModel from './models/income';
-import ScheduledTransactionsModel from './models/scheduledTransactions';
 import TransactionModel from './models/transaction';
 import schema from './schema';
 // import Post from './model/Post' // ⬅️ You'll import your Models here
@@ -36,7 +36,7 @@ export const database = new Database({
     BudgetGroupModel,
     CategoriesModel,
     // MonthlyBudgetModel,
-    ScheduledTransactionsModel,
+    CommonExpensesModel,
     TransactionModel,
   ],
 });
