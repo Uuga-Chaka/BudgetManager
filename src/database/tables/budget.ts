@@ -1,29 +1,33 @@
 import {tableSchema} from '@nozbe/watermelondb';
 
-import {tables, CREATED_AT, NAME, UPDATED_AT, BUDGET_GROUP_ID, TARGET_PERCENTAGE} from '../consts';
+import {tables, columns} from '../consts';
 
 export const budgetTable = tableSchema({
   name: tables.BUDGET,
   columns: [
     {
-      name: NAME,
+      name: columns.NAME,
       type: 'string',
     },
     {
-      name: TARGET_PERCENTAGE,
+      name: columns.COLOR,
+      type: 'string',
+    },
+    {
+      name: columns.TARGET_PERCENTAGE,
       type: 'number',
     },
     {
-      name: BUDGET_GROUP_ID,
+      name: columns.BUDGET_GROUP_ID,
       type: 'string',
       isIndexed: true,
     },
     {
-      name: CREATED_AT,
+      name: columns.CREATED_AT,
       type: 'number',
     },
     {
-      name: UPDATED_AT,
+      name: columns.UPDATED_AT,
       type: 'number',
     },
   ],

@@ -102,14 +102,14 @@ const SummaryGraph = ({
             <Bar
               points={points.targetLimit}
               chartBounds={chartBounds}
-              innerPadding={0.5}
+              innerPadding={0.7}
               color="#e1265b72"
               roundedCorners={{topLeft: 4, topRight: 4}}
             />
             <Bar
               points={points.spent}
               chartBounds={chartBounds}
-              innerPadding={0.5}
+              innerPadding={0.9}
               color="#e1265b"
               roundedCorners={{topLeft: 4, topRight: 4}}
             />

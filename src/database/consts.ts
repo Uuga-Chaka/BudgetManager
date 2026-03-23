@@ -26,6 +26,8 @@ export const columns = {
   CURRENCY: 'currency',
   INCOME_AMOUNT: 'income_amount',
   TRANSACTION_ID: 'transaction_id',
+  COLOR: 'color',
+  TARGET_PERCENTAGE: 'target_percentage',
 };
 
 // common

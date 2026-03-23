@@ -5,11 +5,13 @@ import {
   DEFAULT_BUDGET_SETUP,
   DEFAULT_CATEGORIES,
 } from '@app/consts/budgetGroupOptions';
+import {type PercentageBudgetGroup} from '@app/types/budgetGroup';
 import {getCurrentMonthFirstLastDayInUnix} from '@app/utils/date';
 
 import {database} from '..';
 import {columns, tables} from '../consts';
 
+import type BudgetModel from '../models/budget';
 import type BudgetGroupModel from '../models/budgetGroup';
 import type CategoriesModel from '../models/categories';
 import type IncomeModel from '../models/income';
@@ -300,7 +302,7 @@ export const createTransaction = async ({
   }
 };
 
-export const finalizeOnboardingData = ({
+export const finalizeOnboardingData = async ({
   percentageGroupName,
   incomeName,
   incomeAmount,
@@ -311,59 +313,94 @@ export const finalizeOnboardingData = ({
   incomeName: string;
   incomeAmount: number;
   percentageGroupName: string;
-  percentageGroups?: {name: string; percentage: number; id: number}[];
+  percentageGroups?: PercentageBudgetGroup;
 }) => {
   try {
-    return database.write(async () => {
-      const newBudgetGroup = await database
-        .get<BudgetGroupModel>(tables.BUDGET_GROUPS)
-        .create(bg => {
-          bg.name = percentageGroupName;
-          bg.addBudgetGroup(
-            percentageGroups.map(({name, percentage}) => ({
-              name,
-              percentage,
-            })),
-          );
-        });
+    await database.write(async () => {
+      const budgetGroup = database.get<BudgetGroupModel>(tables.BUDGET_GROUPS).prepareCreate(bg => {
+        bg.name = percentageGroupName;
+      });
 
-      await database.get<IncomeModel>(tables.INCOME).create(income => {
+      const budgetRecords = percentageGroups.map(budget =>
+        database.get<BudgetModel>(tables.BUDGET).prepareCreate(b => {
+          b.name = budget.name;
+          b.targetPercentage = budget.percentage;
+          b.budgetGroup.set(budgetGroup);
+        }),
+      );
+
+      const incomeRecord = database.get<IncomeModel>(tables.INCOME).prepareCreate(income => {
         income.name = incomeName;
         income.incomeAmount = incomeAmount;
         income.currency = 'COP';
       });
 
+      const categoryRecords = DEFAULT_CATEGORIES.map(cat =>
+        database.get<CategoriesModel>(tables.CATEGORIES).prepareCreate(category => {
+          category.name = cat.name;
+        }),
+      );
+
+      const budgetMap = new Map<number, BudgetModel>();
       const categoryMap = new Map<number, CategoriesModel>();
 
-      for (const cat of DEFAULT_CATEGORIES) {
-        const createdCat = await database
-          .get<CategoriesModel>(tables.CATEGORIES)
-          .create(category => {
-            category.name = cat.name;
-          });
-        categoryMap.set(cat.id, createdCat);
-      }
+      percentageGroups.forEach((budget, index) => {
+        budgetMap.set(budget.id, budgetRecords[index]);
+      });
+      DEFAULT_CATEGORIES.forEach((cat, index) => {
+        categoryMap.set(cat.id, categoryRecords[index]);
+      });
 
       const scheduledTransactionsTable = database.get<ScheduledTransactionsModel>(
         tables.SCHEDULES_TRANSACTIONS,
       );
 
       const expenseRecords = commonExpenses.map(({budgetId, categoryId, name}) => {
+        const dbBudget = budgetMap.get(budgetId);
         const dbCategory = categoryMap.get(categoryId);
         return scheduledTransactionsTable.prepareCreate(transaction => {
           transaction.description = name;
-          transaction.budgetGroup.id = newBudgetGroup.id;
-          transaction.budget.id = budgetId.toString();
-
-          if (dbCategory) {
-            transaction.category.set(dbCategory);
-          }
+          if (dbBudget) transaction.budget.set(dbBudget);
+          if (dbCategory) transaction.category.set(dbCategory);
+          transaction.budgetGroup.set(budgetGroup);
         });
       });
 
-      await database.batch(...expenseRecords);
+      await database.batch(
+        budgetGroup,
+        ...budgetRecords,
+        incomeRecord,
+        ...categoryRecords,
+        ...expenseRecords,
+      );
     });
   } catch (error) {
     console.error(`[Database Error] Failed to finalize onboarding`, error);
   }
+};
+
+export const getScheduledTransactionByBudgetIds = async (id: string) => {
+  try {
+    const collection = database.get(tables.SCHEDULES_TRANSACTIONS);
+    return await collection.query(Q.where(columns.BUDGET_ID, id)).fetch();
+  } catch (err) {
+    console.error(`[Database Error] Failed to get Scheduled Transaction By Budget Id:`, err);
+    return []; // Return empty array to prevent .map() errors in UI
+  }
+};
+
+export const getCurrentMonthTransactionsByBudgetId = (id: string) => {
+  const {firstDay, lastDay} = getCurrentMonthFirstLastDayInUnix();
+
+  const transactions = database.get<TransactionModel>(tables.TRANSACTIONS);
+
+  const currentMonthTransactions = transactions
+    .query(
+      Q.where(columns.BUDGET_ID, id),
+      Q.where(columns.CREATED_AT, Q.gte(firstDay)),
+      Q.where(columns.CREATED_AT, Q.lte(lastDay)),
+    )
+    .observe();
+
+  return currentMonthTransactions;
 };

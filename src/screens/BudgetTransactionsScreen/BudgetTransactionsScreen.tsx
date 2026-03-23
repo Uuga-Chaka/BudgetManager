@@ -1,4 +1,3 @@
-import React from 'react';
 import {View, Text} from 'react-native';
 
 import {type RootScreenProps, type Routes} from '@app/navigation/navigation.types';
