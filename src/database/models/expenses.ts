@@ -7,8 +7,8 @@ import BudgetGroupModel from './budgetGroup';
 import CategoriesModel from './categories';
 import {tables, columns} from '../consts';
 
-export default class TransactionModel extends Model {
-  static table = tables.TRANSACTIONS;
+export default class ExpenseModel extends Model {
+  static table = tables.EXPENSES;
 
   static associations: Associations = {
     [tables.BUDGET]: {type: 'belongs_to', key: columns.BUDGET_ID},
@@ -18,7 +18,7 @@ export default class TransactionModel extends Model {
 
   @text(columns.DESCRIPTION) description!: string;
   @field(columns.BUDGET_AMOUNT) amount!: number;
-  @date(columns.TRANSACTION_DATE) transactionExecutedAt!: Date;
+  @date(columns.EXPENSE_CREATION_DATE) transactionExecutedAt!: Date;
 
   @readonly @date(columns.CREATED_AT) createdAt!: Date;
   @readonly @date(columns.UPDATED_AT) updatedAt!: Date;

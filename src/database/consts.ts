@@ -6,7 +6,7 @@ export const tables = {
   CATEGORIES: 'categories',
   MONTHLY_BUDGET: 'monthly_budgets',
   COMMON_EXPENSES: 'common_expenses',
-  TRANSACTIONS: 'transactions',
+  EXPENSES: 'expenses',
   BUDGET_HISTORY: 'budget_history',
 } as const;
 
@@ -18,14 +18,14 @@ export const columns = {
   CATEGORY_ID: 'category_id',
   BUDGET_AMOUNT: 'budget_amount',
   DESCRIPTION: 'description',
-  SCHEDULES_TRANSACTION_ID: 'schedule_transaction_id',
-  TRANSACTION_DATE: 'transaction_executed_at',
+  SCHEDULED_EXPENSE_ID: 'schedule_expense_id',
+  EXPENSE_CREATION_DATE: 'expense_executed_at',
   CREATED_AT: 'created_at',
   UPDATED_AT: 'updated_at',
   NAME: 'name',
   CURRENCY: 'currency',
   INCOME_AMOUNT: 'income_amount',
-  TRANSACTION_ID: 'transaction_id',
+  EXPENSE_ID: 'expense_id',
   COLOR: 'color',
   TARGET_PERCENTAGE: 'target_percentage',
 };

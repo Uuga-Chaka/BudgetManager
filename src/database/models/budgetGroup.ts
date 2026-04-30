@@ -13,7 +13,7 @@ export default class BudgetGroupModel extends Model {
     [tables.BUDGET]: {type: 'has_many', foreignKey: BUDGET_GROUP_ID},
     [tables.COMMON_EXPENSES]: {
       type: 'has_many',
-      foreignKey: columns.SCHEDULES_TRANSACTION_ID,
+      foreignKey: columns.SCHEDULED_EXPENSE_ID,
     },
   };
 

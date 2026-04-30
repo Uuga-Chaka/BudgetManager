@@ -14,8 +14,8 @@ import Text from '../core/Text/Text';
 import SummaryGraph from '../SummaryGraph/SummaryGraph';
 
 import type BudgetModel from '@app/database/models/budget';
+import type ExpenseModel from '@app/database/models/expenses';
 import type IncomeModel from '@app/database/models/income';
-import type TransactionModel from '@app/database/models/transaction';
 
 const styles = StyleSheet.create({
   allocatedAmount: {
@@ -83,7 +83,7 @@ function Dashboard({
   budgets,
   transactions,
 }: {
-  transactions: TransactionModel[];
+  transactions: ExpenseModel[];
   income: IncomeModel[];
   budgets: BudgetModel[];
 }) {

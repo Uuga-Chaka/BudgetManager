@@ -14,7 +14,7 @@ import {
 } from '../consts';
 import BudgetGroupModel from './budgetGroup';
 import CommonExpensesModel from './commonExpenses';
-import TransactionModel from './transaction';
+import ExpenseModel from './expenses';
 
 export default class BudgetModel extends Model {
   static table: string = tables.BUDGET;
@@ -23,9 +23,9 @@ export default class BudgetModel extends Model {
     [tables.BUDGET_GROUPS]: {type: 'belongs_to', key: BUDGET_GROUP_ID},
     [tables.COMMON_EXPENSES]: {
       type: 'has_many',
-      foreignKey: columns.SCHEDULES_TRANSACTION_ID,
+      foreignKey: columns.SCHEDULED_EXPENSE_ID,
     },
-    [tables.TRANSACTIONS]: {
+    [tables.EXPENSES]: {
       type: 'has_many',
       foreignKey: columns.BUDGET_ID,
     },
@@ -38,8 +38,8 @@ export default class BudgetModel extends Model {
   @relation(tables.BUDGET_GROUPS, BUDGET_GROUP_ID) budgetGroup!: Relation<BudgetGroupModel>;
   @children(tables.COMMON_EXPENSES)
   scheduledTransactions!: Query<CommonExpensesModel>;
-  @children(tables.TRANSACTIONS)
-  transactions!: Query<TransactionModel>;
+  @children(tables.EXPENSES)
+  transactions!: Query<ExpenseModel>;
 
   @readonly @date(CREATED_AT) createdAt!: Date;
   @readonly @date(UPDATED_AT) updatedAt!: Date;

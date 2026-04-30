@@ -15,8 +15,8 @@ import type BudgetModel from '../models/budget';
 import type BudgetGroupModel from '../models/budgetGroup';
 import type CategoriesModel from '../models/categories';
 import type CommonExpensesModel from '../models/commonExpenses';
+import type ExpenseModel from '../models/expenses';
 import type IncomeModel from '../models/income';
-import type TransactionModel from '../models/transaction';
 
 interface CreateIncomePayload {
   name: string;
@@ -255,7 +255,7 @@ export const getCurrentMonthLatestBudget = () => {
 export const getCurrentMonthTransactions = () => {
   const {firstDay, lastDay} = getCurrentMonthFirstLastDayInUnix();
 
-  const transactions = database.get<TransactionModel>(tables.TRANSACTIONS);
+  const transactions = database.get<ExpenseModel>(tables.EXPENSES);
 
   const currentMonthTransactions = transactions
     .query(
@@ -286,7 +286,7 @@ export const createTransaction = async ({
   try {
     return await database.write(async () => {
       const transactionDate = new Date();
-      return await database.get<TransactionModel>(tables.TRANSACTIONS).create(transaction => {
+      return await database.get<ExpenseModel>(tables.EXPENSES).create(transaction => {
         transaction.amount = budgetAmount;
         transaction.budget.id = budgetId;
         transaction.budgetGroup.id = budgetGroupId;
@@ -388,7 +388,7 @@ export const getCommonExpensesByBudgetIds = async (id: string) => {
 export const getCurrentMonthTransactionsByBudgetId = (id: string) => {
   const {firstDay, lastDay} = getCurrentMonthFirstLastDayInUnix();
 
-  const transactions = database.get<TransactionModel>(tables.TRANSACTIONS);
+  const transactions = database.get<ExpenseModel>(tables.EXPENSES);
 
   const currentMonthTransactions = transactions
     .query(

@@ -7,7 +7,7 @@ import {getCurrentMonthTransactions} from '@app/database/queries/createIncome';
 
 import type BudgetModel from '@app/database/models/budget';
 import type CategoriesModel from '@app/database/models/categories';
-import type TransactionModel from '@app/database/models/transaction';
+import type ExpenseModel from '@app/database/models/expenses';
 
 // TODO: REDO styles a connect it to themes
 
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
 });
 
 interface TransactionItemProps {
-  transaction: TransactionModel;
+  transaction: ExpenseModel;
   budget: BudgetModel;
   category: CategoriesModel;
 }
@@ -167,7 +167,7 @@ const enhance = withObservables([], () => ({
   transactions: getCurrentMonthTransactions(),
 }));
 
-const TransactionList = ({transactions}: {transactions: TransactionModel[]}) => {
+const TransactionList = ({transactions}: {transactions: ExpenseModel[]}) => {
   return (
     <FlatList
       scrollEnabled={false}
