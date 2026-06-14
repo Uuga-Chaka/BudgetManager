@@ -9,8 +9,8 @@ import Text from '@app/components/core/Text/Text';
 import AppLayout from '@app/components/Layout/Layout';
 import {localStorageKeys} from '@app/consts/localStorageKeys';
 import {database} from '@app/database';
-import AddTransaction from '@app/screens/AddTransaction/AddTransaction';
-import BudgetTransactionsScreen from '@app/screens/BudgetTransactionsScreen/BudgetTransactionsScreen';
+import AddExpense from '@app/screens/AddExpense/AddExpense';
+import BudgetExpensesScreen from '@app/screens/BudgetExpensesScreen/BudgetExpensesScreen';
 import {type ThemeProps} from '@app/theme/theme';
 import {useAppTheme} from '@app/theme/useAppTheme';
 
@@ -89,11 +89,11 @@ export default function Router() {
             contentStyle: styles.navigatorStyle,
           }}>
           <Stack.Screen name={Routes.Home} component={HomeTabs} />
-          <Stack.Screen name={Routes.TransactionByBudget} component={BudgetTransactionsScreen} />
+          <Stack.Screen name={Routes.ExpenseByBudget} component={BudgetExpensesScreen} />
           <Stack.Group screenLayout={AppLayout}>
             <Stack.Screen
-              name={Routes.AddTransaction}
-              component={AddTransaction}
+              name={Routes.AddExpense}
+              component={AddExpense}
               options={{
                 presentation: 'modal',
               }}

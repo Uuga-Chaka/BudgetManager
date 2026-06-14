@@ -218,7 +218,7 @@ export const createCommonExpense = async ({
       return preparedRecords;
     });
   } catch (error) {
-    console.error(`[Database Error] Failed to create scheduled transaction`, error);
+    console.error(`[Database Error] Failed to create scheduled expense`, error);
   }
 };
 
@@ -252,22 +252,22 @@ export const getCurrentMonthLatestBudget = () => {
   return currentBudgetGroup;
 };
 
-export const getCurrentMonthTransactions = () => {
+export const getCurrentMonthExpenses = () => {
   const {firstDay, lastDay} = getCurrentMonthFirstLastDayInUnix();
 
-  const transactions = database.get<ExpenseModel>(tables.EXPENSES);
+  const expenses = database.get<ExpenseModel>(tables.EXPENSES);
 
-  const currentMonthTransactions = transactions
+  const currentMonthExpenses = expenses
     .query(
       Q.where(columns.CREATED_AT, Q.gte(firstDay)),
       Q.where(columns.CREATED_AT, Q.lte(lastDay)),
     )
     .observe();
 
-  return currentMonthTransactions;
+  return currentMonthExpenses;
 };
 
-interface CreateTransactionPayload {
+interface CreateExpensePayload {
   budgetAmount: number;
   budgetId: string;
   categoryId: string;
@@ -275,28 +275,28 @@ interface CreateTransactionPayload {
   budgetGroupId: string;
   date?: Date;
 }
-export const createTransaction = async ({
+export const createExpense = async ({
   budgetAmount,
   budgetId,
   categoryId,
   description,
   budgetGroupId,
   date,
-}: CreateTransactionPayload) => {
+}: CreateExpensePayload) => {
   try {
     return await database.write(async () => {
-      const transactionDate = new Date();
-      return await database.get<ExpenseModel>(tables.EXPENSES).create(transaction => {
-        transaction.amount = budgetAmount;
-        transaction.budget.id = budgetId;
-        transaction.budgetGroup.id = budgetGroupId;
-        transaction.category.id = categoryId;
-        transaction.description = description;
-        transaction.transactionExecutedAt = date || transactionDate;
+      const expenseDate = new Date();
+      return await database.get<ExpenseModel>(tables.EXPENSES).create(expense => {
+        expense.amount = budgetAmount;
+        expense.budget.id = budgetId;
+        expense.budgetGroup.id = budgetGroupId;
+        expense.category.id = categoryId;
+        expense.description = description;
+        expense.expenseCreationDate = date || expenseDate;
       });
     });
   } catch (error) {
-    console.error(`[Database Error] Failed to create transaction`, error);
+    console.error(`[Database Error] Failed to create expense`, error);
   }
 };
 
@@ -354,11 +354,11 @@ export const finalizeOnboardingData = async ({
       const expenseRecords = commonExpenses.map(({budgetId, categoryId, name}) => {
         const dbBudget = budgetMap.get(budgetId);
         const dbCategory = categoryMap.get(categoryId);
-        return commonExpensesTable.prepareCreate(transaction => {
-          transaction.description = name;
-          if (dbBudget) transaction.budget.set(dbBudget);
-          if (dbCategory) transaction.category.set(dbCategory);
-          transaction.budgetGroup.set(budgetGroup);
+        return commonExpensesTable.prepareCreate(expense => {
+          expense.description = name;
+          if (dbBudget) expense.budget.set(dbBudget);
+          if (dbCategory) expense.category.set(dbCategory);
+          expense.budgetGroup.set(budgetGroup);
         });
       });
 
@@ -380,17 +380,17 @@ export const getCommonExpensesByBudgetIds = async (id: string) => {
     const collection = database.get(tables.COMMON_EXPENSES);
     return await collection.query(Q.where(columns.BUDGET_ID, id)).fetch();
   } catch (err) {
-    console.error(`[Database Error] Failed to get Scheduled Transaction By Budget Id:`, err);
+    console.error(`[Database Error] Failed to get Scheduled Expenses By Budget Id:`, err);
     return []; // Return empty array to prevent .map() errors in UI
   }
 };
 
-export const getCurrentMonthTransactionsByBudgetId = (id: string) => {
+export const getCurrentMonthExpenseByBudgetId = (id: string) => {
   const {firstDay, lastDay} = getCurrentMonthFirstLastDayInUnix();
 
-  const transactions = database.get<ExpenseModel>(tables.EXPENSES);
+  const expenses = database.get<ExpenseModel>(tables.EXPENSES);
 
-  const currentMonthTransactions = transactions
+  const currentMonthExpenses = expenses
     .query(
       Q.where(columns.BUDGET_ID, id),
       Q.where(columns.CREATED_AT, Q.gte(firstDay)),
@@ -398,5 +398,5 @@ export const getCurrentMonthTransactionsByBudgetId = (id: string) => {
     )
     .observe();
 
-  return currentMonthTransactions;
+  return currentMonthExpenses;
 };

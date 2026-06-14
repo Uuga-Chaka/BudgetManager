@@ -28,7 +28,7 @@ const SummaryGraph = ({
   const font = useFont(lato, 14);
   const selectedBars = useSharedValue('');
 
-  const {navigate} = useNavigation<RootTabScreenNavigationProps<typeof Routes.Transactions>>();
+  const {navigate} = useNavigation<RootTabScreenNavigationProps<typeof Routes.Expenses>>();
 
   const cartesianRef = useRef<CartesianActionsHandle<typeof state>>(null);
 
@@ -41,7 +41,7 @@ const SummaryGraph = ({
   });
 
   const handleNavigation = (budgetId: string) => {
-    navigate(Routes.TransactionByBudget, {budgetId});
+    navigate(Routes.ExpenseByBudget, {budgetId});
   };
 
   const tapGesture = Gesture.Tap()

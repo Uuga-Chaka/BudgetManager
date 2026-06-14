@@ -40,7 +40,7 @@ export default function ResumeSetup({
       });
 
       database.localStorage.set(localStorageKeys.IS_ONBOARDING_COMPLETED, true);
-      navigation.reset({index: 0, routes: [{name: Routes.ScheduleTransactions}]});
+      navigation.reset({index: 0, routes: [{name: Routes.ScheduleExpenses}]});
     } catch (error) {
       console.error(error);
     }

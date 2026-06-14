@@ -4,7 +4,7 @@ import {PlusIcons} from '@app/assets/Icons';
 import AppKeyBoardAwareScrollView from '@app/components/AppKeyBoardAwareScrollView/AppKeyBoardAwareScrollView';
 import Button from '@app/components/core/Button/Button';
 import {DashboardCard} from '@app/components/DashboardCard/DashboardCard';
-import TransactionList from '@app/components/TransactionList/TransactionList';
+import ExpensesList from '@app/components/ExpensesList/ExpensesList';
 import {Routes, type RootTabScreenProps} from '@app/navigation/navigation.types';
 
 const styles = StyleSheet.create({
@@ -19,15 +19,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Transactions({navigation}: RootTabScreenProps<typeof Routes.Transactions>) {
+export default function Expenses({navigation}: RootTabScreenProps<typeof Routes.Expenses>) {
   return (
     <View style={styles.container}>
       <AppKeyBoardAwareScrollView>
         <DashboardCard />
-        <TransactionList />
+        <ExpensesList />
       </AppKeyBoardAwareScrollView>
       <Button
-        onPress={() => navigation.navigate(Routes.AddTransaction)}
+        onPress={() => navigation.navigate(Routes.AddExpense)}
         IconLeft={PlusIcons}
         style={styles.buttonStyle}
       />

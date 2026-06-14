@@ -19,7 +19,7 @@ export default class BudgetGroupModel extends Model {
 
   @children(tables.BUDGET) budgets!: Query<BudgetModel>;
   @children(tables.COMMON_EXPENSES)
-  scheduledTransactions!: Query<CommonExpensesModel>;
+  scheduledExpenses!: Query<CommonExpensesModel>;
 
   @field(NAME) name!: string;
 

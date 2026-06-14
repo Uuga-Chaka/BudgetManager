@@ -23,10 +23,10 @@ import {useAppTheme} from '@app/theme/useAppTheme';
 
 import {
   BudgetListSchema,
-  type ScheduleTransactionFormTypeOutput,
+  type ScheduleExpenseFormTypeOutput,
   schemaKey,
-  type ScheduleTransactionFormTypeInput,
-} from './ScheduleTransactions.schema';
+  type ScheduleExpenseFormTypeInput,
+} from './ScheduleExpenses.schema';
 
 import type BudgetModel from '@app/database/models/budget';
 import type BudgetGroupModel from '@app/database/models/budgetGroup';
@@ -52,9 +52,9 @@ const styleProps = ({colors, spacing}: ThemeProps) => {
   return styles;
 };
 
-export default function ScheduleTransactions({
+export default function ScheduleExpenses({
   navigation,
-}: RootOnboardingScreenProps<typeof Routes.ScheduleTransactions>) {
+}: RootOnboardingScreenProps<typeof Routes.ScheduleExpenses>) {
   const [budgetGroups, setBudgetGroups] = useState<BudgetGroupModel[]>([]);
   const [budgetList, setBudgetList] = useState<BudgetModel[]>([]);
   const [categories, setCategories] = useState<CategoriesModel[]>([]);
@@ -64,7 +64,7 @@ export default function ScheduleTransactions({
     handleSubmit,
     setValue,
     formState: {isValid},
-  } = useForm<ScheduleTransactionFormTypeInput, unknown, ScheduleTransactionFormTypeOutput>({
+  } = useForm<ScheduleExpenseFormTypeInput, unknown, ScheduleExpenseFormTypeOutput>({
     resolver: zodResolver(BudgetListSchema),
     mode: 'onChange',
     defaultValues: {
@@ -98,7 +98,7 @@ export default function ScheduleTransactions({
     setBudgetList(budgetList);
   };
 
-  const addTransaction = () => {
+  const addExpense = () => {
     append({
       [schemaKey.budgetAmount]: '',
       [schemaKey.budgetId]: '',
@@ -113,7 +113,7 @@ export default function ScheduleTransactions({
     </View>
   );
 
-  const saveScheduleTransactions = handleSubmit(async ({budgetGroupId, budgetList}) => {
+  const saveScheduleExpenses = handleSubmit(async ({budgetGroupId, budgetList}) => {
     await createCommonExpense({
       budgetGroupId,
       commonExpenses: budgetList,
@@ -201,10 +201,10 @@ export default function ScheduleTransactions({
           );
         })}
         <View style={styles.buttonContainer}>
-          <Button onPress={addTransaction} disabled={!budgetList.length}>
+          <Button onPress={addExpense} disabled={!budgetList.length}>
             Añadir transacción
           </Button>
-          <Button disabled={!isValid} onPress={saveScheduleTransactions}>
+          <Button disabled={!isValid} onPress={saveScheduleExpenses}>
             Guardar
           </Button>
         </View>

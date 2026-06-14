@@ -1,6 +1,7 @@
 import {ScrollView, View} from 'react-native';
 
 import Button from '@app/components/core/Button/Button';
+import {ModalSelect} from '@app/components/core/ModalSelect/ModalSelect';
 import Text from '@app/components/core/Text/Text';
 import {DEFAULT_BUDGET_SETUP, SAVE_YOURSELF_BUDGET} from '@app/consts/budgetGroupOptions';
 import {Routes, type RootOnboardingScreenProps} from '@app/navigation/navigation.types';
@@ -23,6 +24,12 @@ export default function BudgetPlanScreen({
   };
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+      <ModalSelect
+        label="This is a label"
+        data={[{title: 'This is a title', description: 'This is a description'}]}
+        render={data => <Text>{data.description}</Text>}
+        onItemSelected={item => console.log(item)}
+      />
       <View style={styles.headerContainer}>
         <Text variant="h5" style={styles.headerText}>
           Selecciona el plan de presupuesto que quieres usar.

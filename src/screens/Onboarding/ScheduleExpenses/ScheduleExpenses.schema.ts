@@ -26,5 +26,5 @@ export const BudgetListSchema = z.object({
   [schemaKey.budgetList]: z.array(SingleBudgetSchema),
 });
 
-export type ScheduleTransactionFormTypeInput = z.input<typeof BudgetListSchema>;
-export type ScheduleTransactionFormTypeOutput = z.output<typeof BudgetListSchema>;
+export type ScheduleExpenseFormTypeInput = z.input<typeof BudgetListSchema>;
+export type ScheduleExpenseFormTypeOutput = z.output<typeof BudgetListSchema>;

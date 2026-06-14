@@ -16,12 +16,12 @@ export const Routes = {
   // ROOT
   Onboarding: 'Onboarding',
   Home: 'Home',
-  AddTransaction: 'AddTransaction',
-  TransactionByBudget: 'TransactionByBudget',
+  AddExpense: 'AddExpense',
+  ExpenseByBudget: 'ExpenseByBudget',
 
   // TAB
   Dashboard: 'Dashboard',
-  Transactions: 'Transactions',
+  Expenses: 'Expenses',
   Planning: 'Planning',
 
   // ONBOARDING
@@ -35,19 +35,19 @@ export const Routes = {
   BudgetSetup: 'BudgetSetup',
   CategoriesSetup: 'CategoriesSetup',
   ResumeSetup: 'ResumeSetup',
-  ScheduleTransactions: 'ScheduleTransactions',
+  ScheduleExpenses: 'ScheduleExpenses',
 } as const;
 
 export type RootStackParamList = {
   [Routes.Onboarding]: NavigatorScreenParams<OnboardingParamList> | undefined;
   [Routes.Home]: NavigatorScreenParams<TabStackParamList> | undefined;
-  [Routes.AddTransaction]: undefined;
-  [Routes.TransactionByBudget]: {budgetId: string};
+  [Routes.AddExpense]: undefined;
+  [Routes.ExpenseByBudget]: {budgetId: string};
 };
 
 export type TabStackParamList = {
   [Routes.Dashboard]: undefined;
-  [Routes.Transactions]: undefined;
+  [Routes.Expenses]: undefined;
   [Routes.Planning]: undefined;
 };
 
@@ -62,7 +62,7 @@ export type OnboardingParamList = {
   [Routes.BudgetSetup]: undefined;
   [Routes.CategoriesSetup]: undefined;
   [Routes.ResumeSetup]: undefined;
-  [Routes.ScheduleTransactions]: undefined;
+  [Routes.ScheduleExpenses]: undefined;
 };
 
 // types for screen components props

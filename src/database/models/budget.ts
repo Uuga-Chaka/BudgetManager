@@ -37,9 +37,9 @@ export default class BudgetModel extends Model {
 
   @relation(tables.BUDGET_GROUPS, BUDGET_GROUP_ID) budgetGroup!: Relation<BudgetGroupModel>;
   @children(tables.COMMON_EXPENSES)
-  scheduledTransactions!: Query<CommonExpensesModel>;
+  scheduledExpenses!: Query<CommonExpensesModel>;
   @children(tables.EXPENSES)
-  transactions!: Query<ExpenseModel>;
+  expenses!: Query<ExpenseModel>;
 
   @readonly @date(CREATED_AT) createdAt!: Date;
   @readonly @date(UPDATED_AT) updatedAt!: Date;

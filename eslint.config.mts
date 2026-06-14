@@ -3,13 +3,14 @@ import eslintJs from '@eslint/js';
 import eslintReact from '@eslint-react/eslint-plugin';
 // @ts-ignore
 import reactNativePlugin from '@react-native/eslint-config';
-import importPlugin from 'eslint-plugin-import';
+// import importPlugin from 'eslint-plugin-import';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 // @ts-ignore
 import reactNativeOldPlugin from 'eslint-plugin-react-native';
 import tseslint from 'typescript-eslint';
 import {defineConfig} from 'eslint/config';
-import testingLibrary from 'eslint-plugin-testing-library';
+import {importX} from 'eslint-plugin-import-x';
+// import testingLibrary from 'eslint-plugin-testing-library';
 
 export default defineConfig([
   {
@@ -59,29 +60,33 @@ export default defineConfig([
       },
     },
     settings: {
-      'import/ignore': ['react-native'],
-      'import/resolver': {
+      'import-x/ignore': ['react-native'],
+      'import-x/resolver': {
         typescript: {
           alwaysTryTypes: true,
           project: './tsconfig.json',
         },
-        node: {
-          extensions: ['.js', '.jsx', '.ts', '.tsx'],
-        },
+        node: true,
+      },
+      'import-x/parsers': {
+        '@typescript-eslint/parser': ['.ts', '.tsx'],
       },
     },
     extends: [
       eslintJs.configs.recommended,
       tseslint.configs.recommended,
       eslintReact.configs['recommended-typescript'],
-      importPlugin.flatConfigs.recommended,
-      importPlugin.flatConfigs.typescript,
+      // importPlugin.flatConfigs.recommended,
+      // importPlugin.flatConfigs.typescript,
+      importX.flatConfigs.recommended,
+      importX.flatConfigs.typescript,
       // testingLibrary.configs['flat/dom'],
     ],
     rules: {
-      ...importPlugin.configs['recommended'].rules,
+      // ...importPlugin.configs['recommended'].rules,
       //  Imports
-      'import/order': [
+      'import-x/no-unused-modules': [1, {unusedExports: true, missingExports: true}],
+      'import-x/order': [
         'warn',
         {
           groups: [['builtin', 'external'], 'internal', ['parent', 'sibling'], 'type', 'index'],
@@ -104,10 +109,10 @@ export default defineConfig([
           },
         },
       ],
-      'import/no-unresolved': 'error',
-      'import/no-duplicates': ['error', {considerQueryString: true}],
-      'import/no-named-as-default-member': 'off',
-      'import/prefer-default-export': 'off',
+      'import-x/no-unresolved': 'error',
+      'import-x/no-duplicates': ['error', {considerQueryString: true}],
+      'import-x/no-named-as-default-member': 'off',
+      'import-x/prefer-default-export': 'off',
       // 'import/no-default-export': 'error',
 
       // Possible Errors & Best Practices

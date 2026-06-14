@@ -63,7 +63,7 @@ export const ASSIGNED_AMOUNT = 'assigned_amount';
 export const ACTIVITY_AMOUNT = 'activity_amount';
 export const AVAILABLE_AMOUNT = 'available_amount';
 
-// transactions
+// expenses
 export const TRANSFER_ACCOUNT_ID = 'transfer_account_id';
 
 // scheduled_transactions

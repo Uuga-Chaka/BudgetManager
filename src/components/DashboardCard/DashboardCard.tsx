@@ -81,9 +81,9 @@ const styles = StyleSheet.create({
 function Dashboard({
   income,
   budgets,
-  transactions,
+  expenses,
 }: {
-  transactions: ExpenseModel[];
+  expenses: ExpenseModel[];
   income: IncomeModel[];
   budgets: BudgetModel[];
 }) {
@@ -92,7 +92,7 @@ function Dashboard({
   const budgetSummaries = useMemo(
     () =>
       budgets.map(budget => {
-        const totalSpentInBudget = transactions
+        const totalSpentInBudget = expenses
           .filter(r => r.budget.id === budget.id)
           .reduce((prevT, currT) => currT.amount + prevT, 0);
         return {
@@ -103,7 +103,7 @@ function Dashboard({
           targetPercentage: budget.targetPercentage,
         };
       }),
-    [budgets, transactions, income],
+    [budgets, expenses, income],
   );
 
   return (
@@ -144,10 +144,10 @@ const enhanceWithBudget = withObservables(['budgetGroup'], ({budgetGroup}) => ({
   budgets: budgetGroup ? budgetGroup.budgets.observe() : of([]),
 }));
 
-const enhanceWithTransactions = withObservables(['budgets'], ({budgets}) => ({
-  transactions:
+const enhanceWithExpensese = withObservables(['budgets'], ({budgets}) => ({
+  expenses:
     budgets.length > 0
-      ? combineLatest(budgets.map((b: BudgetModel) => b.transactions.observe())).pipe(
+      ? combineLatest(budgets.map((b: BudgetModel) => b.expenses.observe())).pipe(
           // @ts-expect-error untyped transaction
           // TODO: Type properly
           map(groups => groups.flat()),
@@ -155,4 +155,4 @@ const enhanceWithTransactions = withObservables(['budgets'], ({budgets}) => ({
       : of([]),
 }));
 
-export const DashboardCard = enhance(enhanceWithBudget(enhanceWithTransactions(Dashboard)));
+export const DashboardCard = enhance(enhanceWithBudget(enhanceWithExpensese(Dashboard)));

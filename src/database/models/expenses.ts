@@ -18,7 +18,7 @@ export default class ExpenseModel extends Model {
 
   @text(columns.DESCRIPTION) description!: string;
   @field(columns.BUDGET_AMOUNT) amount!: number;
-  @date(columns.EXPENSE_CREATION_DATE) transactionExecutedAt!: Date;
+  @date(columns.EXPENSE_CREATION_DATE) expenseCreationDate!: Date;
 
   @readonly @date(columns.CREATED_AT) createdAt!: Date;
   @readonly @date(columns.UPDATED_AT) updatedAt!: Date;
