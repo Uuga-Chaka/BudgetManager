@@ -11,7 +11,7 @@ import Text from '@app/components/core/Text/Text';
 import {InputForm} from '@app/components/formComponents/InputForm';
 import {MoneyInputForm} from '@app/components/formComponents/MoneyInputForm';
 import {
-  createTransaction,
+  createExpense,
   getAllBudgetGroups,
   getAllCategories,
 } from '@app/database/queries/createIncome';
@@ -20,11 +20,7 @@ import {type ThemeProps} from '@app/theme/theme';
 import {useAppTheme} from '@app/theme/useAppTheme';
 import {currencyStringToNumber} from '@app/utils/currency';
 
-import {
-  AddTransactionSchema,
-  schemaKey,
-  type AddTransactionFormType,
-} from './AddTransaction.schema';
+import {AddExpenseSchema, schemaKey, type AddExpenseFormType} from './AddExpense.schema';
 
 import type BudgetModel from '@app/database/models/budget';
 import type CategoriesModel from '@app/database/models/categories';
@@ -49,9 +45,7 @@ const styleProps = ({colors, spacing}: ThemeProps) => {
   return styles;
 };
 
-export default function AddTransaction({
-  navigation,
-}: RootScreenProps<typeof Routes.AddTransaction>) {
+export default function AddExpense({navigation}: RootScreenProps<typeof Routes.AddExpense>) {
   const [budgetList, setBudgetList] = useState<BudgetModel[]>([]);
   const [categories, setCategories] = useState<CategoriesModel[]>([]);
   const {theme} = useAppTheme();
@@ -60,8 +54,8 @@ export default function AddTransaction({
     handleSubmit,
     setValue,
     formState: {isValid},
-  } = useForm<AddTransactionFormType>({
-    resolver: zodResolver(AddTransactionSchema),
+  } = useForm<AddExpenseFormType>({
+    resolver: zodResolver(AddExpenseSchema),
     mode: 'onChange',
     defaultValues: {
       budgetAmount: '',
@@ -99,11 +93,11 @@ export default function AddTransaction({
     </View>
   );
 
-  const saveScheduleTransactions = handleSubmit(
+  const saveScheduleExpenses = handleSubmit(
     async ({budgetAmount, budgetGroupId, budgetId, categoryId, description}) => {
       try {
         const bdt = currencyStringToNumber(budgetAmount);
-        await createTransaction({
+        await createExpense({
           [schemaKey.budgetAmount]: bdt,
           [schemaKey.budgetGroupId]: budgetGroupId,
           [schemaKey.budgetId]: budgetId,
@@ -113,7 +107,7 @@ export default function AddTransaction({
 
         navigation.goBack();
       } catch (error) {
-        console.error('Error creating transaction:', error);
+        console.error('Error creating expense:', error);
       }
     },
   );
@@ -177,7 +171,7 @@ export default function AddTransaction({
         </View>
 
         <View style={styles.buttonContainer}>
-          <Button disabled={!isValid} onPress={saveScheduleTransactions}>
+          <Button disabled={!isValid} onPress={saveScheduleExpenses}>
             Guardar
           </Button>
         </View>

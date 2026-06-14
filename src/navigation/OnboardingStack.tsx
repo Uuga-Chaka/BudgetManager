@@ -8,7 +8,7 @@ import CategoriesSetup from '@app/screens/Onboarding/CategoriesSetup/CategoriesS
 import IncomeSetup from '@app/screens/Onboarding/IncomeSetup/IncomeSetup';
 import Introduction from '@app/screens/Onboarding/Introduction/Introduction';
 import ResumeSetup from '@app/screens/Onboarding/ResumeSetup/ResumeSetup';
-import ScheduleTransactions from '@app/screens/Onboarding/ScheduleTransactions/ScheduleTransactions';
+import ScheduleExpenses from '@app/screens/Onboarding/ScheduleExpenses/ScheduleExpenses';
 import BudgetPlanScreen from '@app/screens/UserSetup/BudgetPlanScreen/BudgetPlanScreen';
 import BudgetSummaryScreen from '@app/screens/UserSetup/BudgetSummaryScreen/BudgetSummaryScreen';
 import CommonExpensesScreen from '@app/screens/UserSetup/CommonExpensesScreen/CommonExpensesScreen';
@@ -59,7 +59,7 @@ export default function OnboardingRouter() {
         <Screen name={Routes.BudgetSetup} component={BudgetSetup} />
         <Screen name={Routes.CategoriesSetup} component={CategoriesSetup} />
         <Screen name={Routes.ResumeSetup} component={ResumeSetup} />
-        <Screen name={Routes.ScheduleTransactions} component={ScheduleTransactions} />
+        <Screen name={Routes.ScheduleExpenses} component={ScheduleExpenses} />
       </Group>
     </Navigator>
   );

@@ -2,8 +2,8 @@ import {tableSchema} from '@nozbe/watermelondb';
 
 import {columns, tables} from '../consts';
 
-export const transactionsTable = tableSchema({
-  name: tables.TRANSACTIONS,
+export const expensesTable = tableSchema({
+  name: tables.EXPENSES,
   columns: [
     {
       name: columns.DESCRIPTION,
@@ -26,7 +26,7 @@ export const transactionsTable = tableSchema({
       type: 'string',
     },
     {
-      name: columns.TRANSACTION_DATE,
+      name: columns.EXPENSE_CREATION_DATE,
       type: 'number',
     },
     {

@@ -1,9 +1,9 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import {DashboardIcon, SettingsIcon, TransactionIcon} from '@app/assets/Icons';
+import {DashboardIcon, SettingsIcon, ExpensesIcon} from '@app/assets/Icons';
 import Dashboard from '@app/screens/Dashboard/Dashboard';
+import ExpensesScreen from '@app/screens/Expenses/Expenses';
 import Planning from '@app/screens/Planning/Planning';
-import TransactionScreen from '@app/screens/Transactions/Transactions';
 
 import {Routes, type TabStackParamList} from './navigation.types';
 
@@ -16,12 +16,11 @@ export default function HomeTabs() {
         headerShown: false,
         tabBarIcon: () => {
           if (route.name === Routes.Dashboard) return <DashboardIcon stroke={'#adadad'} />;
-          else if (route.name === Routes.Transactions)
-            return <TransactionIcon stroke={'#adadad'} />;
+          else if (route.name === Routes.Expenses) return <ExpensesIcon stroke={'#adadad'} />;
           return <SettingsIcon stroke={'#adadad'} />;
         },
       })}>
-      <Tab.Screen name={Routes.Transactions} component={TransactionScreen} />
+      <Tab.Screen name={Routes.Expenses} component={ExpensesScreen} />
       <Tab.Screen name={Routes.Dashboard} component={Dashboard} />
       <Tab.Screen name={Routes.Planning} component={Planning} />
     </Tab.Navigator>

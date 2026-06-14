@@ -3,11 +3,11 @@ import {View, Text, FlatList, StyleSheet} from 'react-native';
 
 import {withObservables} from '@nozbe/watermelondb/react';
 
-import {getCurrentMonthTransactions} from '@app/database/queries/createIncome';
+import {getCurrentMonthExpenses} from '@app/database/queries/createIncome';
 
 import type BudgetModel from '@app/database/models/budget';
 import type CategoriesModel from '@app/database/models/categories';
-import type TransactionModel from '@app/database/models/transaction';
+import type ExpenseModel from '@app/database/models/expenses';
 
 // TODO: REDO styles a connect it to themes
 
@@ -111,20 +111,20 @@ const styles = StyleSheet.create({
   },
 });
 
-interface TransactionItemProps {
-  transaction: TransactionModel;
+interface ExpenseItemProps {
+  expenses: ExpenseModel;
   budget: BudgetModel;
   category: CategoriesModel;
 }
 
-const TransactionItem = ({transaction, budget, category}: TransactionItemProps) => {
+const ExpenseItem = ({expenses, budget, category}: ExpenseItemProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.topRow}>
         <Text style={styles.description} numberOfLines={1}>
-          {transaction.description || 'No description'}
+          {expenses.description || 'No description'}
         </Text>
-        <Text style={styles.amount}>${transaction.amount.toLocaleString()}</Text>
+        <Text style={styles.amount}>${expenses.amount.toLocaleString()}</Text>
       </View>
 
       <View style={styles.middleRow}>
@@ -138,7 +138,7 @@ const TransactionItem = ({transaction, budget, category}: TransactionItemProps) 
 
       <View style={styles.footer}>
         <Text style={styles.dateText}>
-          {transaction.transactionExecutedAt?.toDateString() ?? 'No Date'}
+          {expenses.expenseCreationDate?.toDateString() ?? 'No Date'}
         </Text>
       </View>
     </View>
@@ -148,7 +148,7 @@ const TransactionItem = ({transaction, budget, category}: TransactionItemProps) 
 const ListHeader = () => (
   <View style={styles.headerContainer}>
     <View>
-      <Text style={styles.headerTitle}>Transactions</Text>
+      <Text style={styles.headerTitle}>Expenses</Text>
       <Text style={styles.headerSubtitle}>Your recent activity</Text>
     </View>
     <View style={styles.summaryBadge}>
@@ -157,26 +157,26 @@ const ListHeader = () => (
   </View>
 );
 
-const EnhancedTransactionItem = withObservables(['transaction'], ({transaction}) => ({
-  transaction,
-  budget: transaction.budget.observe(),
-  category: transaction.category.observe(),
-}))(TransactionItem);
+const EnhancedExpenseItem = withObservables(['expenses'], ({expenses}) => ({
+  expenses,
+  budget: expenses.budget.observe(),
+  category: expenses.category.observe(),
+}))(ExpenseItem);
 
 const enhance = withObservables([], () => ({
-  transactions: getCurrentMonthTransactions(),
+  expenses: getCurrentMonthExpenses(),
 }));
 
-const TransactionList = ({transactions}: {transactions: TransactionModel[]}) => {
+const ExpensesList = ({expenses}: {expenses: ExpenseModel[]}) => {
   return (
     <FlatList
       scrollEnabled={false}
-      data={transactions}
+      data={expenses}
       keyExtractor={item => item.id}
       ListHeaderComponent={ListHeader}
-      renderItem={({item}) => <EnhancedTransactionItem transaction={item} key={item.id} />}
+      renderItem={({item}) => <EnhancedExpenseItem expenses={item} key={item.id} />}
     />
   );
 };
 
-export default enhance(TransactionList);
+export default enhance(ExpensesList);

@@ -6,8 +6,8 @@ import BudgetModel from './models/budget';
 import BudgetGroupModel from './models/budgetGroup';
 import CategoriesModel from './models/categories';
 import CommonExpensesModel from './models/commonExpenses';
+import ExpenseModel from './models/expenses';
 import IncomeModel from './models/income';
-import TransactionModel from './models/transaction';
 import schema from './schema';
 // import Post from './model/Post' // ⬅️ You'll import your Models here
 
@@ -37,6 +37,6 @@ export const database = new Database({
     CategoriesModel,
     // MonthlyBudgetModel,
     CommonExpensesModel,
-    TransactionModel,
+    ExpenseModel,
   ],
 });

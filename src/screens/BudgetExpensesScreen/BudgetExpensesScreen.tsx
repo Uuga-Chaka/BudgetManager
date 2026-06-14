@@ -2,7 +2,7 @@ import {View, Text} from 'react-native';
 
 import {type RootScreenProps, type Routes} from '@app/navigation/navigation.types';
 
-const BudgetTransactionsScreen = ({route}: RootScreenProps<typeof Routes.TransactionByBudget>) => {
+const BudgetExpensesScreen = ({route}: RootScreenProps<typeof Routes.ExpenseByBudget>) => {
   return (
     <View>
       <Text>{route.params.budgetId}</Text>
@@ -10,4 +10,4 @@ const BudgetTransactionsScreen = ({route}: RootScreenProps<typeof Routes.Transac
   );
 };
 
-export default BudgetTransactionsScreen;
+export default BudgetExpensesScreen;
