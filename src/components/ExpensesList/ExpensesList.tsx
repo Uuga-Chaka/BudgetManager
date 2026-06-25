@@ -1,13 +1,11 @@
-import React from 'react';
 import {View, Text, FlatList, StyleSheet} from 'react-native';
 
-import {withObservables} from '@nozbe/watermelondb/react';
-
-import {getCurrentMonthExpenses} from '@app/database/queries/createIncome';
-
-import type BudgetModel from '@app/database/models/budget';
-import type CategoriesModel from '@app/database/models/categories';
-import type ExpenseModel from '@app/database/models/expenses';
+import {
+  EnhancedExpenseItem,
+  type EnhancedExpenseItemProps,
+  EnhanceWithCurrentMonthExpenses,
+  type EnhanceWithCurrentMonthExpensesProps,
+} from '@app/Observables/Expenses/Expenses';
 
 // TODO: REDO styles a connect it to themes
 
@@ -111,20 +109,14 @@ const styles = StyleSheet.create({
   },
 });
 
-interface ExpenseItemProps {
-  expenses: ExpenseModel;
-  budget: BudgetModel;
-  category: CategoriesModel;
-}
-
-const ExpenseItem = ({expenses, budget, category}: ExpenseItemProps) => {
+const Item = EnhancedExpenseItem(({budget, category, expense}: EnhancedExpenseItemProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.topRow}>
         <Text style={styles.description} numberOfLines={1}>
-          {expenses.description || 'No description'}
+          {expense.description || 'No description'}
         </Text>
-        <Text style={styles.amount}>${expenses.amount.toLocaleString()}</Text>
+        <Text style={styles.amount}>${expense.amount.toLocaleString()}</Text>
       </View>
 
       <View style={styles.middleRow}>
@@ -138,14 +130,14 @@ const ExpenseItem = ({expenses, budget, category}: ExpenseItemProps) => {
 
       <View style={styles.footer}>
         <Text style={styles.dateText}>
-          {expenses.expenseCreationDate?.toDateString() ?? 'No Date'}
+          {expense.expenseCreationDate?.toDateString() ?? 'No Date'}
         </Text>
       </View>
     </View>
   );
-};
+});
 
-const ListHeader = () => (
+const Header = () => (
   <View style={styles.headerContainer}>
     <View>
       <Text style={styles.headerTitle}>Expenses</Text>
@@ -157,26 +149,16 @@ const ListHeader = () => (
   </View>
 );
 
-const EnhancedExpenseItem = withObservables(['expenses'], ({expenses}) => ({
-  expenses,
-  budget: expenses.budget.observe(),
-  category: expenses.category.observe(),
-}))(ExpenseItem);
-
-const enhance = withObservables([], () => ({
-  expenses: getCurrentMonthExpenses(),
-}));
-
-const ExpensesList = ({expenses}: {expenses: ExpenseModel[]}) => {
+const List = EnhanceWithCurrentMonthExpenses(({expenses}: EnhanceWithCurrentMonthExpensesProps) => {
   return (
     <FlatList
       scrollEnabled={false}
       data={expenses}
       keyExtractor={item => item.id}
-      ListHeaderComponent={ListHeader}
-      renderItem={({item}) => <EnhancedExpenseItem expenses={item} key={item.id} />}
+      ListHeaderComponent={Header}
+      renderItem={({item}) => <Item expense={item} key={item.id} />}
     />
   );
-};
+});
 
-export default enhance(ExpensesList);
+export default List;
